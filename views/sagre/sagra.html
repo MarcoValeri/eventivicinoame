@@ -1,0 +1,24 @@
+{{template "base" .}}
+
+{{define "title"}}{{.PageTitle}}{{end}}
+{{define "description"}}<meta name="description" content="{{.PageDescription}}">{{end}}
+
+{{ define "content"}}
+<div>
+    {{ if .Sagra }}
+        <div>
+            <div>
+                <h1 class="h1">{{ .Sagra.Title }}</h2>
+            </div>
+            <div>
+                {{ .SagraContentRaw }}
+            </div>
+            <div>
+                <img src="/public/images/{{ .Sagra.ImageUrl }}" alt="{{ .Sagra.ImageAlt }}">
+            </div>
+        </div>
+    {{ else }}
+        <h4>Sagra no found</h4>
+    {{ end }}
+</div>
+{{end}}

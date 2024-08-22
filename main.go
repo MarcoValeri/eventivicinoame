@@ -1,7 +1,37 @@
 package main
 
-import "fmt"
+import (
+	"eventivicinoame/controllers"
+	"eventivicinoame/database"
+	"net/http"
+	// psh "github.com/platformsh/gohelper"
+)
 
 func main() {
-	fmt.Println("Eventi vicino a me")
+	// PlatformSH
+	// platformSH, err := psh.NewPlatformInfo()
+	// if err != nil {
+	// 	panic("Not in a Platform.sh environment")
+	// }
+
+	// Static files
+	fs := http.FileServer(http.Dir("./public"))
+	http.Handle("/public/", http.StripPrefix("/public/", fs))
+
+	// Controllers
+	controllers.Home()
+	controllers.SagraController()
+
+	/**
+	* DB connection
+	* parameter "platform" connect to Platform.sh
+	* parameter "local" connect to local db
+	 */
+	database.DatabaseConnection()
+
+	// Local env
+	http.ListenAndServe(":80", nil)
+
+	// Platform SH env
+	// http.ListenAndServe(":"+platformSH.Port, nil)
 }
