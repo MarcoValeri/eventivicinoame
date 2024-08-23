@@ -7,6 +7,7 @@ import (
 	"html/template"
 	"net/http"
 	"strings"
+	"time"
 )
 
 type SagraData struct {
@@ -14,6 +15,7 @@ type SagraData struct {
 	PageDescription string
 	Sagra           models.SagraWithRelatedImage
 	SagraContentRaw template.HTML
+	CurrentYear     int
 }
 
 func SagraController() {
@@ -48,6 +50,7 @@ func SagraController() {
 			PageDescription: getSagra.Description,
 			Sagra:           getSagra,
 			SagraContentRaw: sagraRawContent,
+			CurrentYear:     time.Now().Year(),
 		}
 
 		tmpl.Execute(w, data)

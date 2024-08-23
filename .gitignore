@@ -1,2 +1,10 @@
 # .env
 .env
+
+# Images
+public/images/*
+!public/images/.gitignore
+!public/images/soriano-nel-cimino.webp
+
+# Node Modules
+node_modules

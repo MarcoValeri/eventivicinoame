@@ -8,6 +8,17 @@
     {{template "description" .}}
 </head>
 <body>
+    <header class="header">
+        <div class="header__container-title">
+            <h1 class="h1">Eventi Vicino A Me</h1>
+            <h2 class="h2">{{.PageTitle}}</h2>
+        </div>
+    </header>
     <main>{{template "content" .}}</main>
+    <footer class="footer">
+        <div class="footer__container-content">
+            <p class="p">Made with <span class="footer__heart">&hearts;</span>, in London - &copy; {{.CurrentYear}} - All rights reserved</p>
+        </div>
+    </footer>
 </body>
 </html>

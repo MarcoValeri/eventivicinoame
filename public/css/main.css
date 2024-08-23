@@ -1,3 +1,143 @@
-body {
-    color: #00d;
+* {
+  padding: 0;
+  margin: 0;
 }
+
+html {
+  font-size: 62.5%;
+}
+
+.h1 {
+  font-size: 4rem;
+}
+
+.h2 {
+  font-size: 3.5rem;
+}
+
+.h3 {
+  font-size: 3rem;
+}
+
+.h4 {
+  font-size: 2.5rem;
+}
+
+.p-xl {
+  font-size: 2.3rem;
+}
+
+.p-lg {
+  font-size: 2rem;
+}
+
+.p-md {
+  font-size: 1.8rem;
+}
+
+.p {
+  font-size: 1.6rem;
+}
+
+.p-sm {
+  font-size: 1.4rem;
+}
+
+.link {
+  color: #00d;
+}
+
+.link-no {
+  color: #000;
+  text-decoration: none;
+}
+
+/*
+* This container has the rules
+* for the html content showed in:
+*       1 - sagre
+*/
+.content__index {
+  margin: 5rem auto 5rem auto;
+}
+.content__container-map {
+  margin: 5rem auto 5rem auto;
+}
+.content h1 {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+.content h2 {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+}
+.content h3 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+.content h4 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+.content p {
+  font-size: 2rem;
+  line-height: normal;
+}
+.content a {
+  color: #00d;
+}
+.content a:hover {
+  text-decoration: none;
+}
+.content ul, .content ol {
+  margin-top: 1rem;
+  margin-left: 2rem;
+}
+.content li {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+.content img {
+  width: 100%;
+  margin: 2rem auto;
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding: 5rem;
+}
+.footer__container-content {
+  text-align: center;
+}
+.footer__heart {
+  font-size: 2rem;
+  color: #d00;
+}
+
+.header {
+  height: 30vh;
+  margin-bottom: 10rem;
+  border: 1px solid #000;
+}
+.header__container-title {
+  text-align: center;
+  margin-top: 10rem;
+}
+
+.sagra {
+  width: 80%;
+  margin: auto;
+  border: 1px solid #000;
+}
+.sagra__container-image {
+  width: 80%;
+  margin: 2rem auto;
+}
+.sagra__image {
+  width: 100%;
+  height: 100%;
+}
+
+/*# sourceMappingURL=main.css.map */

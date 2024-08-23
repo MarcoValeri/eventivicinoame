@@ -4,17 +4,17 @@
 {{define "description"}}<meta name="description" content="{{.PageDescription}}">{{end}}
 
 {{ define "content"}}
-<div>
+<div class="sagra">
     {{ if .Sagra }}
         <div>
             <div>
                 <h1 class="h1">{{ .Sagra.Title }}</h2>
             </div>
-            <div>
+            <div class="content">
                 {{ .SagraContentRaw }}
             </div>
-            <div>
-                <img src="/public/images/{{ .Sagra.ImageUrl }}" alt="{{ .Sagra.ImageAlt }}">
+            <div class="sagra__container-image">
+                <img class="sagra__image" src="/public/images/{{ .Sagra.ImageUrl }}" alt="{{ .Sagra.ImageAlt }}">
             </div>
         </div>
     {{ else }}
