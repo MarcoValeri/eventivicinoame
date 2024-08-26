@@ -1,11 +1,18 @@
 .sagra {
-    width: 80%;
+    padding: 5rem;
     margin: auto;
-    border: 1px solid #000;
+
+    @include respond("md") {
+        padding: 5rem 1rem;
+    }
+
+    &__container-title {
+        margin-bottom: 2rem;
+    }
 
     &__container-image {
         width: 80%;
-        margin: 2rem auto;
+        margin: 5rem auto;
     }
 
     &__image {

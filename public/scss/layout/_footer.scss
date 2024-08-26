@@ -3,6 +3,8 @@
     justify-content: center;
     align-items: flex-end;
     padding: 5rem;
+    border-top: 3px solid $greenEVM;
+    border-bottom: 3px solid $greenEVM;
     
     &__container-content {
         text-align: center;

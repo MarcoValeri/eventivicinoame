@@ -9,12 +9,29 @@
 </head>
 <body>
     <header class="header">
+        <div class="header__container-nav">
+            <nav class="nav">
+                <div class="nav__wrapper">
+                    <label for="nav menu" aria-label="nav menu"></label>
+                    <input id="nav menu" name="nav menu" class="nav__input" type="checkbox" aria-label="nav menu" />
+                    <span class="nav__span"></span>
+                    <span class="nav__span"></span>
+                    <span class="nav__span"></span>
+                    <ul class="nav__menu">
+                        <li class="nav__menu-item"><a class="link-no p-lg link-effect-load link-mark" href="/">Home</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
         <div class="header__container-title">
             <h1 class="h1">Eventi Vicino A Me</h1>
             <h2 class="h2">{{.PageTitle}}</h2>
         </div>
     </header>
-    <main>{{template "content" .}}</main>
+    <main class="main">
+        <div class="main__container-content">{{template "content" .}}</div>
+        <aside class="main__container-sidebar"></aside>
+    </main>
     <footer class="footer">
         <div class="footer__container-content">
             <p class="p">Made with <span class="footer__heart">&hearts;</span>, in London - &copy; {{.CurrentYear}} - All rights reserved</p>

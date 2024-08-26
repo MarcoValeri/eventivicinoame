@@ -1,3 +1,7 @@
+// Import abstract files
+@import "../scss/abstract/mixins";
+@import "../scss/abstract/variables";
+
 // Import base files
 @import "../scss/base/base";
 @import "../scss/base/typography";
@@ -6,6 +10,8 @@
 @import "../scss/layout/content";
 @import "../scss/layout/footer";
 @import "../scss/layout/header";
+@import "../scss/layout/main";
+@import "../scss/layout/nav";
 
 // Import pages files
 @import "../scss/pages/sagra";

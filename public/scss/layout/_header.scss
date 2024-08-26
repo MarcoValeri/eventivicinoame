@@ -1,10 +1,18 @@
 .header {
     height: 30vh;
-    margin-bottom: 10rem;
-    border: 1px solid #000;
+    overflow: hidden;
+    border-bottom: 3px solid $greenEVM;
+
+    @include respond("md") {
+        height: 40vh;
+    }
 
     &__container-title {
         text-align: center;
-        margin-top: 10rem;
+        margin: 5rem auto;
+
+        @include respond("md") {
+            margin: 5rem auto;
+        }
     }
 }

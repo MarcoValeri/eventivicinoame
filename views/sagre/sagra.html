@@ -6,16 +6,14 @@
 {{ define "content"}}
 <div class="sagra">
     {{ if .Sagra }}
-        <div>
-            <div>
-                <h1 class="h1">{{ .Sagra.Title }}</h2>
-            </div>
-            <div class="content">
-                {{ .SagraContentRaw }}
-            </div>
-            <div class="sagra__container-image">
-                <img class="sagra__image" src="/public/images/{{ .Sagra.ImageUrl }}" alt="{{ .Sagra.ImageAlt }}">
-            </div>
+        <div class="sagra__container-title">
+            <h1 class="h1">{{ .Sagra.Title }}</h2>
+        </div>
+        <div class="content">
+            {{ .SagraContentRaw }}
+        </div>
+        <div class="sagra__container-image">
+            <img class="sagra__image" src="/public/images/{{ .Sagra.ImageUrl }}" alt="{{ .Sagra.ImageAlt }}">
         </div>
     {{ else }}
         <h4>Sagra no found</h4>
