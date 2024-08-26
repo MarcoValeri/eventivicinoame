@@ -1,0 +1,28 @@
+{{template "baseAdmin" .}}
+
+{{define "title"}}{{ .PageTitle }}{{end}}
+
+{{define "adminContent"}}
+<div>
+    <h2>Admin User Add</h2>
+    <form method="POST">
+        <div>
+            <input type="text" name="admin-user-email" placeholder="Email*" required />
+            <span>{{ .EmailError }}</span>
+        </div>
+        <div>
+            <input type="password" name="admin-user-password" placeholder="Password*" required />
+            <span>{{ .PasswordError }}</span>
+            <span>{{ .PasswordMath }}</span>
+        </div>
+        <div>
+            <input type="password" name="admin-user-password-repeat" placeholder="Password repeat*" required />
+            <span>{{ .PassworRepeatError }}</span>
+            <span>{{ .PasswordMath }}</span>
+        </div>
+        <div>
+            <input type="submit" name="admin-user-add" value="Add new admin user" />
+        </div>
+    </form>
+</div>
+{{end}}

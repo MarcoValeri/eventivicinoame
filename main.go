@@ -22,6 +22,8 @@ func main() {
 	controllers.Home()
 	controllers.SagraController()
 
+	controllers.AdminController()
+
 	/**
 	* DB connection
 	* parameter "platform" connect to Platform.sh

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="stylesheet" href="public/css/main.css">
+    <title>{{template "title" .}}</title>
+</head>
+<body>
+    <main>
+        <sidebar>
+            <ul>
+                <li><a href="/">Back to the website</a></li>
+                <li><a href="/admin/dashboard">Dashboard</a></li>
+                <li><a href="/admin/admin-users">Admin Users</a></li>
+                <li><a href="/admin/admin-user-add">Admin Users Add</a></li>
+            </ul>
+        </sidebar>
+    </main>
+    <section>
+        {{template "adminContent" .}}
+    </section>
+</body>
+</html>
