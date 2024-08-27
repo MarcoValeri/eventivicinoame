@@ -9,4 +9,8 @@ func AdminController() {
 
 	admincontrollers.AdminUsers()
 	admincontrollers.AdminUserAdd()
+
+	admincontrollers.AdminSagre()
+	admincontrollers.AdminSagraAdd()
+	admincontrollers.AdminSagraEdit()
 }

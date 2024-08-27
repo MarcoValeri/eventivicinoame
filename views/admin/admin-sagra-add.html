@@ -1,0 +1,74 @@
+{{template "baseAdmin" .}}
+
+{{define "title"}}{{ .PageTitle }}{{end}}
+
+{{define "adminContent"}}
+<div>
+    <h2>Admin Sagre Add</h2>
+    <form method="POST">
+        <div>
+            <input type="text" name="sagra-title" placeholder="Title*" required />
+            <span>{{ .TitleError }}</span>
+        </div>
+        <div>
+            <input type="text" name="sagra-description" placeholder="Description*" required />
+            <span>{{ .DescriptionError }}</span>
+        </div>
+        <div>
+            <input type="text" name="sagra-url" placeholder="Url*" required />
+            <span>{{ .UrlError }}</span>
+        </div>
+        <div>
+            <input type="datetime-local" name="sagra-published" required />
+            <span>{{ .PublishedError }}</span>
+        </div>
+        <div>
+            <input type="datetime-local" name="sagra-updated" required />
+            <span>{{ .UpdatedError }}</span>
+        </div>
+        <div>
+            <select name="sagra-image">
+                {{ if .Images }}
+                    {{ range .Images }}
+                        <option value="{{ .Url }}">{{ .Url }}</option>
+                    {{ end }}
+                {{ else }}
+                        <option value="no-image-found">No image found</option>
+                {{ end }}
+            </select>
+            <span>{{ .ImageError }}</span>
+        </div>
+        <div>
+            <textarea name="sagra-content"></textarea>
+            <span>{{ .ContentError }}</span>
+        </div>
+        <div>
+            <input type="text" name="sagra-country" placeholder="Country*" required />
+            <span>{{ .CountryError }}</span>
+        </div>
+        <div>
+            <input type="text" name="sagra-region" placeholder="Region*" required />
+            <span>{{ .RegioneError }}</span>
+        </div>
+        <div>
+            <input type="text" name="sagra-city" placeholder="City*" required />
+            <span>{{ .CityError }}</span>
+        </div>
+        <div>
+            <input type="text" name="sagra-town" placeholder="Town*" required />
+            <span>{{ .TownError }}</span>
+        </div>
+        <div>
+            <input type="text" name="sagra-fraction" placeholder="Fraction*" required />
+            <span>{{ .FractionError }}</span>
+        </div>
+        <div>
+            <input type="datetime-local" name="sagra-start-date" required />
+            <span>{{ .SagraStartDateError }}</span>
+        </div>
+        <div>
+            <input type="submit" name="sagra-add" value="Add new sagra" />
+        </div>
+    </form>
+</div>
+{{end}}

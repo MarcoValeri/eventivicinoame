@@ -13,6 +13,7 @@ type Sagra struct {
 	Published      string
 	Updated        string
 	Content        string
+	ImageId        int
 	Country        string
 	Region         string
 	City           string
@@ -40,7 +41,7 @@ type SagraWithRelatedImage struct {
 	SagraStartDate string
 }
 
-func SagraNew(getId int, getTitle string, getDescription string, getUrl string, getPublished string, getUpdated string, getContent string, getCountry string, getRegion string, getCity string, getTown string, getFraction string, getSagraStartDate string) Sagra {
+func SagraNew(getId int, getTitle string, getDescription string, getUrl string, getPublished string, getUpdated string, getImageId int, getContent string, getCountry string, getRegion string, getCity string, getTown string, getFraction string, getSagraStartDate string) Sagra {
 	newSagra := Sagra{
 		Id:             getId,
 		Title:          getTitle,
@@ -48,6 +49,7 @@ func SagraNew(getId int, getTitle string, getDescription string, getUrl string, 
 		Url:            getUrl,
 		Published:      getPublished,
 		Updated:        getUpdated,
+		ImageId:        getImageId,
 		Content:        getContent,
 		Country:        getCountry,
 		Region:         getRegion,
@@ -79,6 +81,40 @@ func SagraNewWithRelatedImage(getId int, getTitle string, getDescription string,
 		SagraStartDate: getSagraStartDate,
 	}
 	return newSagraWithRelatedImage
+}
+
+func SagraAddNewToDB(getSagra Sagra) error {
+	db := database.DatabaseConnection()
+	defer db.Close()
+
+	query, err := db.Query(
+		"INSERT INTO sagre (title, description, url, published, updated, image_id, content, country, region, city, town, fraction, sagra_start_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+		getSagra.Title, getSagra.Description, getSagra.Url, getSagra.Published, getSagra.Updated, getSagra.ImageId, getSagra.Content, getSagra.Country, getSagra.Region, getSagra.City, getSagra.Town, getSagra.Fraction, getSagra.SagraStartDate,
+	)
+	if err != nil {
+		fmt.Println("Error adding a new sagra:", err)
+		return err
+	}
+	defer query.Close()
+
+	return nil
+}
+
+func SagraEdit(getSagra Sagra) error {
+	db := database.DatabaseConnection()
+	defer db.Close()
+
+	query, err := db.Query(
+		"UPDATE sagre SET title = ?, description = ?, url = ?, published = ?, updated = ?, content = ?, image_id = ?, country = ?, region = ?, city = ?, town = ?, fraction = ?, sagra_start_date = ? WHERE id = ?",
+		getSagra.Title, getSagra.Description, getSagra.Url, getSagra.Published, getSagra.Updated, getSagra.Content, getSagra.ImageId, getSagra.Country, getSagra.Region, getSagra.City, getSagra.Town, getSagra.Fraction, getSagra.SagraStartDate, getSagra.Id,
+	)
+	if err != nil {
+		fmt.Println("Error on editing sagra:", err)
+		return err
+	}
+	defer query.Close()
+
+	return nil
 }
 
 func SagraFindByUrl(getSagraUrl string) (SagraWithRelatedImage, error) {
@@ -136,5 +172,121 @@ func SagraFindByUrl(getSagraUrl string) (SagraWithRelatedImage, error) {
 		)
 	}
 
+	return getSagraData, nil
+}
+
+func SagraShowSagre() ([]SagraWithRelatedImage, error) {
+	db := database.DatabaseConnection()
+	defer db.Close()
+
+	rows, err := db.Query("SELECT sagre.id, sagre.title, sagre.description, sagre.url, sagre.published, sagre.updated, sagre.image_id, images.url, images.description, sagre.content, sagre.country, sagre.region, sagre.city, sagre.town, sagre.fraction, sagre.sagra_start_date FROM sagre JOIN images ON sagre.image_id = images.id")
+	if err != nil {
+		fmt.Println("Error getting sagre from the db:", err)
+		return nil, err
+	}
+	defer rows.Close()
+
+	var allSagre []SagraWithRelatedImage
+	for rows.Next() {
+		var sagraId int
+		var sagraTitle string
+		var sagraDescription string
+		var sagraUrl string
+		var sagraPublished string
+		var sagraUpdated string
+		var sagraImageId int
+		var sagraImageUrl string
+		var sagraImageAlt string
+		var sagraContent string
+		var sagraCountry string
+		var sagraRegion string
+		var sagraCity string
+		var sagraTown string
+		var sagraFraction string
+		var sagraStartDate string
+		err = rows.Scan(&sagraId, &sagraTitle, &sagraDescription, &sagraUrl, &sagraPublished, &sagraUpdated, &sagraImageId, &sagraImageUrl, &sagraImageAlt, &sagraContent, &sagraCountry, &sagraRegion, &sagraCity, &sagraTown, &sagraFraction, &sagraStartDate)
+		if err != nil {
+			return allSagre, err
+		}
+
+		sagraDetails := SagraNewWithRelatedImage(
+			sagraId,
+			sagraTitle,
+			sagraDescription,
+			sagraUrl,
+			sagraPublished,
+			sagraUpdated,
+			sagraImageId,
+			sagraImageUrl,
+			sagraImageAlt,
+			sagraContent,
+			sagraCountry,
+			sagraRegion,
+			sagraCity,
+			sagraTown,
+			sagraFraction,
+			sagraStartDate,
+		)
+		allSagre = append(allSagre, sagraDetails)
+	}
+
+	return allSagre, nil
+}
+
+func SagraWithRelatedImageFindById(getSagraId int) (SagraWithRelatedImage, error) {
+	db := database.DatabaseConnection()
+	defer db.Close()
+
+	var getSagraData SagraWithRelatedImage
+
+	rows, err := db.Query("SELECT sagre.id, sagre.title, sagre.description, sagre.url, sagre.published, sagre.updated, sagre.image_id, images.url, images.description, sagre.content, sagre.country, sagre.region, sagre.city, sagre.town, sagre.fraction, sagre.sagra_start_date FROM sagre JOIN images ON sagre.image_id = images.id WHERE sagre.id=?", getSagraId)
+	if err != nil {
+		fmt.Println("Error on the sagra query:", err)
+		return getSagraData, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var sagraId int
+		var sagraTitle string
+		var sagraDescription string
+		var sagraUrl string
+		var sagraPublished string
+		var sagraUpdated string
+		var sagraImageId int
+		var sagraImageUrl string
+		var sagraImageAlt string
+		var sagraContent string
+		var sagraCountry string
+		var sagraRegion string
+		var sagraCity string
+		var sagraTown string
+		var sagraFraction string
+		var sagraStartDate string
+		err = rows.Scan(&sagraId, &sagraTitle, &sagraDescription, &sagraUrl, &sagraPublished, &sagraUpdated, &sagraImageId, &sagraImageUrl, &sagraImageAlt, &sagraContent, &sagraCountry, &sagraRegion, &sagraCity, &sagraTown, &sagraFraction, &sagraStartDate)
+		if err != nil {
+			return getSagraData, err
+		}
+
+		sagraDetails := SagraNewWithRelatedImage(
+			sagraId,
+			sagraTitle,
+			sagraDescription,
+			sagraUrl,
+			sagraPublished,
+			sagraUpdated,
+			sagraImageId,
+			sagraImageUrl,
+			sagraImageAlt,
+			sagraContent,
+			sagraCountry,
+			sagraRegion,
+			sagraCity,
+			sagraTown,
+			sagraFraction,
+			sagraStartDate,
+		)
+		getSagraData = sagraDetails
+	}
 	return getSagraData, nil
 }

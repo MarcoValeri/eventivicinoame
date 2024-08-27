@@ -1,0 +1,82 @@
+{{template "baseAdmin" .}}
+
+{{define "title"}}{{ .PageTitle }}{{end}}
+
+{{define "adminContent"}}
+<div>
+    <h2>Admin Sagre Edit</h2>
+    {{ if .SagraWithRelatedImage }}
+        <p>Sagra ID: {{ .SagraWithRelatedImage.Id }}</p>
+        <p>Sagra Title: {{ .SagraWithRelatedImage.Title }}</p>
+        <p>Sagra Image URL: {{ .SagraWithRelatedImage.ImageUrl }}</p>
+        <div>
+            <h2>Edit this tutorial</h2>
+            <form method="POST">
+                <div>
+                    <input type="text" name="sagra-edit-title" value="{{ .SagraWithRelatedImage.Title }}" placeholder="Title*" required />
+                    <span>{{ .TitleError }}</span>
+                </div>
+                <div>
+                    <input type="text" name="sagra-edit-description" value="{{ .SagraWithRelatedImage.Description }}" placeholder="Description*" required />
+                    <span>{{ .DescriptionError }}</span>
+                </div>
+                <div>
+                    <input type="text" name="sagra-edit-url" value="{{ .SagraWithRelatedImage.Url }}" placeholder="Url*" required />
+                    <span>{{ .UrlError }}</span>
+                </div>
+                <div>
+                    <input type="datetime-local" name="sagra-edit-published" value="{{ .SagraWithRelatedImage.Published }}" required />
+                    <span>{{ .PublishedError }}</span>
+                </div>
+                <div>
+                    <input type="datetime-local" name="sagra-edit-updated"  value="{{ .SagraWithRelatedImage.Updated }}" required />
+                    <span>{{ .UpdatedError }}</span>
+                </div>
+                <div>
+                    <select name="sagra-edit-image">
+                        {{ if .Images }}
+                            {{ range .Images }}
+                                <option value="{{ .Url }}">{{ .Url }}</option>
+                            {{ end }}
+                        {{ else }}
+                                <option value="no-image-found">No image found</option>
+                        {{ end }}
+                    </select>
+                    <span>{{ .ImageError }}</span>
+                </div>
+                <div>
+                    <textarea name="sagra-edit-content">{{.SagraWithRelatedImage.Content}}</textarea>
+                    <span>{{ .ContentError }}</span>
+                </div>
+                <div>
+                    <input type="text" name="sagra-edit-country" value="{{ .SagraWithRelatedImage.Country }}" placeholder="Country*" required />
+                    <span>{{ .CountryError }}</span>
+                </div>
+                <div>
+                    <input type="text" name="sagra-edit-region" value="{{ .SagraWithRelatedImage.Region }}" placeholder="Region*" required />
+                    <span>{{ .RegioneError }}</span>
+                </div>
+                <div>
+                    <input type="text" name="sagra-edit-city" value="{{ .SagraWithRelatedImage.City }}" placeholder="City*" required />
+                    <span>{{ .CityError }}</span>
+                </div>
+                <div>
+                    <input type="text" name="sagra-edit-town" value="{{ .SagraWithRelatedImage.Town }}" placeholder="Town*" required />
+                    <span>{{ .TownError }}</span>
+                </div>
+                <div>
+                    <input type="text" name="sagra-edit-fraction" value="{{ .SagraWithRelatedImage.Fraction }}" placeholder="Fraction*" required />
+                    <span>{{ .FractionError }}</span>
+                </div>
+                <div>
+                    <input type="datetime-local" name="sagra-edit-start-date" value="{{ .SagraWithRelatedImage.SagraStartDate }}" required />
+                    <span>{{ .SagraStartDateError }}</span>
+                </div>
+                <div>
+                    <input type="submit" name="sagra-edit" value="Edit this sagra" />
+                </div>
+            </form>
+        </div>
+    {{ end }}
+</div>
+{{end}}
