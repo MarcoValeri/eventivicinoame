@@ -100,8 +100,7 @@ func AdminLogin() {
 			}
 
 			// Form validation
-			// models.UserAdminLogin(getAdminUserEmail, getAdminUserPassword)
-			if true {
+			if models.UserAdminLogin(getAdminUserEmail, getAdminUserPassword) {
 				session.Values["admin-user-authentication"] = true
 				session.Save(r, w)
 				http.Redirect(w, r, "/admin/dashboard", http.StatusSeeOther)
