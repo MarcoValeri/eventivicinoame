@@ -175,6 +175,20 @@ func SagraFindByUrl(getSagraUrl string) (SagraWithRelatedImage, error) {
 	return getSagraData, nil
 }
 
+func SagraDelete(getSagraId int) error {
+	db := database.DatabaseConnection()
+	defer db.Close()
+
+	rows, err := db.Query("DELETE FROM sagre WHERE id = ?", getSagraId)
+	if err != nil {
+		fmt.Println("Error, no able to delete this sagra:", err)
+		return err
+	}
+	defer rows.Close()
+
+	return nil
+}
+
 func SagraShowSagre() ([]SagraWithRelatedImage, error) {
 	db := database.DatabaseConnection()
 	defer db.Close()

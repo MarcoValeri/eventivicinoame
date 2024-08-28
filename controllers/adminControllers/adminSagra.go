@@ -510,3 +510,64 @@ func AdminSagraEdit() {
 
 	})
 }
+
+func AdminSagraDelete() {
+	tmpl := template.Must(template.ParseFiles("./views/admin/templates/baseAdmin.html", "./views/admin/admin-sagra-delete.html"))
+	http.HandleFunc("/admin/admin-sagra-delete/", func(w http.ResponseWriter, r *http.Request) {
+
+		session, errSession := store.Get(r, "session-user-admin-authentication")
+		if errSession != nil {
+			fmt.Println("Error on session-authentication:", errSession)
+		}
+
+		if session.Values["admin-user-authentication"] == true {
+			idPath := strings.TrimPrefix(r.URL.Path, "/admin/admin-sagra-delete/")
+			idPath = util.FormSanitizeStringInput(idPath)
+
+			sagraId, err := strconv.Atoi(idPath)
+			if err != nil {
+				fmt.Println("Error converting string to integer:", err)
+				return
+			}
+
+			getSagraDelete, err := models.SagraWithRelatedImageFindById(sagraId)
+			if err != nil {
+				fmt.Println("Error to find sagra by id:", err)
+			}
+
+			data := sagraData{
+				PageTitle:             "Admin Delete Sagra",
+				SagraWithRelatedImage: getSagraDelete,
+			}
+
+			/**
+			* Check if the form for deleting sagra
+			* has been submitted
+			* and
+			* delete the selected sagra
+			 */
+			isFormSubmittionValid := false
+
+			// Get the value from the form
+			getAdminSagraDeleteSubmit := r.FormValue("admin-sagra-delete")
+
+			// Sanitize the form input
+			getAdminSagraDeleteSubmit = util.FormSanitizeStringInput(getAdminSagraDeleteSubmit)
+
+			// Check if the form has been submitted
+			if getAdminSagraDeleteSubmit == "Delete this sagra" {
+				isFormSubmittionValid = true
+			}
+
+			if isFormSubmittionValid {
+				models.SagraDelete(sagraId)
+				http.Redirect(w, r, "/admin/admin-sagre", http.StatusSeeOther)
+			}
+
+			tmpl.Execute(w, data)
+		} else {
+			http.Redirect(w, r, "/admin/login", http.StatusSeeOther)
+		}
+
+	})
+}

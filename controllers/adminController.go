@@ -13,4 +13,5 @@ func AdminController() {
 	admincontrollers.AdminSagre()
 	admincontrollers.AdminSagraAdd()
 	admincontrollers.AdminSagraEdit()
+	admincontrollers.AdminSagraDelete()
 }
