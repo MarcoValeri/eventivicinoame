@@ -6,6 +6,9 @@
 @import "../scss/base/base";
 @import "../scss/base/typography";
 
+// Import components files
+@import "../scss/components/article-card";
+
 // Import layout files
 @import "../scss/layout/content";
 @import "../scss/layout/footer";
@@ -14,4 +17,5 @@
 @import "../scss/layout/nav";
 
 // Import pages files
+@import "../scss/pages/home";
 @import "../scss/pages/sagra";

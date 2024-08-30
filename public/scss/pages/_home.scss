@@ -1,0 +1,15 @@
+.home {
+    padding: 5rem;
+
+    @include respond("md") {
+        padding: 5rem 1rem;
+    }
+
+    &__card-article {
+        margin-bottom: 5rem;
+    }
+
+    &__container-button {
+        text-align: center;
+    }
+}

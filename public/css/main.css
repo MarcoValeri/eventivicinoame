@@ -19,6 +19,19 @@ html {
   font-size: 62.5%;
 }
 
+.button {
+  color: #000;
+  font-size: 2rem;
+  text-decoration: none;
+  padding: 2rem;
+  transition: all 0.2s;
+  border: 2px solid #197278;
+  border-radius: 5px;
+}
+.button:hover {
+  box-shadow: 5px 10px #197278;
+}
+
 .h1 {
   font-size: 4rem;
 }
@@ -102,6 +115,50 @@ html {
   background-color: #197278;
   transform-origin: bottom right;
   transition: transform 0.25s ease-out;
+}
+
+.article-card {
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px solid #197278;
+  border-radius: 5px;
+}
+.article-card__wrapper {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+@media only screen and (max-width: 767px) {
+  .article-card__wrapper {
+    flex-direction: column;
+  }
+}
+.article-card__container-image {
+  width: 30%;
+  height: 100%;
+  background-color: #197278;
+}
+@media only screen and (max-width: 767px) {
+  .article-card__container-image {
+    width: 100%;
+  }
+}
+.article-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.article-card__container-content {
+  width: 70%;
+  padding: 2rem;
+}
+@media only screen and (max-width: 767px) {
+  .article-card__container-content {
+    width: 90%;
+  }
+}
+.article-card__title {
+  margin-bottom: 1rem;
 }
 
 /*
@@ -331,6 +388,21 @@ html {
   .nav__menu-item {
     display: block;
   }
+}
+
+.home {
+  padding: 5rem;
+}
+@media only screen and (max-width: 767px) {
+  .home {
+    padding: 5rem 1rem;
+  }
+}
+.home__card-article {
+  margin-bottom: 5rem;
+}
+.home__container-button {
+  text-align: center;
 }
 
 .sagra {

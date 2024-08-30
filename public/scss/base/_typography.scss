@@ -1,3 +1,18 @@
+// Button
+.button {
+    color: $black;
+    font-size: 2rem;
+    text-decoration: none;
+    padding: 2rem;
+    transition: all .2s;
+    border: 2px solid $greenEVM;
+    border-radius: 5px;
+
+    &:hover {
+        box-shadow: 5px 10px $greenEVM;
+    }
+}
+
 // Content tags
 .h1 {
     font-size: 4rem;
