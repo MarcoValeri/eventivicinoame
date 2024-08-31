@@ -6,16 +6,96 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+	"path"
 	"strings"
 	"time"
 )
 
 type SagraData struct {
-	PageTitle       string
-	PageDescription string
-	Sagra           models.SagraWithRelatedImage
-	SagraContentRaw template.HTML
-	CurrentYear     int
+	PageTitle           string
+	PageDescription     string
+	ParameterTitleError string
+	ParameterTitle      string
+	Sagra               models.SagraWithRelatedImage
+	Sagre               []models.SagraWithRelatedImage
+	SagraContentRaw     template.HTML
+	CurrentUrl          string
+	CurrentYear         int
+}
+
+func SagreSearchController() {
+	tmpl := template.Must(template.ParseFiles("./views/templates/base.html", "./views/sagre/sagre.html"))
+	http.HandleFunc("/sagre/", func(w http.ResponseWriter, r *http.Request) {
+
+		urlPath := strings.TrimPrefix(r.URL.Path, "/sagre/")
+		urlPath = util.FormSanitizeStringInput(urlPath)
+
+		// Get current path
+		currentUrlPath := path.Clean(r.URL.Path)
+
+		data := SagraData{
+			PageTitle:       "ADD IT",
+			PageDescription: "ADD IT",
+			CurrentYear:     time.Now().Year(),
+			CurrentUrl:      currentUrlPath,
+		}
+
+		/**
+		* Check if the form for searching has been submitted
+		* and
+		* validate the inputs
+		 */
+		var areSagraSearchInputsValid [1]bool
+		isFormSubmmitionValid := false
+
+		// Get values from the form
+		getSagraSearchParameterTitle := r.FormValue("sagre-search-title")
+		getSagraSearchButton := r.FormValue("sagre-search-button")
+
+		// Sanitize form inputs
+		getSagraSearchParameterTitle = util.FormSanitizeStringInput(getSagraSearchParameterTitle)
+		getSagraSearchButton = util.FormSanitizeStringInput(getSagraSearchButton)
+
+		if getSagraSearchButton == "Cerca" {
+			// Parameter title validation
+			if len(getSagraSearchParameterTitle) > 0 {
+				data.ParameterTitleError = ""
+				areSagraSearchInputsValid[0] = true
+			} else {
+				data.ParameterTitleError = "La tua ricerca dovrebbe essere più lunga di zero caratteri"
+				areSagraSearchInputsValid[0] = false
+			}
+
+			for i := 0; i < len(areSagraSearchInputsValid); i++ {
+				isFormSubmmitionValid = true
+				if !areSagraSearchInputsValid[i] {
+					isFormSubmmitionValid = false
+					http.Redirect(w, r, "/sagre/", http.StatusSeeOther)
+					break
+				}
+			}
+
+			if isFormSubmmitionValid {
+				// Get sagre by search parameter
+				redirectURL := "/sagre/" + getSagraSearchParameterTitle
+				fmt.Println("Redirect to:", redirectURL)
+				http.Redirect(w, r, redirectURL, http.StatusSeeOther)
+
+			}
+		} else {
+			getSagre, err := models.SagraFindByParameter(urlPath)
+			if err != nil {
+				fmt.Println("Error getting the sagre by parameter:", err)
+			}
+
+			// Add data for the page
+			data.ParameterTitle = urlPath
+			data.Sagre = getSagre
+
+			tmpl.Execute(w, data)
+		}
+
+	})
 }
 
 func SagraController() {
@@ -45,12 +125,16 @@ func SagraController() {
 		// Create raw content for html template
 		sagraRawContent := template.HTML(getSagra.Content)
 
+		// Get current path
+		currentUrlPath := path.Clean(r.URL.Path)
+
 		data := SagraData{
 			PageTitle:       getSagra.Title,
 			PageDescription: getSagra.Description,
 			Sagra:           getSagra,
 			SagraContentRaw: sagraRawContent,
 			CurrentYear:     time.Now().Year(),
+			CurrentUrl:      currentUrlPath,
 		}
 
 		tmpl.Execute(w, data)

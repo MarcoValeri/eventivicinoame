@@ -362,3 +362,63 @@ func SagraGetLimitPublishedSagre(getLimit int) ([]SagraWithRelatedImage, error) 
 
 	return allSagre, nil
 }
+
+func SagraFindByParameter(getParameter string) ([]SagraWithRelatedImage, error) {
+	db := database.DatabaseConnection()
+	defer db.Close()
+
+	query := "SELECT sagre.id, sagre.title, sagre.description, sagre.url, sagre.published, sagre.updated, sagre.image_id, images.url, images.description, sagre.content, sagre.country, sagre.region, sagre.city, sagre.town, sagre.fraction, sagre.sagra_start_date FROM sagre JOIN images ON sagre.image_id = images.id WHERE (sagre.title LIKE ? OR sagre.description LIKE ? OR sagre.content LIKE ?) AND sagre.published < NOW() ORDER BY sagre.updated ASC LIMIT ?"
+	likePattern := "%" + getParameter + "%"
+
+	rows, err := db.Query(query, likePattern, likePattern, likePattern, 10)
+	if err != nil {
+		fmt.Println("Error on the sagre query:", err)
+		return nil, err
+	}
+	defer rows.Close()
+
+	var allSagre []SagraWithRelatedImage
+	for rows.Next() {
+		var sagraId int
+		var sagraTitle string
+		var sagraDescription string
+		var sagraUrl string
+		var sagraPublished string
+		var sagraUpdated string
+		var sagraImageId int
+		var sagraImageUrl string
+		var sagraImageAlt string
+		var sagraContent string
+		var sagraCountry string
+		var sagraRegion string
+		var sagraCity string
+		var sagraTown string
+		var sagraFraction string
+		var sagraStartDate string
+		err = rows.Scan(&sagraId, &sagraTitle, &sagraDescription, &sagraUrl, &sagraPublished, &sagraUpdated, &sagraImageId, &sagraImageUrl, &sagraImageAlt, &sagraContent, &sagraCountry, &sagraRegion, &sagraCity, &sagraTown, &sagraFraction, &sagraStartDate)
+		if err != nil {
+			return allSagre, err
+		}
+
+		sagraDetails := SagraNewWithRelatedImage(
+			sagraId,
+			sagraTitle,
+			sagraDescription,
+			sagraUrl,
+			sagraPublished,
+			sagraUpdated,
+			sagraImageId,
+			sagraImageUrl,
+			sagraImageAlt,
+			sagraContent,
+			sagraCountry,
+			sagraRegion,
+			sagraCity,
+			sagraTown,
+			sagraFraction,
+			sagraStartDate,
+		)
+		allSagre = append(allSagre, sagraDetails)
+	}
+	return allSagre, nil
+}

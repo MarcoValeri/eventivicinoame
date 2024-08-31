@@ -20,6 +20,7 @@ func main() {
 
 	// Controllers
 	controllers.Home()
+	controllers.SagreSearchController()
 	controllers.SagraController()
 	controllers.AdminController()
 	controllers.SitemapController()

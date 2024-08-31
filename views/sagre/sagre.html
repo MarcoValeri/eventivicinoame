@@ -1,0 +1,34 @@
+{{template "base" .}}
+
+{{define "title"}}{{.PageTitle}}{{end}}
+{{define "description"}}<meta name="description" content="{{.PageDescription}}">{{end}}
+
+{{ define "content"}}
+<div class="sagre">
+    <h1>Sagre Archive</h1>
+    <form method="POST">
+        <div>
+            <input type="text" name="sagre-search-title" placeholder="Cerca la sagra giusta per te" required />
+            <span>{{ .ParameterTitleError }}</span>
+        </div>
+        <div>
+            <input type="submit" name="sagre-search-button" value="Cerca" />
+        </div>
+    </form>
+    <div>
+        <p>URL: {{ .CurrentUrl }}</p>
+    </div>
+    <div>
+        {{ if .Sagre }}
+            {{ if .ParameterTitle }}
+                <p>Risultati trovati con la ricerca: {{ .ParameterTitle }}</p>
+            {{ end }}
+            {{ range .Sagre }}
+                <h1>{{ .Title }}</h1>
+            {{ end }}
+        {{ else }}
+            <h2>Nessun risultato trovato con la ricerca {{ .ParameterTitle }}.</h2>
+        {{ end }}
+    </div>
+</div>
+{{end}}
