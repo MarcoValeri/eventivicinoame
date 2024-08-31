@@ -18,7 +18,8 @@
                     <span class="nav__span"></span>
                     <span class="nav__span"></span>
                     <ul class="nav__menu">
-                        <li class="nav__menu-item"><a class="link-no p-lg link-effect-load link-mark" href="/">Home</a></li>
+                        <li class="nav__menu-item"><a class='link-no p-lg link-effect-load {{ if and (eq .CurrentUrl "/") }} link-mark {{ end }}' href="/">Home</a></li>
+                        <li class="nav__menu-item"><a class='link-no p-lg link-effect-load {{ if and (eq .CurrentUrl "/sagre") }} link-mark {{ end }}' href="/sagre">Sagre</a></li>
                     </ul>
                 </div>
             </nav>
