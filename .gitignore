@@ -5,6 +5,11 @@
 public/images/*
 !public/images/.gitignore
 !public/images/soriano-nel-cimino.webp
+!public/images/castagne.webp
+!public/images/cesto-di-castagne.webp
+!public/images/sapori-d-alpeggio.webp
+!public/images/tavola-con-castagne.webp
+!public/images/sentiero-in-un-bosco.webp
 
 # Node Modules
 node_modules

@@ -34,8 +34,8 @@ func SagreSearchController() {
 		currentUrlPath := path.Clean(r.URL.Path)
 
 		data := SagraData{
-			PageTitle:       "ADD IT",
-			PageDescription: "ADD IT",
+			PageTitle:       "Sagre oggi vicino a me, cerca l'evento nella tua zona",
+			PageDescription: "Sagre oggi vicino a me, cerca l'evento nella tua zona per tipologia, nome, città, comune, paese e frazione, disponibili le sagre, le fiere e le feste",
 			CurrentYear:     time.Now().Year(),
 			CurrentUrl:      currentUrlPath,
 		}
@@ -78,7 +78,6 @@ func SagreSearchController() {
 			if isFormSubmmitionValid {
 				// Get sagre by search parameter
 				redirectURL := "/sagre/" + getSagraSearchParameterTitle
-				fmt.Println("Redirect to:", redirectURL)
 				http.Redirect(w, r, redirectURL, http.StatusSeeOther)
 
 			}

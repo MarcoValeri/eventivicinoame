@@ -50,6 +50,29 @@
     font-size: 1.4rem;
 }
 
+// Form
+.input-text {
+    font-size: 2rem;
+    padding: 1rem;
+    border: 1px solid $greenEVM;
+    border-radius: 5px;
+}
+
+.input-submit {
+    color: $black;
+    font-size: 2rem;
+    text-decoration: none;
+    background-color: $white;
+    padding: 1.5rem 2rem;
+    transition: all .2s;
+    border: 2px solid $greenEVM;
+    border-radius: 5px;
+
+    &:hover {
+        box-shadow: 5px 10px $greenEVM;
+    }
+}
+
 // Link
 .link {
     color: #00d;
