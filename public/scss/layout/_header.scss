@@ -1,10 +1,11 @@
 .header {
-    height: 30vh;
+    height: auto;
+    min-height: 30vh;
     overflow: hidden;
     border-bottom: 3px solid $greenEVM;
 
     @include respond("md") {
-        height: 40vh;
+        min-height: 50vh;
     }
 
     &__container-title {

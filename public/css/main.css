@@ -275,13 +275,14 @@ button {
 }
 
 .header {
-  height: 30vh;
+  height: auto;
+  min-height: 30vh;
   overflow: hidden;
   border-bottom: 3px solid #197278;
 }
 @media only screen and (max-width: 767px) {
   .header {
-    height: 40vh;
+    min-height: 50vh;
   }
 }
 .header__container-title {
