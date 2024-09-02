@@ -6,6 +6,20 @@
     <link rel="stylesheet" href="/public/css/main.css">
     <title>{{template "title" .}}</title>
     {{template "description" .}}
+    <link rel="icon" type="image/x-icon" href="/public/images/eventi-vicino-a-me-logo.png" >
+
+    <!-- Google Search Console -->
+    <meta name="google-site-verification" content="6lnvqc2nX5KxI1kmF_34bktx7kCrMWrBulMoJJeVHQ8" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MDNVLCW854"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-MDNVLCW854');
+    </script>
 </head>
 <body>
     <header class="header">
@@ -27,6 +41,7 @@
         <div class="header__container-title">
             <h1 class="h1">Eventi Vicino A Me</h1>
             <h2 class="h2">{{.PageTitle}}</h2>
+            <img class="header__logo" src="/public/images/eventi-vicino-a-me-logo.png" alt="Ape, il logo ufficiale di Eventi Vicino A Me" />
         </div>
     </header>
     <main class="main">
@@ -34,6 +49,9 @@
         <aside class="main__container-sidebar"></aside>
     </main>
     <footer class="footer">
+        <div>
+            <img class="footer__logo" src="/public/images/eventi-vicino-a-me-logo.png" alt="Ape, il logo ufficiale di Eventi Vicino A Me" />
+        </div>
         <div class="footer__container-content">
             <p class="p">Made with <span class="footer__heart">&hearts;</span>, in London - &copy; {{.CurrentYear}} - All rights reserved</p>
         </div>

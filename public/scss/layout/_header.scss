@@ -8,6 +8,8 @@
         min-height: 50vh;
     }
 
+    &__container-nav {}
+
     &__container-title {
         text-align: center;
         margin: 5rem auto;
@@ -15,5 +17,9 @@
         @include respond("md") {
             margin: 5rem auto;
         }
+    }
+
+    &__logo {
+        width: 20rem;
     }
 }

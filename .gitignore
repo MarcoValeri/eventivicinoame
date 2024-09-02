@@ -10,6 +10,7 @@ public/images/*
 !public/images/sapori-d-alpeggio.webp
 !public/images/tavola-con-castagne.webp
 !public/images/sentiero-in-un-bosco.webp
+!public/images/eventi-vicino-a-me-logo.png
 
 # Node Modules
 node_modules

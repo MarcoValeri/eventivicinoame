@@ -1,10 +1,15 @@
 .footer {
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    align-items: flex-end;
+    align-items: center;
     padding: 5rem;
     border-top: 3px solid $greenEVM;
     border-bottom: 3px solid $greenEVM;
+
+    &__logo {
+        width: 20rem;
+    }
     
     &__container-content {
         text-align: center;
