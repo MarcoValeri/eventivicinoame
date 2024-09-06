@@ -8,7 +8,7 @@ import (
 )
 
 type Sitemap struct {
-	XMLName xml.Name            `xml:"utlset"`
+	XMLName xml.Name            `xml:"urlset"`
 	Xmlns   string              `xml:"xmlns,attr"`
 	URLs    []models.SitemapURL `xml:"url"`
 }
