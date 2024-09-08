@@ -11,6 +11,9 @@ public/images/*
 !public/images/tavola-con-castagne.webp
 !public/images/sentiero-in-un-bosco.webp
 !public/images/eventi-vicino-a-me-logo.png
+!public/images/funghi-porcini.webp
+!public/images/boschi-intorno-al-comune-di-zocca-a-modena.webp
+!public/images/donna-con-il-tipico-vestito-sardo-a-muravera.webp
 
 # Node Modules
 node_modules

@@ -12,8 +12,8 @@ import (
 )
 
 type SagraData struct {
-	PageTitle           string
-	PageDescription     string
+	PageTitle           template.HTML
+	PageDescription     template.HTML
 	ParameterTitleError string
 	ParameterTitle      string
 	Sagra               models.SagraWithRelatedImage
@@ -122,14 +122,16 @@ func SagraController() {
 		}
 
 		// Create raw content for html template
+		sagraRowTitle := template.HTML(getSagra.Title)
+		sagraRowDescription := template.HTML(getSagra.Description)
 		sagraRawContent := template.HTML(getSagra.Content)
 
 		// Get current path
 		currentUrlPath := path.Clean(r.URL.Path)
 
 		data := SagraData{
-			PageTitle:       getSagra.Title,
-			PageDescription: getSagra.Description,
+			PageTitle:       sagraRowTitle,
+			PageDescription: sagraRowDescription,
 			Sagra:           getSagra,
 			SagraContentRaw: sagraRawContent,
 			CurrentYear:     time.Now().Year(),
