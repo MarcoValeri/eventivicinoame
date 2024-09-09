@@ -8,6 +8,7 @@
 
 // Import components files
 @import "../scss/components/article-card";
+@import "../scss/components/cookie-banner";
 
 // Import layout files
 @import "../scss/layout/content";
@@ -17,6 +18,8 @@
 @import "../scss/layout/nav";
 
 // Import pages files
+@import "../scss/pages/admin-dashboard";
+@import "../scss/pages/admin-login";
 @import "../scss/pages/home";
 @import "../scss/pages/sagra";
 @import "../scss/pages/sagre";

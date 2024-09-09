@@ -100,6 +100,10 @@ button {
   box-shadow: 5px 10px #197278;
 }
 
+.input-error {
+  color: #d00;
+}
+
 .link {
   color: #00d;
 }
@@ -191,6 +195,69 @@ button {
 }
 .article-card__title {
   margin-bottom: 1rem;
+}
+
+.cookie-banner {
+  width: 50%;
+  position: fixed;
+  bottom: 0%;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  background-color: #fff;
+  padding: 5rem 2rem;
+  border: 2px solid #197278;
+  border-radius: 8px;
+}
+@media only screen and (max-width: 991px) {
+  .cookie-banner {
+    width: 70%;
+    padding: 2rem;
+  }
+}
+@media only screen and (max-width: 767px) {
+  .cookie-banner {
+    width: 90%;
+  }
+}
+@media only screen and (max-width: 380px) {
+  .cookie-banner {
+    height: 40rem;
+    overflow: scroll;
+  }
+}
+.cookie-banner__container-logo {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.cookie-banner__logo {
+  width: 10rem;
+}
+.cookie-banner__container-content {
+  margin-bottom: 2rem;
+}
+.cookie-banner__container-buttons {
+  height: auto;
+  min-height: 5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+@media only screen and (max-width: 575px) {
+  .cookie-banner__container-buttons {
+    flex-direction: column;
+  }
+}
+.cookie-banner__button {
+  text-align: center;
+  box-sizing: border-box;
+  margin-bottom: 2rem;
+  background-color: #fff;
+}
+@media only screen and (max-width: 575px) {
+  .cookie-banner__button {
+    width: 80%;
+  }
 }
 
 /*
@@ -428,6 +495,53 @@ button {
   .nav__menu-item {
     display: block;
   }
+}
+
+.admin-dashboard__main {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  grid-template-areas: "admin-dashboard__main-sidebar admin-dashboard__main-section";
+  border-right: 1px solid #197278;
+}
+.admin-dashboard__main-sidebar {
+  grid-area: admin-dashboard__main-sidebar;
+  padding: 2rem;
+  border-right: 2px solid #197278;
+}
+.admin-dashboard__main-sidebar-menu {
+  list-style: none;
+}
+.admin-dashboard__main-sidebar-menu-item {
+  padding: 1rem;
+  border-bottom: 2rem;
+}
+.admin-dashboard__main-section {
+  grid-area: admin-dashboard__main-section;
+  padding: 2rem;
+}
+
+.admin-login {
+  height: 100vh;
+  position: relative;
+}
+.admin-login__wrapper {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 5rem;
+  border: 3px solid #197278;
+  border-radius: 8px;
+}
+.admin-login__form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+.admin-login__form-container-input {
+  display: block;
 }
 
 .home {

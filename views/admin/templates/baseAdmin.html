@@ -8,20 +8,20 @@
     <title>{{template "title" .}}</title>
 </head>
 <body>
-    <main>
-        <sidebar>
-            <ul>
-                <li><a href="/">Back to the website</a></li>
-                <li><a href="/admin/dashboard">Dashboard</a></li>
-                <li><a href="/admin/admin-users">Admin Users</a></li>
-                <li><a href="/admin/admin-user-add">Admin Users Add</a></li>
-                <li><a href="/admin/admin-sagre">Sagre</a></li>
-                <li><a href="/admin/admin-sagra-add">Sagre add new</a></li>
+    <main class="admin-dashboard__main">
+        <sidebar class="admin-dashboard__main-sidebar">
+            <ul class="admin-dashboard__main-sidebar-menu">
+                <li class="admin-dashboard__main-sidebar-menu-item"><a class="p-lg link-no" href="/">Back to the website</a></li>
+                <li class="admin-dashboard__main-sidebar-menu-item"><a class="p-lg link-no" href="/admin/dashboard">Dashboard</a></li>
+                <li class="admin-dashboard__main-sidebar-menu-item"><a class="p-lg link-no" href="/admin/admin-users">Admin Users</a></li>
+                <li class="admin-dashboard__main-sidebar-menu-item"><a class="p-lg link-no" href="/admin/admin-user-add">Admin Users Add</a></li>
+                <li class="admin-dashboard__main-sidebar-menu-item"><a class="p-lg link-no" href="/admin/admin-sagre">Sagre</a></li>
+                <li class="admin-dashboard__main-sidebar-menu-item"><a class="p-lg link-no" href="/admin/admin-sagra-add">Sagre add new</a></li>
             </ul>
         </sidebar>
+        <section class="admin-dashboard__main-section">
+            {{template "adminContent" .}}
+        </section>
     </main>
-    <section>
-        {{template "adminContent" .}}
-    </section>
 </body>
 </html>

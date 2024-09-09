@@ -1,0 +1,30 @@
+.admin-dashboard {
+
+    &__main {
+        display: grid;
+        grid-template-columns: 1fr 3fr;
+        grid-template-areas: "admin-dashboard__main-sidebar admin-dashboard__main-section";
+        border-right: 1px solid $greenEVM;
+    }
+
+    &__main-sidebar {
+        grid-area: admin-dashboard__main-sidebar;
+        padding: 2rem;
+        border-right: 2px solid $greenEVM;
+    }
+
+    &__main-sidebar-menu {
+        list-style: none;
+    }
+
+    &__main-sidebar-menu-item {
+        padding: 1rem;
+        border-bottom: 2rem;
+    }
+
+    &__main-section {
+        grid-area: admin-dashboard__main-section;
+        padding: 2rem;
+    }
+
+}
