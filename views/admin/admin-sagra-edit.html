@@ -35,6 +35,7 @@
                 <div>
                     <select name="sagra-edit-image">
                         {{ if .Images }}
+                            <option value="{{ .SagraWithRelatedImage.ImageUrl }}" selected="selected">{{ .SagraWithRelatedImage.ImageUrl }}</option>
                             {{ range .Images }}
                                 <option value="{{ .Url }}">{{ .Url }}</option>
                             {{ end }}
