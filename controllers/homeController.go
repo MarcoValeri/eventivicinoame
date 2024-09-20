@@ -22,7 +22,7 @@ func Home() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 
 		// Get last three published sagre
-		getLastThreePublishedSagre, err := models.SagraGetLimitPublishedSagre(10)
+		getLastPublishedSagre, err := models.SagraGetLimitPublishedSagre(10)
 		if err != nil {
 			fmt.Println("Error getting last three sagre:", err)
 		}
@@ -35,7 +35,7 @@ func Home() {
 			PageDescription: "Eventi vicino a me: sagre, feste, fiere, mercatini, mostre e musei oggi, domani e nel fine settimana, più gli eventi da non perdere il prossimo weekend",
 			CurrentYear:     time.Now().Year(),
 			CurrentUrl:      currentUrlPath,
-			Sagre:           getLastThreePublishedSagre,
+			Sagre:           getLastPublishedSagre,
 		}
 		tmpl.Execute(w, data)
 	})

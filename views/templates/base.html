@@ -39,6 +39,8 @@
                     <ul class="nav__menu">
                         <li class="nav__menu-item"><a class='link-no p-lg link-effect-load {{ if and (eq .CurrentUrl "/") }} link-mark {{ end }}' href="/">Home</a></li>
                         <li class="nav__menu-item"><a class='link-no p-lg link-effect-load {{ if and (eq .CurrentUrl "/sagre") }} link-mark {{ end }}' href="/sagre">Sagre</a></li>
+                        <li class="nav__menu-item"><a class='link-no p-lg link-effect-load {{ if and (eq .CurrentUrl "/page/chi-siamo") }} link-mark {{ end }}' href="/page/chi-siamo">Chi Siamo</a></li>
+                        <li class="nav__menu-item"><a class='link-no p-lg link-effect-load {{ if and (eq .CurrentUrl "/page/contatti") }} link-mark {{ end }}' href="/page/contatti">Contatti</a></li>
                     </ul>
                 </div>
             </nav>
@@ -55,10 +57,12 @@
     </main>
     <footer class="footer">
         <div>
-            <img class="footer__logo" src="/public/images/eventi-vicino-a-me-logo.png" alt="Ape, il logo ufficiale di Eventi Vicino A Me" />
+            <a href="/">
+                <img class="footer__logo" src="/public/images/eventi-vicino-a-me-logo.png" alt="Ape, il logo ufficiale di Eventi Vicino A Me" />
+            </a>
         </div>
         <div class="footer__container-content">
-            <p class="p"><a class="link-effect-load" href="/pages/cookie-policy">Cookie Policy</a> - <a class="link-effect-load" href="/pages/privacy-policy">Privacy Policy</a></p>
+            <p class="p"><a class="link-effect-load" href="/page/cookie-policy">Cookie Policy</a> - <a class="link-effect-load" href="/page/privacy-policy">Privacy Policy</a></p>
             <p class="p">Made with <span class="footer__heart">&hearts;</span>, in London - &copy; {{.CurrentYear}} - All rights reserved</p>
         </div>
     </footer>
@@ -74,7 +78,7 @@
         </div>
         <div class="cookie-banner__container-buttons">
             <button id="cookie-banner-button-acept" class="cookie-banner__button button">Accetta</button>
-            <a id="cookie-banner-button-discover" class="cookie-banner__button button" href="/pages/privacy-policy">Scopri di più</a>
+            <a id="cookie-banner-button-discover" class="cookie-banner__button button" href="/page/privacy-policy">Scopri di più</a>
             <button id="cookie-banner-button-reject" class="cookie-banner__button button">Rifiuta</button>
         </div>
     </div>

@@ -16,8 +16,16 @@ func SitemapAllURL() ([]SitemapURL, error) {
 	// Set URLs that are not stored in the db
 	urlZero := SitemapURL{"https://www.eventivicinoame.com/", "2024-08-29"}
 	urlOne := SitemapURL{"https://www.eventivicinoame.com/sagre/", "2024-09-01"}
+	urlThree := SitemapURL{"https://www.eventivicinoame.com/page/chi-siamo", "2024-09-20"}
+	urlFour := SitemapURL{"https://www.eventivicinoame.com/page/contatti", "2024-09-20"}
+	urlFive := SitemapURL{"https://www.eventivicinoame.com/page/cookie-policy", "2024-09-20"}
+	urlSix := SitemapURL{"https://www.eventivicinoame.com/page/privacy-policy", "2024-09-20"}
 	setURLsList = append(setURLsList, urlZero)
 	setURLsList = append(setURLsList, urlOne)
+	setURLsList = append(setURLsList, urlThree)
+	setURLsList = append(setURLsList, urlFour)
+	setURLsList = append(setURLsList, urlFive)
+	setURLsList = append(setURLsList, urlSix)
 
 	// Get all sagre URLs
 	db := database.DatabaseConnection()

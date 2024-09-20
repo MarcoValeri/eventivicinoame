@@ -21,6 +21,8 @@ func main() {
 
 	// Controllers
 	controllers.Home()
+	controllers.AboutUs()
+	controllers.Contact()
 	controllers.CookiePolicy()
 	controllers.PrivacyPolicy()
 	controllers.SagreSearchController()

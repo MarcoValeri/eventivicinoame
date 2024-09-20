@@ -309,7 +309,7 @@ func SagraGetLimitPublishedSagre(getLimit int) ([]SagraWithRelatedImage, error) 
 	db := database.DatabaseConnection()
 	defer db.Close()
 
-	rows, err := db.Query("SELECT sagre.id, sagre.title, sagre.description, sagre.url, sagre.published, sagre.updated, sagre.image_id, images.url, images.description, sagre.content, sagre.country, sagre.region, sagre.city, sagre.town, sagre.fraction, sagre.sagra_start_date FROM sagre JOIN images ON sagre.image_id = images.id WHERE sagre.published < NOW() ORDER BY sagre.updated ASC LIMIT ?", getLimit)
+	rows, err := db.Query("SELECT sagre.id, sagre.title, sagre.description, sagre.url, sagre.published, sagre.updated, sagre.image_id, images.url, images.description, sagre.content, sagre.country, sagre.region, sagre.city, sagre.town, sagre.fraction, sagre.sagra_start_date FROM sagre JOIN images ON sagre.image_id = images.id WHERE sagre.published < NOW() ORDER BY sagre.updated DESC LIMIT ?", getLimit)
 	if err != nil {
 		fmt.Println("Error getting published sagre with limit:", err)
 		return nil, err
@@ -367,7 +367,7 @@ func SagraFindByParameter(getParameter string) ([]SagraWithRelatedImage, error) 
 	db := database.DatabaseConnection()
 	defer db.Close()
 
-	query := "SELECT sagre.id, sagre.title, sagre.description, sagre.url, sagre.published, sagre.updated, sagre.image_id, images.url, images.description, sagre.content, sagre.country, sagre.region, sagre.city, sagre.town, sagre.fraction, sagre.sagra_start_date FROM sagre JOIN images ON sagre.image_id = images.id WHERE (sagre.title LIKE ? OR sagre.description LIKE ? OR sagre.content LIKE ?) AND sagre.published < NOW() ORDER BY sagre.updated ASC LIMIT ?"
+	query := "SELECT sagre.id, sagre.title, sagre.description, sagre.url, sagre.published, sagre.updated, sagre.image_id, images.url, images.description, sagre.content, sagre.country, sagre.region, sagre.city, sagre.town, sagre.fraction, sagre.sagra_start_date FROM sagre JOIN images ON sagre.image_id = images.id WHERE (sagre.title LIKE ? OR sagre.description LIKE ? OR sagre.content LIKE ?) AND sagre.published < NOW() ORDER BY sagre.updated DESC LIMIT ?"
 	likePattern := "%" + getParameter + "%"
 
 	rows, err := db.Query(query, likePattern, likePattern, likePattern, 10)
