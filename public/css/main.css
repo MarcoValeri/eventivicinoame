@@ -497,6 +497,52 @@ button {
   }
 }
 
+.page {
+  padding: 5rem;
+  margin: auto;
+}
+@media only screen and (max-width: 767px) {
+  .page {
+    padding: 5rem 1rem;
+  }
+}
+.page h1 {
+  font-size: 4rem;
+  margin-bottom: 5rem;
+}
+.page h2 {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+}
+.page h3 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+.page h4 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+.page p {
+  font-size: 2rem;
+  line-height: normal;
+  margin-bottom: 2rem;
+}
+.page a {
+  color: #197278;
+  text-decoration: none;
+}
+.page a:hover {
+  text-decoration: underline;
+}
+.page ul, .page ol {
+  margin-top: 1rem;
+  margin-left: 3rem;
+}
+.page li {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
 .admin-dashboard__main {
   display: grid;
   grid-template-columns: 1fr 3fr;

@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-type PageData struct {
+type HomepageData struct {
 	PageTitle       string
 	PageDescription string
 	CurrentYear     int
@@ -30,7 +30,7 @@ func Home() {
 		// Get current path
 		currentUrlPath := path.Clean(r.URL.Path)
 
-		data := PageData{
+		data := HomepageData{
 			PageTitle:       "Eventi vicino a me: oggi, domani e nel fine settimana",
 			PageDescription: "Eventi vicino a me: sagre, feste, fiere, mercatini, mostre e musei oggi, domani e nel fine settimana, più gli eventi da non perdere il prossimo weekend",
 			CurrentYear:     time.Now().Year(),

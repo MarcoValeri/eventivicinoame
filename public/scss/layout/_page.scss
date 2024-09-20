@@ -1,0 +1,53 @@
+.page {
+    padding: 5rem;
+    margin: auto;
+
+    @include respond("md") {
+        padding: 5rem 1rem;
+    }
+
+    h1 {
+        font-size: 4rem;
+        margin-bottom: 5rem;
+    }
+    
+    h2 {
+        font-size: 3.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    h3 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+    }
+    
+    h4 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+
+    p {
+        font-size: 2rem;
+        line-height: normal;
+        margin-bottom: 2rem;
+    }
+
+    a {
+        color: $greenEVM;
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    ul, ol {
+        margin-top: 1rem;
+        margin-left: 3rem;
+    }
+
+    li {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+    }
+}
