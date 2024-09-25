@@ -21,6 +21,11 @@ func Home() {
 	tmpl := template.Must(template.ParseFiles("./views/templates/base.html", "./views/home.html"))
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 
+		// Redirect to 404 page if route does not exist
+		if r.URL.Path != "/" {
+			http.Redirect(w, r, "/error/error-404", http.StatusSeeOther)
+		}
+
 		// Get last three published sagre
 		getLastPublishedSagre, err := models.SagraGetLimitPublishedSagre(10)
 		if err != nil {

@@ -1,0 +1,15 @@
+{{template "base" .}}
+
+{{define "title"}}{{.PageTitle}}{{end}}
+{{define "description"}}<meta name="description" content="{{.PageDescription}}">{{end}}
+
+{{ define "content"}}
+<div class="page">
+    <h1 class="h1">Errore 404, sembra che questa pagina non esiste</h1>
+    <h2>Cosa vuoi fare?</h2>
+    <ul>
+        <li><p><a class="link" href="/">Home</a></p></li>
+        <li><p><a class="link" href="/sagre-cerca/">Sagre</a></p></li>
+    </ul>
+</div>
+{{end}}

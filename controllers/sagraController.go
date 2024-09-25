@@ -24,10 +24,10 @@ type SagraData struct {
 }
 
 func SagreSearchController() {
-	tmpl := template.Must(template.ParseFiles("./views/templates/base.html", "./views/sagre/sagre.html"))
-	http.HandleFunc("/sagre/", func(w http.ResponseWriter, r *http.Request) {
+	tmpl := template.Must(template.ParseFiles("./views/templates/base.html", "./views/sagre/sagre-cerca.html"))
+	http.HandleFunc("/sagre-cerca/", func(w http.ResponseWriter, r *http.Request) {
 
-		urlPath := strings.TrimPrefix(r.URL.Path, "/sagre/")
+		urlPath := strings.TrimPrefix(r.URL.Path, "/sagre-cerca/")
 		urlPath = util.FormSanitizeStringInput(urlPath)
 
 		// Get current path
@@ -70,14 +70,14 @@ func SagreSearchController() {
 				isFormSubmmitionValid = true
 				if !areSagraSearchInputsValid[i] {
 					isFormSubmmitionValid = false
-					http.Redirect(w, r, "/sagre/", http.StatusSeeOther)
+					http.Redirect(w, r, "/sagre-cerca/", http.StatusSeeOther)
 					break
 				}
 			}
 
 			if isFormSubmmitionValid {
 				// Get sagre by search parameter
-				redirectURL := "/sagre/" + getSagraSearchParameterTitle
+				redirectURL := "/sagre-cerca/" + getSagraSearchParameterTitle
 				http.Redirect(w, r, redirectURL, http.StatusSeeOther)
 
 			}
@@ -117,8 +117,7 @@ func SagraController() {
 		* if it is not published yet
 		 */
 		if getSagra.Id == 0 {
-			fmt.Println("Statement 1")
-			http.Redirect(w, r, "/", http.StatusSeeOther)
+			http.Redirect(w, r, "/error/error-404", http.StatusSeeOther)
 		}
 
 		// Create raw content for html template
