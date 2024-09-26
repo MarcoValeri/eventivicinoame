@@ -1,0 +1,36 @@
+{{template "base" .}}
+
+{{define "title"}}{{.PageTitle}}{{end}}
+{{define "description"}}<meta name="description" content="{{.PageDescription}}">{{end}}
+
+{{ define "content"}}
+<div class="sagre">
+    <div class="sagre__container-title">
+        <h1 class="h1">{{.PageTitle}}</h1>
+        <h2 class="h2">{{.PageDescription}}</h2>
+    </div>
+    <div>
+        {{ if .Sagre }}
+            {{ range .Sagre }}
+                <div class="article-card sagre__card-article">
+                    <a class="link-no" href="/sagra/{{ .Url }}">
+                        <div class="article-card__wrapper">
+                            <div class="article-card__container-image">
+                                <img class="article-card__image" src="/public/images/{{ .ImageUrl }}" alt="{{ .ImageAlt }}">
+                            </div>
+                            <div class="article-card__container-content">
+                                <h2 class="article-card__title h3">{{ .Title }}</h2>
+                                <p class="h4">{{ .Description }}</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {{ end }}
+        {{ else }}
+            <div class="sagre__container-result-info">
+                <h3 class="h3">Nessuna sagra disponibile al momento per il mese di ottobre</h3>
+            </div>
+        {{ end }}
+    </div>
+</div>
+{{end}}

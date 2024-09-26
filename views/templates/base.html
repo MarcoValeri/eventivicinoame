@@ -53,7 +53,18 @@
     </header>
     <main class="main">
         <div class="main__container-content">{{template "content" .}}</div>
-        <aside class="main__container-sidebar"></aside>
+        <aside class="main__container-sidebar">
+            <div class="main__container-sidebar-single-menu main__container-sidebar-single-menu--button">
+                <h2 class="main__sidebar-menu-title h2">Cerca tra le sagre di <em>Eventi Vicino a Me</h2>
+                <a class="button" href="/sagre-cerca/">Scopri tutte le sagre</a>
+            </div>
+            <div class="main__container-sidebar-single-menu">
+                <h2 class="h2">Le Sagre dell'anno di <em>Eventi Vicino a Me</em></h2>
+                <ul class="list-ul-ol-menu">
+                    <li class="list-item"><p class="p-lg"><a class="link" href="/sagre/sagre-ottobre">Le sagre di ottobre</a></p></li>
+                </ul>
+            </div>
+        </aside>
     </main>
     <footer class="footer">
         <div>
@@ -69,7 +80,7 @@
     <div id="cookie-banner-component" class="cookie-banner">
         <div class="cookie-banner__container-logo">
             <img class="cookie-banner__logo" src="/public/images/eventi-vicino-a-me-logo.png" alt="Logo Eventi Vicino A Me, una ape che vola">
-            <h4 class="h4">Ci teniamo alla tua privacy</h4>
+            <h3 class="h4">Ci teniamo alla tua privacy</h3>
         </div>
         <div class="cookie-banner__container-content">
             <p class="p">

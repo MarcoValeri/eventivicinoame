@@ -20,7 +20,22 @@
         border-left: 3px solid $greenEVM;
 
         @include respond("lg") {
-            border: none;
+            border-left: none;
+            border-top: 3px solid $greenEVM;
         }
     }
+
+    &__container-sidebar-single-menu {
+        margin-bottom: 2rem;
+        border-bottom: 3px solid $greenEVM;
+    }
+
+    &__container-sidebar-single-menu--button {
+        padding-bottom: 5rem;
+    }
+
+    &__sidebar-menu-title {
+        margin-bottom: 5rem;
+    }
+
 }

@@ -422,3 +422,61 @@ func SagraFindByParameter(getParameter string) ([]SagraWithRelatedImage, error) 
 	}
 	return allSagre, nil
 }
+
+func SagreGetThemByMonth(getMonth string, getLimit int) ([]SagraWithRelatedImage, error) {
+	db := database.DatabaseConnection()
+	defer db.Close()
+
+	rows, err := db.Query("SELECT sagre.id, sagre.title, sagre.description, sagre.url, sagre.published, sagre.updated, sagre.image_id, images.url, images.description, sagre.content, sagre.country, sagre.region, sagre.city, sagre.town, sagre.fraction, sagre.sagra_start_date FROM sagre JOIN images ON sagre.image_id = images.id WHERE sagre.published < NOW() AND MONTH(sagre.sagra_start_date) = ? ORDER BY sagre.updated DESC LIMIT ?", getMonth, getLimit)
+	if err != nil {
+		fmt.Println("Error getting sagre by their month:", err)
+		return nil, err
+	}
+	defer rows.Close()
+
+	var allSagre []SagraWithRelatedImage
+	for rows.Next() {
+		var sagraId int
+		var sagraTitle string
+		var sagraDescription string
+		var sagraUrl string
+		var sagraPublished string
+		var sagraUpdated string
+		var sagraImageId int
+		var sagraImageUrl string
+		var sagraImageAlt string
+		var sagraContent string
+		var sagraCountry string
+		var sagraRegion string
+		var sagraCity string
+		var sagraTown string
+		var sagraFraction string
+		var sagraStartDate string
+		err = rows.Scan(&sagraId, &sagraTitle, &sagraDescription, &sagraUrl, &sagraPublished, &sagraUpdated, &sagraImageId, &sagraImageUrl, &sagraImageAlt, &sagraContent, &sagraCountry, &sagraRegion, &sagraCity, &sagraTown, &sagraFraction, &sagraStartDate)
+		if err != nil {
+			return allSagre, err
+		}
+
+		sagraDetails := SagraNewWithRelatedImage(
+			sagraId,
+			sagraTitle,
+			sagraDescription,
+			sagraUrl,
+			sagraPublished,
+			sagraUpdated,
+			sagraImageId,
+			sagraImageUrl,
+			sagraImageAlt,
+			sagraContent,
+			sagraCountry,
+			sagraRegion,
+			sagraCity,
+			sagraTown,
+			sagraFraction,
+			sagraStartDate,
+		)
+		allSagre = append(allSagre, sagraDetails)
+	}
+
+	return allSagre, nil
+}

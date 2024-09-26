@@ -5,6 +5,9 @@
 
 {{define "content"}}
 <div class="home">
+    <div class="home__container-title">
+        <h2 class="h2">Le ultime sagre di <em>Eventi Vicino a Me</em></h2>
+    </div>
     {{ if .Sagre }}
         {{ range .Sagre }}
             <div class="article-card home__card-article">
@@ -27,7 +30,7 @@
         </div>
     {{ end }}
     <div class="home__container-button">
-        <a class="button" href="/sagre/">Scopri tutte le sagre</a>
+        <a class="button" href="/sagre-cerca/">Scopri tutte le sagre</a>
     </div>
 </div>
 {{end}}

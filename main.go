@@ -27,6 +27,7 @@ func main() {
 	controllers.PrivacyPolicy()
 	controllers.SagreSearchController()
 	controllers.SagraController()
+	controllers.SagreOctober()
 	controllers.AdminController()
 	controllers.SitemapController()
 	controllers.RobotController()
