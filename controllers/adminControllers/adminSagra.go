@@ -25,6 +25,7 @@ type sagraData struct {
 	TownError             string
 	FractionError         string
 	SagraStartDateError   string
+	SagraEndDateError     string
 	Images                []models.Image
 	Sagre                 []models.Sagra
 	SagreWithRelatedImage []models.SagraWithRelatedImage
@@ -80,7 +81,7 @@ func AdminSagraAdd() {
 			}
 
 			// Flag validation
-			var areAdminSagraInputsValid [13]bool
+			var areAdminSagraInputsValid [14]bool
 			isFormSubmittionValid := false
 
 			// Get the value from the form
@@ -97,6 +98,7 @@ func AdminSagraAdd() {
 			getAdminSagraTown := r.FormValue("sagra-town")
 			getAdminSagraFraction := r.FormValue("sagra-fraction")
 			getAdminSagraStartDate := r.FormValue("sagra-start-date")
+			getAdminSagraEndDate := r.FormValue("sagra-end-date")
 			getAdminSagraAdd := r.FormValue("sagra-add")
 
 			// Sanitize form inputs
@@ -112,6 +114,7 @@ func AdminSagraAdd() {
 			getAdminSagraTown = util.FormSanitizeStringInput(getAdminSagraTown)
 			getAdminSagraFraction = util.FormSanitizeStringInput(getAdminSagraFraction)
 			getAdminSagraStartDate = util.FormSanitizeStringInput(getAdminSagraStartDate)
+			getAdminSagraEndDate = util.FormSanitizeStringInput(getAdminSagraEndDate)
 			getAdminSagraAdd = util.FormSanitizeStringInput(getAdminSagraAdd)
 
 			// Check if the form has been submitted
@@ -233,6 +236,15 @@ func AdminSagraAdd() {
 					areAdminSagraInputsValid[12] = false
 				}
 
+				// Sagra End Date validation
+				if len(getAdminSagraEndDate) > 0 {
+					data.SagraEndDateError = ""
+					areAdminSagraInputsValid[13] = true
+				} else {
+					data.SagraEndDateError = "Add a date"
+					areAdminSagraInputsValid[13] = false
+				}
+
 				for i := 0; i < len(areAdminSagraInputsValid); i++ {
 					isFormSubmittionValid = true
 					if !areAdminSagraInputsValid[i] {
@@ -260,6 +272,7 @@ func AdminSagraAdd() {
 						getAdminSagraTown,
 						getAdminSagraFraction,
 						getAdminSagraStartDate,
+						getAdminSagraEndDate,
 					)
 					models.SagraAddNewToDB(createNewSagra)
 					http.Redirect(w, r, "/admin/admin-sagre", http.StatusSeeOther)
@@ -318,7 +331,7 @@ func AdminSagraEdit() {
 			* and
 			* validate the inputs
 			 */
-			var areAdminSagraInputsValid [13]bool
+			var areAdminSagraInputsValid [14]bool
 			isFormSubmittionValid := false
 
 			// Get the value from the form
@@ -335,6 +348,7 @@ func AdminSagraEdit() {
 			getAdminSagraTownEdit := r.FormValue("sagra-edit-town")
 			getAdminSagraFractionEdit := r.FormValue("sagra-edit-fraction")
 			getAdminSagraStartDateEdit := r.FormValue("sagra-edit-start-date")
+			getAdminSagraEndDateEdit := r.FormValue("sagra-edit-end-date")
 			getAdminSagraAddEdit := r.FormValue("sagra-edit")
 
 			// Sanitize form inputs
@@ -350,6 +364,7 @@ func AdminSagraEdit() {
 			getAdminSagraTownEdit = util.FormSanitizeStringInput(getAdminSagraTownEdit)
 			getAdminSagraFractionEdit = util.FormSanitizeStringInput(getAdminSagraFractionEdit)
 			getAdminSagraStartDateEdit = util.FormSanitizeStringInput(getAdminSagraStartDateEdit)
+			getAdminSagraEndDateEdit = util.FormSanitizeStringInput(getAdminSagraEndDateEdit)
 			getAdminSagraAddEdit = util.FormSanitizeStringInput(getAdminSagraAddEdit)
 
 			// Check if the form has been submitted
@@ -471,6 +486,14 @@ func AdminSagraEdit() {
 					areAdminSagraInputsValid[12] = false
 				}
 
+				if len(getAdminSagraEndDateEdit) > 0 {
+					data.SagraEndDateError = ""
+					areAdminSagraInputsValid[13] = true
+				} else {
+					data.SagraEndDateError = ""
+					areAdminSagraInputsValid[13] = false
+				}
+
 				for i := 0; i < len(areAdminSagraInputsValid); i++ {
 					isFormSubmittionValid = true
 					if !areAdminSagraInputsValid[i] {
@@ -498,6 +521,7 @@ func AdminSagraEdit() {
 						getAdminSagraTownEdit,
 						getAdminSagraFractionEdit,
 						getAdminSagraStartDateEdit,
+						getAdminSagraEndDateEdit,
 					)
 					models.SagraEdit(editSagra)
 					http.Redirect(w, r, "/admin/admin-sagre", http.StatusSeeOther)

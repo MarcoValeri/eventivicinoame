@@ -74,6 +74,10 @@
                     <span>{{ .SagraStartDateError }}</span>
                 </div>
                 <div>
+                    <input type="datetime-local" name="sagra-edit-end-date" value="{{ .SagraWithRelatedImage.SagraEndDate }}" required />
+                    <span>{{ .SagraEndDateError }}</span>
+                </div>
+                <div>
                     <input type="submit" name="sagra-edit" value="Edit this sagra" />
                 </div>
             </form>
