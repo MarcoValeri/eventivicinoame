@@ -7,7 +7,6 @@ import (
 	"html/template"
 	"net/http"
 	"path"
-	"strconv"
 	"strings"
 	"time"
 )
@@ -146,22 +145,15 @@ func SagraController() {
 func SagreOctober() {
 	tmpl := template.Must(template.ParseFiles("./views/templates/base.html", "./views/sagre/sagre-ottobre.html"))
 	http.HandleFunc("/sagre/sagre-ottobre", func(w http.ResponseWriter, r *http.Request) {
-
-		// Get the current year as a string
-		getCurrentYear := time.Now().Year()
-		getCurrentYearAsString := strconv.Itoa(getCurrentYear)
-
 		// Get Sagre that are planned in October
-		getStartDate := getCurrentYearAsString + "-10-01 00:00:00"
-		getEndDate := getCurrentYearAsString + "-10-31 23:59:59"
-		getOctoberSagre, err := models.SagreGetThemByPeriodOfTime(getStartDate, getEndDate, 50)
+		getOctoberSagre, err := models.SagreGetThemByPeriodOfTime("2024-10-01 00:00:00", "2024-10-31 23:59:50", 50)
 		if err != nil {
 			fmt.Println("Error getting October's sagre:", err)
 		}
 
 		data := SagraData{
-			PageTitle:       template.HTML("Sagre ottobre " + getCurrentYearAsString + ": fiere, feste ed eventi in Italia"),
-			PageDescription: template.HTML("Sagre ottobre " + getCurrentYearAsString + ": fiere, feste ed eventi da non perdere che si svolgono in tutta Italia durante il mese di ottobre, nel pieno della stagione autunnale"),
+			PageTitle:       template.HTML("Sagre ottobre 2024: fiere, feste ed eventi in Italia"),
+			PageDescription: template.HTML("Sagre ottobre 2024: fiere, feste ed eventi da non perdere che si svolgono in tutta Italia durante il mese di ottobre, nel pieno della stagione autunnale"),
 			CurrentYear:     time.Now().Year(),
 			CurrentUrl:      "/sagre-cerca",
 			Sagre:           getOctoberSagre,
