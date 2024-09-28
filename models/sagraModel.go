@@ -441,7 +441,7 @@ func SagreGetThemByPeriodOfTime(getStartDate string, getEndDate string, getLimit
 	db := database.DatabaseConnection()
 	defer db.Close()
 
-	rows, err := db.Query("SELECT sagre.id, sagre.title, sagre.description, sagre.url, sagre.published, sagre.updated, sagre.image_id, images.url, images.description, sagre.content, sagre.country, sagre.region, sagre.city, sagre.town, sagre.fraction, sagre.sagra_start_date, sagre.sagra_end_date FROM sagre JOIN images ON sagre.image_id = images.id WHERE sagre.published < NOW() AND (sagre.sagra_start_date >= ? AND sagre.sagra_start_date <= ?) OR (sagre.sagra_end_date >= ? AND sagre.sagra_end_date <= ?) ORDER BY sagre.updated DESC LIMIT ?", getStartDate, getEndDate, getStartDate, getEndDate, getLimit)
+	rows, err := db.Query("SELECT sagre.id, sagre.title, sagre.description, sagre.url, sagre.published, sagre.updated, sagre.image_id, images.url, images.description, sagre.content, sagre.country, sagre.region, sagre.city, sagre.town, sagre.fraction, sagre.sagra_start_date, sagre.sagra_end_date FROM sagre JOIN images ON sagre.image_id = images.id WHERE (sagre.sagra_start_date >= ? AND sagre.sagra_start_date <= ?) OR (sagre.sagra_end_date >= ? AND sagre.sagra_end_date <= ?) AND sagre.published < NOW() ORDER BY sagre.updated DESC LIMIT ?", getStartDate, getEndDate, getStartDate, getEndDate, getLimit)
 	if err != nil {
 		fmt.Println("Error getting sagre by period of time:", err)
 		return nil, err
