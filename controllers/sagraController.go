@@ -146,7 +146,7 @@ func SagreOctober() {
 	tmpl := template.Must(template.ParseFiles("./views/templates/base.html", "./views/sagre/sagre-ottobre.html"))
 	http.HandleFunc("/sagre/sagre-ottobre", func(w http.ResponseWriter, r *http.Request) {
 		// Get Sagre that are planned in October
-		getOctoberSagre, err := models.SagreGetThemByPeriodOfTime("2024-10-01 00:00:00", "2024-10-31 23:59:50", 50)
+		getOctoberSagre, err := models.SagreGetThemByPeriodOfTime("2024-10-01 00:00:00", "2024-10-31 23:59:59", 50)
 		if err != nil {
 			fmt.Println("Error getting October's sagre:", err)
 		}
@@ -161,5 +161,26 @@ func SagreOctober() {
 
 		tmpl.Execute(w, data)
 
+	})
+}
+
+func SagreNovember() {
+	tmpl := template.Must(template.ParseFiles("./views/templates/base.html", "./views/sagre/sagre-novembre.html"))
+	http.HandleFunc("/sagre/sagre-novembre", func(w http.ResponseWriter, r *http.Request) {
+		// Get Sagre that are planned in November
+		getNovemberSagre, err := models.SagreGetThemByPeriodOfTime("2024-11-01 00:00:00", "2024-11-30 23:59:59", 50)
+		if err != nil {
+			fmt.Println("Error getting November's sagre:", err)
+		}
+
+		data := SagraData{
+			PageTitle:       template.HTML("Sagre novembre 2024: fiere, feste ed eventi in Italia"),
+			PageDescription: template.HTML("Sagre novembre 2024: fiere, feste ed eventi da non perdere che si svolgono in tutta Italia durante il mese di novembre, nel pieno della stagione autunnale"),
+			CurrentYear:     time.Now().Year(),
+			CurrentUrl:      "/sagre-cerca",
+			Sagre:           getNovemberSagre,
+		}
+
+		tmpl.Execute(w, data)
 	})
 }

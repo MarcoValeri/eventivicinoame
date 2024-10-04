@@ -28,6 +28,7 @@ func main() {
 	controllers.SagreSearchController()
 	controllers.SagraController()
 	controllers.SagreOctober()
+	controllers.SagreNovember()
 	controllers.AdminController()
 	controllers.SitemapController()
 	controllers.RobotController()
