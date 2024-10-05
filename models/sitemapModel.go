@@ -21,6 +21,7 @@ func SitemapAllURL() ([]SitemapURL, error) {
 	urlFive := SitemapURL{"https://www.eventivicinoame.com/page/cookie-policy", "2024-09-20"}
 	urlSix := SitemapURL{"https://www.eventivicinoame.com/page/privacy-policy", "2024-09-20"}
 	urlSeven := SitemapURL{"https://www.eventivicinoame.com/sagre/sagre-ottobre", "2024-09-26"}
+	urlEight := SitemapURL{"https://www.eventivicinoame.com/sagre/sagre-novembre", "2024-10-05"}
 	setURLsList = append(setURLsList, urlZero)
 	setURLsList = append(setURLsList, urlOne)
 	setURLsList = append(setURLsList, urlThree)
@@ -28,6 +29,7 @@ func SitemapAllURL() ([]SitemapURL, error) {
 	setURLsList = append(setURLsList, urlFive)
 	setURLsList = append(setURLsList, urlSix)
 	setURLsList = append(setURLsList, urlSeven)
+	setURLsList = append(setURLsList, urlEight)
 
 	// Get all sagre URLs
 	db := database.DatabaseConnection()
