@@ -16,8 +16,8 @@ type SagraData struct {
 	PageDescription     template.HTML
 	ParameterTitleError string
 	ParameterTitle      string
-	Sagra               models.SagraWithRelatedImage
-	Sagre               []models.SagraWithRelatedImage
+	Sagra               models.SagraWithRelatedFields
+	Sagre               []models.SagraWithRelatedFields
 	SagraContentRaw     template.HTML
 	CurrentUrl          string
 	CurrentYear         int

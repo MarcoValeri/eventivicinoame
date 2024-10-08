@@ -39,6 +39,18 @@
             <span>{{ .ImageError }}</span>
         </div>
         <div>
+            <select name="sagra-author">
+                {{ if .Authors }}
+                    {{ range .Authors }}
+                        <option value="{{ .Url }}">{{ .Url }}</option>
+                    {{ end }}
+                {{ else }}
+                        <option value="no-image-found">No author found</option>
+                {{ end }}
+            </select>
+            <span>{{ .AuthorError }}</span>
+        </div>
+        <div>
             <textarea name="sagra-content"></textarea>
             <span>{{ .ContentError }}</span>
         </div>

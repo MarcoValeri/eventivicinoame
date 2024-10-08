@@ -5,9 +5,9 @@
 {{define "adminContent"}}
 <div>
     <h2>Admin Sagra Delete</h2>
-    {{ if .SagraWithRelatedImage }}
-        <p>Sagra ID: {{ .SagraWithRelatedImage.Id }}</p>
-        <p>Sagra Title: {{ .SagraWithRelatedImage.Title }}</p>
+    {{ if .SagraWithRelatedFields }}
+        <p>Sagra ID: {{ .SagraWithRelatedFields.Id }}</p>
+        <p>Sagra Title: {{ .SagraWithRelatedFields.Title }}</p>
         <h4>Do you want to delete this sagra?</h4>
         <form method="POST">
             <input type="submit" name="admin-sagra-delete" value="Delete this sagra" />

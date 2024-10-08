@@ -14,7 +14,7 @@ type HomepageData struct {
 	PageDescription string
 	CurrentYear     int
 	CurrentUrl      string
-	Sagre           []models.SagraWithRelatedImage
+	Sagre           []models.SagraWithRelatedFields
 }
 
 func Home() {
@@ -29,7 +29,7 @@ func Home() {
 		// Get last three published sagre
 		getLastPublishedSagre, err := models.SagraGetLimitPublishedSagre(10)
 		if err != nil {
-			fmt.Println("Error getting last three sagre:", err)
+			fmt.Println("Error getting last ten sagre:", err)
 		}
 
 		// Get current path

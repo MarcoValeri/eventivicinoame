@@ -11,25 +11,27 @@ import (
 )
 
 type sagraData struct {
-	PageTitle             string
-	TitleError            string
-	DescriptionError      string
-	UrlError              string
-	PublishedError        string
-	UpdatedError          string
-	ImageError            string
-	ContentError          string
-	CountryError          string
-	RegioneError          string
-	CityError             string
-	TownError             string
-	FractionError         string
-	SagraStartDateError   string
-	SagraEndDateError     string
-	Images                []models.Image
-	Sagre                 []models.Sagra
-	SagreWithRelatedImage []models.SagraWithRelatedImage
-	SagraWithRelatedImage models.SagraWithRelatedImage
+	PageTitle              string
+	TitleError             string
+	DescriptionError       string
+	UrlError               string
+	PublishedError         string
+	UpdatedError           string
+	ImageError             string
+	AuthorError            string
+	ContentError           string
+	CountryError           string
+	RegioneError           string
+	CityError              string
+	TownError              string
+	FractionError          string
+	SagraStartDateError    string
+	SagraEndDateError      string
+	Images                 []models.Image
+	Authors                []models.Author
+	Sagre                  []models.Sagra
+	SagreWithRelatedFields []models.SagraWithRelatedFields
+	SagraWithRelatedFields models.SagraWithRelatedFields
 }
 
 func AdminSagre() {
@@ -48,8 +50,8 @@ func AdminSagre() {
 			}
 
 			data := sagraData{
-				PageTitle:             "Sagre Admin",
-				SagreWithRelatedImage: sagreDate,
+				PageTitle:              "Sagre Admin",
+				SagreWithRelatedFields: sagreDate,
 			}
 
 			tmpl.Execute(w, data)
@@ -75,13 +77,19 @@ func AdminSagraAdd() {
 				fmt.Println("Error getting imagesData:", imagesData)
 			}
 
+			authorsData, errAuthorsData := models.AuthorShowAuthors()
+			if errAuthorsData != nil {
+				fmt.Println("Error getting authorsData:", authorsData)
+			}
+
 			data := sagraData{
 				PageTitle: "Admin Sagra Add",
 				Images:    imagesData,
+				Authors:   authorsData,
 			}
 
 			// Flag validation
-			var areAdminSagraInputsValid [14]bool
+			var areAdminSagraInputsValid [15]bool
 			isFormSubmittionValid := false
 
 			// Get the value from the form
@@ -91,6 +99,7 @@ func AdminSagraAdd() {
 			getAdminSagraPublished := r.FormValue("sagra-published")
 			getAdminSagraUpdated := r.FormValue("sagra-updated")
 			getAdminSagraImage := r.FormValue("sagra-image")
+			getAdminSagraAuthor := r.FormValue("sagra-author")
 			getAdminSagraContent := r.FormValue("sagra-content")
 			getAdminSagraCountry := r.FormValue("sagra-country")
 			getAdminSagraRegion := r.FormValue("sagra-region")
@@ -108,6 +117,7 @@ func AdminSagraAdd() {
 			getAdminSagraPublished = util.FormSanitizeStringInput(getAdminSagraPublished)
 			getAdminSagraUpdated = util.FormSanitizeStringInput(getAdminSagraUpdated)
 			getAdminSagraImage = util.FormSanitizeStringInput(getAdminSagraImage)
+			getAdminSagraAuthor = util.FormSanitizeStringInput(getAdminSagraAuthor)
 			getAdminSagraCountry = util.FormSanitizeStringInput(getAdminSagraCountry)
 			getAdminSagraRegion = util.FormSanitizeStringInput(getAdminSagraRegion)
 			getAdminSagraCity = util.FormSanitizeStringInput(getAdminSagraCity)
@@ -173,76 +183,85 @@ func AdminSagraAdd() {
 					areAdminSagraInputsValid[5] = false
 				}
 
+				// Author validation
+				if len(getAdminSagraAuthor) > 0 {
+					data.AuthorError = ""
+					areAdminSagraInputsValid[6] = true
+				} else {
+					data.AuthorError = "An author is required"
+					areAdminSagraInputsValid[6] = false
+				}
+
 				// Content validation
 				if len(getAdminSagraContent) > 0 {
 					data.ContentError = ""
-					areAdminSagraInputsValid[6] = true
+					areAdminSagraInputsValid[7] = true
 				} else {
 					data.ContentError = "Content should be longer than 0"
-					areAdminSagraInputsValid[6] = false
+					areAdminSagraInputsValid[7] = false
 				}
 
 				// Country validation
 				if len(getAdminSagraCountry) > 0 {
 					data.CountryError = ""
-					areAdminSagraInputsValid[7] = true
+					areAdminSagraInputsValid[8] = true
 				} else {
 					data.CountryError = "Country should be longer than 0"
-					areAdminSagraInputsValid[7] = false
+					areAdminSagraInputsValid[8] = false
 				}
 
 				// Region validation
 				if len(getAdminSagraRegion) > 0 {
 					data.RegioneError = ""
-					areAdminSagraInputsValid[8] = true
+					areAdminSagraInputsValid[9] = true
 				} else {
 					data.RegioneError = "Region should be longer than 0"
-					areAdminSagraInputsValid[8] = false
+					areAdminSagraInputsValid[9] = false
 				}
 
 				// City validation
 				if len(getAdminSagraCity) > 0 {
 					data.CityError = ""
-					areAdminSagraInputsValid[9] = true
+					areAdminSagraInputsValid[10] = true
 				} else {
 					data.CityError = "City should be longer than 0"
-					areAdminSagraInputsValid[9] = false
+					areAdminSagraInputsValid[10] = false
 				}
 
 				// Town validation
 				if len(getAdminSagraTown) > 0 {
 					data.TownError = ""
-					areAdminSagraInputsValid[10] = true
+					areAdminSagraInputsValid[11] = true
 				} else {
 					data.TownError = "Town should be longer than 0"
-					areAdminSagraInputsValid[10] = false
+					areAdminSagraInputsValid[11] = false
 				}
 
 				// Fraction validation
 				if len(getAdminSagraFraction) > 0 {
 					data.FractionError = ""
-					areAdminSagraInputsValid[11] = true
+					areAdminSagraInputsValid[12] = true
 				} else {
 					data.FractionError = "Fraction should be longer than 0"
-					areAdminSagraInputsValid[11] = false
+					areAdminSagraInputsValid[12] = false
 				}
 
 				// Sagra Start date validation
 				if len(getAdminSagraStartDate) > 0 {
 					data.SagraStartDateError = ""
-					areAdminSagraInputsValid[12] = true
+					areAdminSagraInputsValid[13] = true
 				} else {
 					data.SagraStartDateError = "Add a date"
-					areAdminSagraInputsValid[12] = false
+					areAdminSagraInputsValid[13] = false
 				}
 
 				// Sagra End Date validation
 				if len(getAdminSagraEndDate) > 0 {
 					data.SagraEndDateError = ""
-					areAdminSagraInputsValid[13] = true
+					areAdminSagraInputsValid[14] = true
 				} else {
 					data.SagraEndDateError = "Add a date"
-					areAdminSagraInputsValid[13] = false
+					areAdminSagraInputsValid[14] = false
 				}
 
 				for i := 0; i < len(areAdminSagraInputsValid); i++ {
@@ -255,8 +274,12 @@ func AdminSagraAdd() {
 
 				// Create a new sagra if all inputs are valid
 				if isFormSubmittionValid {
-					// Get image id for the relationship one-to-may between sagre and images
+					// Get image id for the relationship one-to-many between sagre and images
 					getAdminSagraImageId, _ := models.ImageFindByUrlReturnItsId(getAdminSagraImage)
+
+					// Get author id for the relationship one-to-many between sagre and authors
+					getAdminSagraAuthorId, _ := models.AuthorFindByUrlReturnItsId(getAdminSagraAuthor)
+
 					createNewSagra := models.SagraNew(
 						1,
 						getAdminSagraTitle,
@@ -265,6 +288,7 @@ func AdminSagraAdd() {
 						getAdminSagraPublished,
 						getAdminSagraUpdated,
 						getAdminSagraImageId,
+						getAdminSagraAuthorId,
 						getAdminSagraContent,
 						getAdminSagraCountry,
 						getAdminSagraRegion,
@@ -319,11 +343,17 @@ func AdminSagraEdit() {
 				fmt.Println("Error getting imagesData:", errImagesData)
 			}
 
+			authorsData, errAuthorsData := models.AuthorShowAuthors()
+			if errAuthorsData != nil {
+				fmt.Println("Error getting authorsData:", authorsData)
+			}
+
 			// Create data for the page
 			data := sagraData{
-				PageTitle:             "Admin Sagra Edit",
-				SagraWithRelatedImage: getSagraEdit,
-				Images:                imagesData,
+				PageTitle:              "Admin Sagra Edit",
+				SagraWithRelatedFields: getSagraEdit,
+				Images:                 imagesData,
+				Authors:                authorsData,
 			}
 
 			/**
@@ -331,7 +361,7 @@ func AdminSagraEdit() {
 			* and
 			* validate the inputs
 			 */
-			var areAdminSagraInputsValid [14]bool
+			var areAdminSagraInputsValid [15]bool
 			isFormSubmittionValid := false
 
 			// Get the value from the form
@@ -341,6 +371,7 @@ func AdminSagraEdit() {
 			getAdminSagraPublishedEdit := r.FormValue("sagra-edit-published")
 			getAdminSagraUpdatedEdit := r.FormValue("sagra-edit-updated")
 			getAdminSagraImageEdit := r.FormValue("sagra-edit-image")
+			getAdminSagraAuthorEdit := r.FormValue("sagra-edit-author")
 			getAdminSagraContentEdit := r.FormValue("sagra-edit-content")
 			getAdminSagraCountryEdit := r.FormValue("sagra-edit-country")
 			getAdminSagraRegionEdit := r.FormValue("sagra-edit-region")
@@ -358,6 +389,7 @@ func AdminSagraEdit() {
 			getAdminSagraPublishedEdit = util.FormSanitizeStringInput(getAdminSagraPublishedEdit)
 			getAdminSagraUpdatedEdit = util.FormSanitizeStringInput(getAdminSagraUpdatedEdit)
 			getAdminSagraImageEdit = util.FormSanitizeStringInput(getAdminSagraImageEdit)
+			getAdminSagraAuthorEdit = util.FormSanitizeStringInput(getAdminSagraAuthorEdit)
 			getAdminSagraCountryEdit = util.FormSanitizeStringInput(getAdminSagraCountryEdit)
 			getAdminSagraRegionEdit = util.FormSanitizeStringInput(getAdminSagraRegionEdit)
 			getAdminSagraCityEdit = util.FormSanitizeStringInput(getAdminSagraCityEdit)
@@ -423,75 +455,84 @@ func AdminSagraEdit() {
 					areAdminSagraInputsValid[5] = false
 				}
 
+				// Author validation
+				if len(getAdminSagraAuthorEdit) > 0 {
+					data.AuthorError = ""
+					areAdminSagraInputsValid[6] = true
+				} else {
+					data.AuthorError = "An author is required"
+					areAdminSagraInputsValid[6] = false
+				}
+
 				// Content validation
 				if len(getAdminSagraContentEdit) > 0 {
 					data.ContentError = ""
-					areAdminSagraInputsValid[6] = true
+					areAdminSagraInputsValid[7] = true
 				} else {
 					data.ContentError = "Content should be longer than 0"
-					areAdminSagraInputsValid[6] = false
+					areAdminSagraInputsValid[7] = false
 				}
 
 				// Country validation
 				if len(getAdminSagraCountryEdit) > 0 {
 					data.CountryError = ""
-					areAdminSagraInputsValid[7] = true
+					areAdminSagraInputsValid[8] = true
 				} else {
 					data.CountryError = "Country should be longer than 0"
-					areAdminSagraInputsValid[7] = false
+					areAdminSagraInputsValid[8] = false
 				}
 
 				// Region validation
 				if len(getAdminSagraRegionEdit) > 0 {
 					data.RegioneError = ""
-					areAdminSagraInputsValid[8] = true
+					areAdminSagraInputsValid[9] = true
 				} else {
 					data.RegioneError = "Region should be longer than 0"
-					areAdminSagraInputsValid[8] = false
+					areAdminSagraInputsValid[9] = false
 				}
 
 				// City validation
 				if len(getAdminSagraCityEdit) > 0 {
 					data.CityError = ""
-					areAdminSagraInputsValid[9] = true
+					areAdminSagraInputsValid[10] = true
 				} else {
 					data.CityError = "City should be longer than 0"
-					areAdminSagraInputsValid[9] = false
+					areAdminSagraInputsValid[10] = false
 				}
 
 				// Town validation
 				if len(getAdminSagraTownEdit) > 0 {
 					data.TownError = ""
-					areAdminSagraInputsValid[10] = true
+					areAdminSagraInputsValid[11] = true
 				} else {
 					data.TownError = "Town should be longer than 0"
-					areAdminSagraInputsValid[10] = false
+					areAdminSagraInputsValid[11] = false
 				}
 
 				// Fraction validation
 				if len(getAdminSagraFractionEdit) > 0 {
 					data.FractionError = ""
-					areAdminSagraInputsValid[11] = true
+					areAdminSagraInputsValid[12] = true
 				} else {
 					data.FractionError = "Fraction should be longer than 0"
-					areAdminSagraInputsValid[11] = false
+					areAdminSagraInputsValid[12] = false
 				}
 
 				// Sagra Start date validation
 				if len(getAdminSagraStartDateEdit) > 0 {
 					data.SagraStartDateError = ""
-					areAdminSagraInputsValid[12] = true
+					areAdminSagraInputsValid[13] = true
 				} else {
 					data.SagraStartDateError = "Add a date"
-					areAdminSagraInputsValid[12] = false
+					areAdminSagraInputsValid[13] = false
 				}
 
 				if len(getAdminSagraEndDateEdit) > 0 {
 					data.SagraEndDateError = ""
-					areAdminSagraInputsValid[13] = true
+					areAdminSagraInputsValid[14] = true
 				} else {
 					data.SagraEndDateError = ""
-					areAdminSagraInputsValid[13] = false
+					areAdminSagraInputsValid[14] = false
 				}
 
 				for i := 0; i < len(areAdminSagraInputsValid); i++ {
@@ -504,8 +545,12 @@ func AdminSagraEdit() {
 
 				// Edit current sagra if all the inputs are valid and redirect to all sagre list
 				if isFormSubmittionValid {
-					// Get the image id for the relationship one-to-many between tutorials and images
+					// Get the image id for the relationship one-to-many between sagre and images
 					getAdminSagraImageIdEdit, _ := models.ImageFindByUrlReturnItsId(getAdminSagraImageEdit)
+
+					// Get the author id for the relationship one-to-many between sagre and images
+					getAdminSagraAuthorIdEdit, _ := models.AuthorFindByUrlReturnItsId(getAdminSagraAuthorEdit)
+
 					editSagra := models.SagraNew(
 						sagraId,
 						getAdminSagraTitleEdit,
@@ -514,6 +559,7 @@ func AdminSagraEdit() {
 						getAdminSagraPublishedEdit,
 						getAdminSagraUpdatedEdit,
 						getAdminSagraImageIdEdit,
+						getAdminSagraAuthorIdEdit,
 						getAdminSagraContentEdit,
 						getAdminSagraCountryEdit,
 						getAdminSagraRegionEdit,
@@ -560,8 +606,8 @@ func AdminSagraDelete() {
 			}
 
 			data := sagraData{
-				PageTitle:             "Admin Delete Sagra",
-				SagraWithRelatedImage: getSagraDelete,
+				PageTitle:              "Admin Delete Sagra",
+				SagraWithRelatedFields: getSagraDelete,
 			}
 
 			/**

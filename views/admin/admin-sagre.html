@@ -5,8 +5,8 @@
 {{define "adminContent"}}
 <div>
     <h2>Admin Sagre</h2>
-    {{ if .SagreWithRelatedImage }}
-        {{ range .SagreWithRelatedImage }}
+    {{ if .SagreWithRelatedFields }}
+        {{ range .SagreWithRelatedFields }}
             <p>Sagra ID: {{ .Id }}</p>
             <p>Sagra Title: {{ .Title }}</p>
             <img src="/public/images/{{ .ImageUrl }}" alt="{{ .ImageAlt }}" width="100" height="100">
