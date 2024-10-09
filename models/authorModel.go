@@ -69,6 +69,41 @@ func AuthorShowAuthors() ([]Author, error) {
 	return allAuthors, nil
 }
 
+func AuthorFindByUrl(getAuthorUrl string) (Author, error) {
+	db := database.DatabaseConnection()
+	defer db.Close()
+
+	var getAuthorData Author
+
+	rows, err := db.Query("SELECT authors.id, authors.email, authors.password, authors.name, authors.surname, authors.description, authors.url, authors.image_url, authors.published, authors.updated FROM authors WHERE authors.url=?", getAuthorUrl)
+	if err != nil {
+		fmt.Println("Error on the author query:", err)
+		return getAuthorData, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var authorId int
+		var authorEmail string
+		var authorPassword string
+		var authorName string
+		var authorSurname string
+		var authorDescription string
+		var authorUrl string
+		var authorImageUrl string
+		var authorPublished string
+		var authorUpdated string
+		err = rows.Scan(&authorId, &authorEmail, &authorPassword, &authorName, &authorSurname, &authorDescription, &authorUrl, &authorImageUrl, &authorPublished, &authorUpdated)
+		if err != nil {
+			fmt.Println("Error getting author data:", err)
+			return getAuthorData, err
+		}
+
+		getAuthorData = AuthorNew(authorId, authorEmail, authorPassword, authorName, authorSurname, authorDescription, authorUrl, authorImageUrl, authorPublished, authorUpdated)
+	}
+	return getAuthorData, nil
+}
+
 func AuthorFindByUrlReturnItsId(getAuthorUrl string) (int, error) {
 	db := database.DatabaseConnection()
 	defer db.Close()

@@ -15,17 +15,9 @@
         <div class="sagra__container-image">
             <img class="sagra__image" src="/public/images/{{ .Sagra.ImageUrl }}" alt="{{ .Sagra.ImageAlt }}">
         </div>
-        <!-- <div>
-            <h4>Articolo scritto da</h4>
-        </div> -->
-        <!-- <div>
-            <h1>Articolo scritto da:</h1>
-            <p>AuthorName: {{ .Sagra.AuthorName }}</p>
-            <p>AuthorSurname: {{ .Sagra.AuthorSurname }}</p>
-            <p>AuthorUrl: {{ .Sagra.AuthorUrl }}</p>
-            <p>AuthorImageUrl: {{ .Sagra.AuthorImageUrl }}</p>
-            <p>AuthorDescription: {{ .Sagra.AuthorDescription }}</p>
-        </div> -->
+        <div>
+            <h4 class="h4">Articolo scritto da</h4>
+        </div>
         <div class="author-card sagra__card-article">
             <a class="link-no" href="/author/{{ .Sagra.AuthorUrl }}">
                 <div class="author-card__wrapper">

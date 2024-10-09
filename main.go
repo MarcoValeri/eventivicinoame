@@ -29,6 +29,7 @@ func main() {
 	controllers.SagraController()
 	controllers.SagreOctober()
 	controllers.SagreNovember()
+	controllers.AuthorController()
 	controllers.AdminController()
 	controllers.SitemapController()
 	controllers.RobotController()

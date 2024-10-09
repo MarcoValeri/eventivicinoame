@@ -111,7 +111,7 @@ func SagraController() {
 		}
 
 		/**
-		* Redirect to home if the
+		* Redirect to 404 page if the
 		* sagra does not exist
 		* or
 		* if it is not published yet
