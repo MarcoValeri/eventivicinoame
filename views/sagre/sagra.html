@@ -15,13 +15,29 @@
         <div class="sagra__container-image">
             <img class="sagra__image" src="/public/images/{{ .Sagra.ImageUrl }}" alt="{{ .Sagra.ImageAlt }}">
         </div>
-        <div>
+        <!-- <div>
+            <h4>Articolo scritto da</h4>
+        </div> -->
+        <!-- <div>
             <h1>Articolo scritto da:</h1>
             <p>AuthorName: {{ .Sagra.AuthorName }}</p>
             <p>AuthorSurname: {{ .Sagra.AuthorSurname }}</p>
             <p>AuthorUrl: {{ .Sagra.AuthorUrl }}</p>
             <p>AuthorImageUrl: {{ .Sagra.AuthorImageUrl }}</p>
             <p>AuthorDescription: {{ .Sagra.AuthorDescription }}</p>
+        </div> -->
+        <div class="author-card sagra__card-article">
+            <a class="link-no" href="/author/{{ .Sagra.AuthorUrl }}">
+                <div class="author-card__wrapper">
+                    <div class="author-card__container-image">
+                        <img class="author-card__image" src="/public/images/{{ .Sagra.AuthorImageUrl }}" alt="Foto autore {{ .Sagra.AuthorName }} {{ .Sagra.AuthorSurname }}">
+                    </div>
+                    <div class="author-card__container-content">
+                        <h2 class="author-card__title h3">{{ .Sagra.AuthorName }} {{ .Sagra.AuthorSurname }}</h2>
+                        <p class="h4">{{ .Sagra.AuthorDescription }}</p>
+                    </div>
+                </div>
+            </a>
         </div>
     {{ else }}
         <h4>Sagra no found</h4>

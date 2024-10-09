@@ -207,6 +207,50 @@ button {
   margin-bottom: 1rem;
 }
 
+.author-card {
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px solid #197278;
+  border-radius: 5px;
+}
+.author-card__wrapper {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+@media only screen and (max-width: 767px) {
+  .author-card__wrapper {
+    flex-direction: column;
+  }
+}
+.author-card__container-image {
+  width: 30%;
+  height: 100%;
+  background-color: #197278;
+}
+@media only screen and (max-width: 767px) {
+  .author-card__container-image {
+    width: 100%;
+  }
+}
+.author-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.author-card__container-content {
+  width: 70%;
+  padding: 2rem;
+}
+@media only screen and (max-width: 767px) {
+  .author-card__container-content {
+    width: 90%;
+  }
+}
+.author-card__title {
+  margin-bottom: 1rem;
+}
+
 .cookie-banner {
   width: 50%;
   position: fixed;
@@ -653,6 +697,9 @@ button {
 .sagra__image {
   width: 100%;
   height: 100%;
+}
+.sagra__card-article {
+  margin: 5rem auto;
 }
 
 .sagre {
