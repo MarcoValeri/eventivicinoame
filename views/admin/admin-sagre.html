@@ -3,21 +3,35 @@
 {{define "title"}}{{ .PageTitle }}{{end}}
 
 {{define "adminContent"}}
-<div>
-    <h2>Admin Sagre</h2>
+<div class="admin-sagre">
+    <div class="admin-sagre__container-title">
+        <h2 class="h2">Admin Sagre</h2>
+    </div>
     {{ if .SagreWithRelatedFields }}
         {{ range .SagreWithRelatedFields }}
-            <p>Sagra ID: {{ .Id }}</p>
-            <p>Sagra Title: {{ .Title }}</p>
-            <img src="/public/images/{{ .ImageUrl }}" alt="{{ .ImageAlt }}" width="100" height="100">
-            <a href="/admin/admin-sagra-edit/{{ .Id }}">Edit</a>
-            <a href="/admin/admin-sagra-delete/{{ .Id }}">Delete</a>
-            <br />
-            <br />
-            <hr>
+            <div class="admin-sagre__container-sagra">
+                <div>
+                    <h1 class="h1">{{ .Title }}</h1>
+                    <h2 class="h2">{{ .Description }}</h2>
+                    <p class="p">ID: {{ .Id }}</p>
+                    <p class="p">Published: {{ .Published }}</p>
+                    <p class="p">Updated: {{ .Updated }}</p>
+                </div>
+                <div>
+                    <img src="/public/images/{{ .ImageUrl }}" alt="{{ .ImageAlt }}" width="150" height="150">
+                </div>
+                <div>
+                    <p class="p-xl"><a class="link" href="/admin/admin-sagra-edit/{{ .Id }}">Edit</a></p>
+                    <p class="p-xl"><a class="link" href="/admin/admin-sagra-delete/{{ .Id }}">Delete</a></p>
+                </div>
+            </div>
         {{ end }}
     {{ else }}
-        <h4>No sagre found</h4>
+        <h4 class="h4">No sagre found</h4>
     {{ end }}
+    <div class="admin-sagre__container-buttons">
+        {{ if .PreviusButton }}<a class="button" href="/admin/admin-sagre/{{ .PreviousPage }}">Previous</a>{{ end }}
+        {{ if .NextButton }}<a class="button" href="/admin/admin-sagre/{{ .NextPage }}">Next</a>{{ end }}
+    </div>
 </div>
 {{end}}
