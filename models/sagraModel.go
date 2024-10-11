@@ -441,7 +441,7 @@ func SagreGetLimitAndPagination(getLimit, getPageNumber int) ([]SagraWithRelated
 	db := database.DatabaseConnection()
 	defer db.Close()
 
-	rows, err := db.Query("SELECT sagre.id, sagre.title, sagre.description, sagre.url, sagre.published, sagre.updated, sagre.image_id, images.url, images.description, sagre.author_id, authors.name, authors.surname, authors.url, authors.image_url, authors.description, sagre.content, sagre.country, sagre.region, sagre.city, sagre.town, sagre.fraction, sagre.sagra_start_date, sagre.sagra_end_date FROM sagre JOIN images ON sagre.image_id = images.id JOIN authors ON sagre.author_id = authors.id ORDER BY sagre.id DESC LIMIT ? OFFSET ?", getLimit, getPageNumber)
+	rows, err := db.Query("SELECT sagre.id, sagre.title, sagre.description, sagre.url, sagre.published, sagre.updated, sagre.image_id, images.url, images.description, sagre.author_id, authors.name, authors.surname, authors.url, authors.image_url, authors.description, sagre.content, sagre.country, sagre.region, sagre.city, sagre.town, sagre.fraction, sagre.sagra_start_date, sagre.sagra_end_date FROM sagre JOIN images ON sagre.image_id = images.id JOIN authors ON sagre.author_id = authors.id ORDER BY sagre.published DESC LIMIT ? OFFSET ?", getLimit, getPageNumber)
 	if err != nil {
 		fmt.Println("Error getting LimitAndPagination sagre:", err)
 		return nil, err

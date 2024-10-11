@@ -3,95 +3,100 @@
 {{define "title"}}{{ .PageTitle }}{{end}}
 
 {{define "adminContent"}}
-<div>
-    <h2>Admin Sagre Edit</h2>
+<div class="admin-sagra-edit">
+    <div class="admin-sagra-edit__container-title">
+        <h2 class="h2">Admin Sagre Edit</h2>
+    </div>
     {{ if .SagraWithRelatedFields }}
-        <p>Sagra ID: {{ .SagraWithRelatedFields.Id }}</p>
-        <p>Sagra Title: {{ .SagraWithRelatedFields.Title }}</p>
-        <p>Sagra Image URL: {{ .SagraWithRelatedFields.ImageUrl }}</p>
+        <div class="admin-sagra-edit__container-data">
+            <p class="p-xl">ID: {{ .SagraWithRelatedFields.Id }}</p>
+            <p class="p-xl">{{ .SagraWithRelatedFields.Title }}</p>
+            <p class="p-xl">{{ .SagraWithRelatedFields.Description }}</p>
+        </div>
         <div>
-            <h2>Edit this tutorial</h2>
             <form method="POST">
-                <div>
-                    <input type="text" name="sagra-edit-title" value="{{ .SagraWithRelatedFields.Title }}" placeholder="Title*" required />
-                    <span>{{ .TitleError }}</span>
-                </div>
-                <div>
-                    <input type="text" name="sagra-edit-description" value="{{ .SagraWithRelatedFields.Description }}" placeholder="Description*" required />
-                    <span>{{ .DescriptionError }}</span>
-                </div>
-                <div>
-                    <input type="text" name="sagra-edit-url" value="{{ .SagraWithRelatedFields.Url }}" placeholder="Url*" required />
-                    <span>{{ .UrlError }}</span>
-                </div>
-                <div>
-                    <input type="datetime-local" name="sagra-edit-published" value="{{ .SagraWithRelatedFields.Published }}" required />
-                    <span>{{ .PublishedError }}</span>
-                </div>
-                <div>
-                    <input type="datetime-local" name="sagra-edit-updated"  value="{{ .SagraWithRelatedFields.Updated }}" required />
-                    <span>{{ .UpdatedError }}</span>
-                </div>
-                <div>
-                    <select name="sagra-edit-image">
-                        {{ if .Images }}
-                            <option value="{{ .SagraWithRelatedFields.ImageUrl }}" selected="selected">{{ .SagraWithRelatedFields.ImageUrl }}</option>
-                            {{ range .Images }}
-                                <option value="{{ .Url }}">{{ .Url }}</option>
+                <div class="admin-sagra-edit__form-wrapper">
+                    <div>
+                        <input class="input-text" type="text" name="sagra-edit-title" value="{{ .SagraWithRelatedFields.Title }}" placeholder="Title*" required />
+                        <span class="input-error">{{ .TitleError }}</span>
+                    </div>
+                    <div>
+                        <input class="input-text" type="text" name="sagra-edit-description" value="{{ .SagraWithRelatedFields.Description }}" placeholder="Description*" required />
+                        <span class="input-error">{{ .DescriptionError }}</span>
+                    </div>
+                    <div>
+                        <input class="input-text" type="text" name="sagra-edit-url" value="{{ .SagraWithRelatedFields.Url }}" placeholder="Url*" required />
+                        <span class="input-error">{{ .UrlError }}</span>
+                    </div>
+                    <div>
+                        <input class="input-date" type="datetime-local" name="sagra-edit-published" value="{{ .SagraWithRelatedFields.Published }}" required />
+                        <span class="input-error">{{ .PublishedError }}</span>
+                    </div>
+                    <div>
+                        <input class="input-date" type="datetime-local" name="sagra-edit-updated"  value="{{ .SagraWithRelatedFields.Updated }}" required />
+                        <span class="input-error">{{ .UpdatedError }}</span>
+                    </div>
+                    <div>
+                        <select class="input-select" name="sagra-edit-image">
+                            {{ if .Images }}
+                                <option value="{{ .SagraWithRelatedFields.ImageUrl }}" selected="selected">{{ .SagraWithRelatedFields.ImageUrl }}</option>
+                                {{ range .Images }}
+                                    <option value="{{ .Url }}">{{ .Url }}</option>
+                                {{ end }}
+                            {{ else }}
+                                    <option value="no-image-found">No image found</option>
                             {{ end }}
-                        {{ else }}
-                                <option value="no-image-found">No image found</option>
-                        {{ end }}
-                    </select>
-                    <span>{{ .ImageError }}</span>
-                </div>
-                <div>
-                    <select name="sagra-edit-author">
-                        {{ if .Authors }}
-                            <option value="{{ .SagraWithRelatedFields.AuthorUrl }}" selected="selected">{{ .SagraWithRelatedFields.AuthorUrl }}</option>
-                            {{ range .Authors }}
-                                <option value="{{ .Url }}">{{ .Url }}</option>
+                        </select>
+                        <span class="input-error">{{ .ImageError }}</span>
+                    </div>
+                    <div>
+                        <select class="input-select" name="sagra-edit-author">
+                            {{ if .Authors }}
+                                <option value="{{ .SagraWithRelatedFields.AuthorUrl }}" selected="selected">{{ .SagraWithRelatedFields.AuthorUrl }}</option>
+                                {{ range .Authors }}
+                                    <option value="{{ .Url }}">{{ .Url }}</option>
+                                {{ end }}
+                            {{ else }}
+                                    <option value="no-image-found">No author found</option>
                             {{ end }}
-                        {{ else }}
-                                <option value="no-image-found">No author found</option>
-                        {{ end }}
-                    </select>
-                    <span>{{ .AuthorError }}</span>
-                </div>
-                <div>
-                    <textarea name="sagra-edit-content">{{.SagraWithRelatedFields.Content}}</textarea>
-                    <span>{{ .ContentError }}</span>
-                </div>
-                <div>
-                    <input type="text" name="sagra-edit-country" value="{{ .SagraWithRelatedFields.Country }}" placeholder="Country*" required />
-                    <span>{{ .CountryError }}</span>
-                </div>
-                <div>
-                    <input type="text" name="sagra-edit-region" value="{{ .SagraWithRelatedFields.Region }}" placeholder="Region*" required />
-                    <span>{{ .RegioneError }}</span>
-                </div>
-                <div>
-                    <input type="text" name="sagra-edit-city" value="{{ .SagraWithRelatedFields.City }}" placeholder="City*" required />
-                    <span>{{ .CityError }}</span>
-                </div>
-                <div>
-                    <input type="text" name="sagra-edit-town" value="{{ .SagraWithRelatedFields.Town }}" placeholder="Town*" required />
-                    <span>{{ .TownError }}</span>
-                </div>
-                <div>
-                    <input type="text" name="sagra-edit-fraction" value="{{ .SagraWithRelatedFields.Fraction }}" placeholder="Fraction*" required />
-                    <span>{{ .FractionError }}</span>
-                </div>
-                <div>
-                    <input type="datetime-local" name="sagra-edit-start-date" value="{{ .SagraWithRelatedFields.SagraStartDate }}" required />
-                    <span>{{ .SagraStartDateError }}</span>
-                </div>
-                <div>
-                    <input type="datetime-local" name="sagra-edit-end-date" value="{{ .SagraWithRelatedFields.SagraEndDate }}" required />
-                    <span>{{ .SagraEndDateError }}</span>
-                </div>
-                <div>
-                    <input type="submit" name="sagra-edit" value="Edit this sagra" />
+                        </select>
+                        <span class="input-error">{{ .AuthorError }}</span>
+                    </div>
+                    <div>
+                        <textarea class="admin-sagra-add__form-text-area input-textarea" name="sagra-edit-content">{{.SagraWithRelatedFields.Content}}</textarea>
+                        <span class="input-error">{{ .ContentError }}</span>
+                    </div>
+                    <div>
+                        <input class="input-text" type="text" name="sagra-edit-country" value="{{ .SagraWithRelatedFields.Country }}" placeholder="Country*" required />
+                        <span class="input-error">{{ .CountryError }}</span>
+                    </div>
+                    <div>
+                        <input class="input-text" type="text" name="sagra-edit-region" value="{{ .SagraWithRelatedFields.Region }}" placeholder="Region*" required />
+                        <span class="input-error">{{ .RegioneError }}</span>
+                    </div>
+                    <div>
+                        <input class="input-text" type="text" name="sagra-edit-city" value="{{ .SagraWithRelatedFields.City }}" placeholder="City*" required />
+                        <span class="input-error">{{ .CityError }}</span>
+                    </div>
+                    <div>
+                        <input class="input-text" type="text" name="sagra-edit-town" value="{{ .SagraWithRelatedFields.Town }}" placeholder="Town*" required />
+                        <span class="input-error">{{ .TownError }}</span>
+                    </div>
+                    <div>
+                        <input class="input-text" type="text" name="sagra-edit-fraction" value="{{ .SagraWithRelatedFields.Fraction }}" placeholder="Fraction*" required />
+                        <span class="input-error">{{ .FractionError }}</span>
+                    </div>
+                    <div>
+                        <input class="input-date" type="datetime-local" name="sagra-edit-start-date" value="{{ .SagraWithRelatedFields.SagraStartDate }}" required />
+                        <span class="input-error">{{ .SagraStartDateError }}</span>
+                    </div>
+                    <div>
+                        <input class="input-date" type="datetime-local" name="sagra-edit-end-date" value="{{ .SagraWithRelatedFields.SagraEndDate }}" required />
+                        <span class="input-error">{{ .SagraEndDateError }}</span>
+                    </div>
+                    <div>
+                        <input class="input-submit" type="submit" name="sagra-edit" value="Edit this sagra" />
+                    </div>
                 </div>
             </form>
         </div>

@@ -3,18 +3,29 @@
 {{define "title"}}{{ .PageTitle }}{{end}}
 
 {{define "adminContent"}}
-<div>
-    <h2>Admin Sagra Delete</h2>
+<div class="admin-sagre-delete">
+    <div class="admin-sagre-delete__container-title">
+        <h2 class="h2">Admin Sagra Delete</h2>
+    </div>
     {{ if .SagraWithRelatedFields }}
-        <p>Sagra ID: {{ .SagraWithRelatedFields.Id }}</p>
-        <p>Sagra Title: {{ .SagraWithRelatedFields.Title }}</p>
-        <h4>Do you want to delete this sagra?</h4>
-        <form method="POST">
-            <input type="submit" name="admin-sagra-delete" value="Delete this sagra" />
-        </form>
-        <a href="/admin/sagre">Come back to all sagre</a>
+        <div class="admin-sagre-delete__container-data">
+            <p class="p-xl">ID: {{ .SagraWithRelatedFields.Id }}</p>
+            <p class="p-xl">{{ .SagraWithRelatedFields.Title }}</p>
+            <p class="p-xl">{{ .SagraWithRelatedFields.Description }}</p>
+            <h4 class="h4">Do you want to delete this sagra?</h4>
+        </div>
+        <div class="admin-sagre-delete__container-form">
+            <form method="POST">
+                <input class="input-submit" type="submit" name="admin-sagra-delete" value="Delete this sagra" />
+            </form>
+        </div>
+        <div>
+            <p class="p-xl"><a class="link" href="/admin/admin-sagre/1">Come back to all sagre</a></p>
+        </div>
     {{ else }}
-        <h4>Sagra no found</h4>
+        <div>
+            <h4 class="h4">Sagra no found</h4>
+        </div>
     {{ end }}
 </div>
 {{end}}

@@ -86,6 +86,27 @@ button {
   border-radius: 5px;
 }
 
+.input-date {
+  font-size: 2rem;
+  padding: 1rem;
+  border: 1px solid #197278;
+  border-radius: 5px;
+}
+
+.input-select {
+  font-size: 2rem;
+  padding: 1rem;
+  border: 1px solid #197278;
+  border-radius: 5px;
+}
+
+.input-textarea {
+  font-size: 2rem;
+  padding: 1rem;
+  border: 1px solid #197278;
+  border-radius: 5px;
+}
+
 .input-submit {
   color: #000;
   font-size: 2rem;
@@ -672,7 +693,47 @@ button {
   justify-content: space-around;
   align-items: center;
   padding: 5rem;
-  border: 1px solid #d00;
+}
+
+.admin-sagra-add__container-title {
+  margin-bottom: 5rem;
+}
+.admin-sagra-add__form-wrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 2rem;
+}
+.admin-sagra-add__form-text-area {
+  width: 80%;
+  height: auto;
+  min-height: 20rem;
+}
+
+.admin-sagre-delete__container-title {
+  margin-bottom: 5rem;
+}
+.admin-sagre-delete__container-data {
+  margin-bottom: 5rem;
+}
+.admin-sagre-delete__container-form {
+  margin-bottom: 2rem;
+}
+
+.admin-sagra-edit__container-title {
+  margin-bottom: 5rem;
+}
+.admin-sagra-edit__container-data {
+  margin-bottom: 5rem;
+}
+.admin-sagra-edit__form-wrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 2rem;
+}
+.admin-sagra-edit__form-text-area {
+  width: 80%;
+  height: auto;
+  min-height: 20rem;
 }
 
 .home {
