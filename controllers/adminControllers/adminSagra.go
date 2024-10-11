@@ -27,6 +27,10 @@ type sagraData struct {
 	FractionError          string
 	SagraStartDateError    string
 	SagraEndDateError      string
+	PreviusButton          bool
+	NextButton             bool
+	PreviousPage           string
+	NextPage               string
 	Images                 []models.Image
 	Authors                []models.Author
 	Sagre                  []models.Sagra
@@ -36,7 +40,7 @@ type sagraData struct {
 
 func AdminSagre() {
 	tmpl := template.Must(template.ParseFiles("./views/admin/templates/baseAdmin.html", "./views/admin/admin-sagre.html"))
-	http.HandleFunc("/admin/admin-sagre", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/admin/admin-sagre/", func(w http.ResponseWriter, r *http.Request) {
 
 		session, errSession := store.Get(r, "session-user-admin-authentication")
 		if errSession != nil {
@@ -44,13 +48,55 @@ func AdminSagre() {
 		}
 
 		if session.Values["admin-user-authentication"] == true {
-			sagreDate, err := models.SagraShowSagre()
+
+			urlPath := strings.TrimPrefix(r.URL.Path, "/admin/admin-sagre/")
+			urlPath = util.FormSanitizeStringInput(urlPath)
+
+			pageNumber, err := strconv.Atoi(urlPath)
+			if err != nil {
+				fmt.Println("Error converting string to integer:", err)
+				return
+			}
+
+			// Redirect to /admin/admin-sagre/1 if pageNumber is 0
+			if pageNumber == 0 {
+				http.Redirect(w, r, "/admin/admin-sagre/1", http.StatusSeeOther)
+			}
+
+			// Set limit and offset for MySQL query
+			limit := 10
+			offset := (pageNumber - 1) * limit
+
+			sagreDate, err := models.SagreGetLimitAndPagination(10, offset)
 			if err != nil {
 				fmt.Println("Error getting sagreData:", err)
 			}
 
+			// The previous and next buttons
+			setPreviousButton := false
+			var setPreviousPage int
+			var setPreviousPageStr string
+			if (pageNumber - 1) > 0 {
+				setPreviousButton = true
+				setPreviousPage = pageNumber - 1
+				setPreviousPageStr = strconv.Itoa(setPreviousPage)
+			}
+
+			setNextButton := false
+			var setNextPage int
+			var setNextPageStr string
+			if len(sagreDate) >= 10 {
+				setNextButton = true
+				setNextPage = pageNumber + 1
+				setNextPageStr = strconv.Itoa(setNextPage)
+			}
+
 			data := sagraData{
 				PageTitle:              "Sagre Admin",
+				PreviusButton:          setPreviousButton,
+				NextButton:             setNextButton,
+				PreviousPage:           setPreviousPageStr,
+				NextPage:               setNextPageStr,
 				SagreWithRelatedFields: sagreDate,
 			}
 
@@ -299,7 +345,7 @@ func AdminSagraAdd() {
 						getAdminSagraEndDate,
 					)
 					models.SagraAddNewToDB(createNewSagra)
-					http.Redirect(w, r, "/admin/admin-sagre", http.StatusSeeOther)
+					http.Redirect(w, r, "/admin/admin-sagre/1", http.StatusSeeOther)
 				}
 			}
 
@@ -570,7 +616,7 @@ func AdminSagraEdit() {
 						getAdminSagraEndDateEdit,
 					)
 					models.SagraEdit(editSagra)
-					http.Redirect(w, r, "/admin/admin-sagre", http.StatusSeeOther)
+					http.Redirect(w, r, "/admin/admin-sagre/1", http.StatusSeeOther)
 				}
 			}
 			tmpl.Execute(w, data)
@@ -631,7 +677,7 @@ func AdminSagraDelete() {
 
 			if isFormSubmittionValid {
 				models.SagraDelete(sagraId)
-				http.Redirect(w, r, "/admin/admin-sagre", http.StatusSeeOther)
+				http.Redirect(w, r, "/admin/admin-sagre/1", http.StatusSeeOther)
 			}
 
 			tmpl.Execute(w, data)

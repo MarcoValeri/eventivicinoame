@@ -437,6 +437,78 @@ func SagraGetLimitPublishedSagre(getLimit int) ([]SagraWithRelatedFields, error)
 	return allSagre, nil
 }
 
+func SagreGetLimitAndPagination(getLimit, getPageNumber int) ([]SagraWithRelatedFields, error) {
+	db := database.DatabaseConnection()
+	defer db.Close()
+
+	rows, err := db.Query("SELECT sagre.id, sagre.title, sagre.description, sagre.url, sagre.published, sagre.updated, sagre.image_id, images.url, images.description, sagre.author_id, authors.name, authors.surname, authors.url, authors.image_url, authors.description, sagre.content, sagre.country, sagre.region, sagre.city, sagre.town, sagre.fraction, sagre.sagra_start_date, sagre.sagra_end_date FROM sagre JOIN images ON sagre.image_id = images.id JOIN authors ON sagre.author_id = authors.id ORDER BY sagre.published DESC LIMIT ? OFFSET ?", getLimit, getPageNumber)
+	if err != nil {
+		fmt.Println("Error getting LimitAndPagination sagre:", err)
+		return nil, err
+	}
+	defer rows.Close()
+
+	var allSagre []SagraWithRelatedFields
+	for rows.Next() {
+		var sagraId int
+		var sagraTitle string
+		var sagraDescription string
+		var sagraUrl string
+		var sagraPublished string
+		var sagraUpdated string
+		var sagraImageId int
+		var sagraImageUrl string
+		var sagraImageAlt string
+		var sagraAuthorId int
+		var sagraAuthorName string
+		var sagraAuthorSurname string
+		var sagraAuthorUrl string
+		var sagraAuthorImageUrl string
+		var sagraAuthorDescription string
+		var sagraContent string
+		var sagraCountry string
+		var sagraRegion string
+		var sagraCity string
+		var sagraTown string
+		var sagraFraction string
+		var sagraStartDate string
+		var sagraEndDate string
+		err = rows.Scan(&sagraId, &sagraTitle, &sagraDescription, &sagraUrl, &sagraPublished, &sagraUpdated, &sagraImageId, &sagraImageUrl, &sagraImageAlt, &sagraAuthorId, &sagraAuthorName, &sagraAuthorSurname, &sagraAuthorUrl, &sagraAuthorImageUrl, &sagraAuthorDescription, &sagraContent, &sagraCountry, &sagraRegion, &sagraCity, &sagraTown, &sagraFraction, &sagraStartDate, &sagraEndDate)
+		if err != nil {
+			return allSagre, err
+		}
+
+		sagraDetails := SagraNewWithRelatedFields(
+			sagraId,
+			sagraTitle,
+			sagraDescription,
+			sagraUrl,
+			sagraPublished,
+			sagraUpdated,
+			sagraImageId,
+			sagraImageUrl,
+			sagraImageAlt,
+			sagraAuthorId,
+			sagraAuthorName,
+			sagraAuthorSurname,
+			sagraAuthorUrl,
+			sagraAuthorImageUrl,
+			sagraAuthorDescription,
+			sagraContent,
+			sagraCountry,
+			sagraRegion,
+			sagraCity,
+			sagraTown,
+			sagraFraction,
+			sagraStartDate,
+			sagraEndDate,
+		)
+		allSagre = append(allSagre, sagraDetails)
+	}
+
+	return allSagre, nil
+}
+
 func SagraFindByParameter(getParameter string) ([]SagraWithRelatedFields, error) {
 	db := database.DatabaseConnection()
 	defer db.Close()
