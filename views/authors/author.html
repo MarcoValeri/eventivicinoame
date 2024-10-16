@@ -8,7 +8,7 @@
     <h1>{{ .AuthorRowName }} {{ .AuthorRowSurname }}</h1>
     <p>{{ .AuthorRowDescription }}</p>
     <div class="sagra__container-image">
-        <img class="sagra__image" src="/public/images/{{ .Author.ImageUrl }}" alt="Foto dell'autore {{ .AuthorRowName }} {{ .AuthorRowSurname }}">
+        <img loading="lazy" class="sagra__image" src="/public/images/{{ .Author.ImageUrl }}" alt="Foto dell'autore {{ .AuthorRowName }} {{ .AuthorRowSurname }}">
     </div>
 </div>
 {{end}}
