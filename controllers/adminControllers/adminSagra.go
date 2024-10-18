@@ -391,7 +391,7 @@ func AdminSagraEdit() {
 
 			authorsData, errAuthorsData := models.AuthorShowAuthors()
 			if errAuthorsData != nil {
-				fmt.Println("Error getting authorsData:", authorsData)
+				fmt.Println("Error getting authorsData:", errAuthorsData)
 			}
 
 			// Create data for the page

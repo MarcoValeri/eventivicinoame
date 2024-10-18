@@ -662,6 +662,23 @@ button {
   min-height: 20rem;
 }
 
+.admin-event-edit__container-title {
+  margin-bottom: 5rem;
+}
+.admin-event-edit__container-data {
+  margin-bottom: 5rem;
+}
+.admin-event-edit__form-wrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 2rem;
+}
+.admin-event-edit__form-text-area {
+  width: 80%;
+  height: auto;
+  min-height: 20rem;
+}
+
 .admin-dashboard__main {
   display: grid;
   grid-template-columns: 1fr 3fr;

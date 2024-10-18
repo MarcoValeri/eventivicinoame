@@ -1,0 +1,135 @@
+{{template "baseAdmin" .}}
+
+{{define "title"}}{{ .PageTitle }}{{end}}
+
+{{define "adminContent"}}
+<div class="admin-event-edit">
+    <div class="admin-event-edit__container-title">
+        <h2 class="h2">Admin Event Edit</h2>
+    </div>
+    {{ if .EventWithRelatedFields }}
+        <div class="admin-event-edit__container-data">
+            <p class="p-xl">ID: {{ .EventWithRelatedFields.Id }}</p>
+            <p class="p-xl">{{ .EventWithRelatedFields.Title }}</p>
+            <p class="p-xl">{{ .EventWithRelatedFields.Description }}</p>
+        </div>
+        <div>
+            <form method="POST">
+                <div class="admin-event-edit__form-wrapper">
+                    <div>
+                        <input class="input-text" type="text" name="event-edit-title" value="{{ .EventWithRelatedFields.Title }}" placeholder="Title*" required />
+                        <span class="input-error">{{ .TitleError }}</span>
+                    </div>
+                    <div>
+                        <input class="input-text" type="text" name="event-edit-description" value="{{ .EventWithRelatedFields.Description }}" placeholder="Description*" required />
+                        <span class="input-error">{{ .DescriptionError }}</span>
+                    </div>
+                    <div>
+                        <input class="input-text" type="text" name="event-edit-url" value="{{ .EventWithRelatedFields.Url }}" placeholder="Url*" required />
+                        <span class="input-error">{{ .UrlError }}</span>
+                    </div>
+                    <div>
+                        <input class="input-date" type="datetime-local" name="event-edit-published" value="{{ .EventWithRelatedFields.Published }}" required />
+                        <span class="input-error">{{ .PublishedError }}</span>
+                    </div>
+                    <div>
+                        <input class="input-date" type="datetime-local" name="event-edit-updated"  value="{{ .EventWithRelatedFields.Updated }}" required />
+                        <span class="input-error">{{ .UpdatedError }}</span>
+                    </div>
+                    <div>
+                        <select class="input-select" name="event-edit-image">
+                            {{ if .Images }}
+                                <option value="{{ .EventWithRelatedFields.ImageUrl }}" selected="selected">{{ .EventWithRelatedFields.ImageUrl }}</option>
+                                {{ range .Images }}
+                                    <option value="{{ .Url }}">{{ .Url }}</option>
+                                {{ end }}
+                            {{ else }}
+                                    <option value="no-image-found">No image found</option>
+                            {{ end }}
+                        </select>
+                        <span class="input-error">{{ .ImageError }}</span>
+                    </div>
+                    <div>
+                        <select class="input-select" name="event-edit-author">
+                            {{ if .Authors }}
+                                <option value="{{ .EventWithRelatedFields.AuthorUrl }}" selected="selected">{{ .EventWithRelatedFields.AuthorUrl }}</option>
+                                {{ range .Authors }}
+                                    <option value="{{ .Url }}">{{ .Url }}</option>
+                                {{ end }}
+                            {{ else }}
+                                    <option value="no-image-found">No author found</option>
+                            {{ end }}
+                        </select>
+                        <span class="input-error">{{ .AuthorError }}</span>
+                    </div>
+                    <div>
+                        <select class="input-select" name="event-edit-type">
+                            {{ if .EventWithRelatedFields.EventType }}
+                                <option value="{{ .EventWithRelatedFields.EventType }}" selected="selected">{{ .EventWithRelatedFields.EventType }}</option>
+                                <option value="marcatini">marcatini</option>
+                                <option value="musei">musei</option>
+                                <option value="mostre">mostre</option>
+                                <option value="spettacoli">spettacoli</option>
+                                <option value="corsi">corsi</option>
+                                <option value="cinema">cinema</option>
+                                <option value="conferenze">conferenze</option>
+                                <option value="sport">sport</option>
+                                <option value="escursioni">escursioni</option>
+                                <option value="altro">altro</option>
+                            {{ else }}
+                                <option value="event-type-not-found" selected="selected">Event Type not found</option>
+                                <option value="marcatini">marcatini</option>
+                                <option value="musei">musei</option>
+                                <option value="mostre">mostre</option>
+                                <option value="spettacoli">spettacoli</option>
+                                <option value="corsi">corsi</option>
+                                <option value="cinema">cinema</option>
+                                <option value="conferenze">conferenze</option>
+                                <option value="sport">sport</option>
+                                <option value="escursioni">escursioni</option>
+                                <option value="altro">altro</option>
+                            {{ end }}
+                        </select>
+                        <span class="input-error">{{ .EventTypeError }}</span>
+                    </div>
+                    <div>
+                        <textarea class="admin-event-add__form-text-area input-textarea" name="event-edit-content">{{.EventWithRelatedFields.Content}}</textarea>
+                        <span class="input-error">{{ .ContentError }}</span>
+                    </div>
+                    <div>
+                        <input class="input-text" type="text" name="event-edit-country" value="{{ .EventWithRelatedFields.Country }}" placeholder="Country*" required />
+                        <span class="input-error">{{ .CountryError }}</span>
+                    </div>
+                    <div>
+                        <input class="input-text" type="text" name="event-edit-region" value="{{ .EventWithRelatedFields.Region }}" placeholder="Region*" required />
+                        <span class="input-error">{{ .RegioneError }}</span>
+                    </div>
+                    <div>
+                        <input class="input-text" type="text" name="event-edit-city" value="{{ .EventWithRelatedFields.City }}" placeholder="City*" required />
+                        <span class="input-error">{{ .CityError }}</span>
+                    </div>
+                    <div>
+                        <input class="input-text" type="text" name="event-edit-town" value="{{ .EventWithRelatedFields.Town }}" placeholder="Town*" required />
+                        <span class="input-error">{{ .TownError }}</span>
+                    </div>
+                    <div>
+                        <input class="input-text" type="text" name="event-edit-fraction" value="{{ .EventWithRelatedFields.Fraction }}" placeholder="Fraction*" required />
+                        <span class="input-error">{{ .FractionError }}</span>
+                    </div>
+                    <div>
+                        <input class="input-date" type="datetime-local" name="event-edit-start-date" value="{{ .EventWithRelatedFields.EventStartDate }}" required />
+                        <span class="input-error">{{ .EventStartDateError }}</span>
+                    </div>
+                    <div>
+                        <input class="input-date" type="datetime-local" name="event-edit-end-date" value="{{ .EventWithRelatedFields.EventEndDate }}" required />
+                        <span class="input-error">{{ .EventEndDateError }}</span>
+                    </div>
+                    <div>
+                        <input class="input-submit" type="submit" name="event-edit" value="Edit this event" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    {{ end }}
+</div>
+{{end}}
