@@ -23,6 +23,7 @@ func SitemapAllURL() ([]SitemapURL, error) {
 	urlSeven := SitemapURL{"https://www.eventivicinoame.com/sagre/sagre-ottobre", "2024-09-26"}
 	urlEight := SitemapURL{"https://www.eventivicinoame.com/sagre/sagre-novembre", "2024-10-05"}
 	urlNine := SitemapURL{"https://www.eventivicinoame.com/author/marco-valeri", "2024-10-11"}
+	urlTen := SitemapURL{"https://www.eventivicinoame.com/eventi-cerca/", "2024-10-18"}
 	setURLsList = append(setURLsList, urlZero)
 	setURLsList = append(setURLsList, urlOne)
 	setURLsList = append(setURLsList, urlThree)
@@ -32,6 +33,7 @@ func SitemapAllURL() ([]SitemapURL, error) {
 	setURLsList = append(setURLsList, urlSeven)
 	setURLsList = append(setURLsList, urlEight)
 	setURLsList = append(setURLsList, urlNine)
+	setURLsList = append(setURLsList, urlTen)
 
 	// Get all sagre URLs
 	db := database.DatabaseConnection()
@@ -51,9 +53,29 @@ func SitemapAllURL() ([]SitemapURL, error) {
 		if err != nil {
 			return nil, err
 		}
-		urlSagra.Loc = "https://www.eventivicinoame.com/" + sagraUrl
+		urlSagra.Loc = "https://www.eventivicinoame.com/sagra/" + sagraUrl
 		urlSagra.LastMod = sagraUpdated[:10]
 		setURLsList = append(setURLsList, urlSagra)
+	}
+
+	// Get all events URLs
+	rowsEvents, errEvents := db.Query("SELECT url, updated FROM events WHERE published < NOW()")
+	if errEvents != nil {
+		return nil, err
+	}
+	defer rowsEvents.Close()
+
+	var urlEvent SitemapURL
+	for rowsEvents.Next() {
+		var eventUrl string
+		var eventUpdated string
+		err = rowsEvents.Scan(&eventUrl, &eventUpdated)
+		if err != nil {
+			return nil, err
+		}
+		urlEvent.Loc = "https://www.eventivicinoame.com/evento/" + eventUrl
+		urlEvent.LastMod = eventUpdated[:10]
+		setURLsList = append(setURLsList, urlEvent)
 	}
 
 	// Get all the images

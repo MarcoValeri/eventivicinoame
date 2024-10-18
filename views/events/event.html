@@ -1,0 +1,38 @@
+{{template "base" .}}
+
+{{define "title"}}{{.PageTitle}}{{end}}
+{{define "description"}}<meta name="description" content="{{.PageDescription}}">{{end}}
+
+{{ define "content"}}
+<div class="event">
+    {{ if .Event }}
+        <div class="event__container-title">
+            <h1 class="h1">{{ .Event.Title }}</h2>
+        </div>
+        <div class="content">
+            {{ .EventContentRaw }}
+        </div>
+        <div class="event__container-image">
+            <img loading="lazy" class="event__image" src="/public/images/{{ .Event.ImageUrl }}" alt="{{ .Event.ImageAlt }}">
+        </div>
+        <div>
+            <h2 class="h4">Articolo scritto da</h2>
+        </div>
+        <div class="author-card event__card-article">
+            <a class="link-no" href="/author/{{ .Event.AuthorUrl }}">
+                <div class="author-card__wrapper">
+                    <div class="author-card__container-image">
+                        <img loading="lazy" class="author-card__image" src="/public/images/{{ .Event.AuthorImageUrl }}" alt="Foto autore {{ .Event.AuthorName }} {{ .Event.AuthorSurname }}">
+                    </div>
+                    <div class="author-card__container-content">
+                        <h2 class="author-card__title h3">{{ .Event.AuthorName }} {{ .Event.AuthorSurname }}</h2>
+                        <p class="h4">{{ .Event.AuthorDescription }}</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    {{ else }}
+        <h4 class="h4">Event no found</h4>
+    {{ end }}
+</div>
+{{end}}

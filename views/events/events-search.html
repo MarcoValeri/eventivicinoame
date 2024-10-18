@@ -1,0 +1,51 @@
+{{template "base" .}}
+
+{{define "title"}}{{.PageTitle}}{{end}}
+{{define "description"}}<meta name="description" content="{{.PageDescription}}">{{end}}
+
+{{ define "content"}}
+<div class="events">
+    <div class="events__container-title">
+        <h2 class="h2">Cerca tra gli eventi di <em>Eventi Vicino A Me</em></h2>
+    </div>
+    <div class="events__container-form">
+        <form class="events__form" method="POST">
+            <div class="events__form-container-search">
+                <input class="input-text" type="text" name="event-search-title" placeholder="Cerca" required />
+                <span>{{ .ParameterTitleError }}</span>
+            </div>
+            <div>
+                <input class="input-submit" type="submit" name="event-search-button" value="Cerca" />
+            </div>
+        </form>
+    </div>
+    <div>
+        {{ if .Events }}
+            {{ if .ParameterTitle }}
+                <div class="events__container-result-info">
+                    <h3 class="h3">Risultati trovati con la ricerca: {{ .ParameterTitle }}</h3>
+                </div>
+            {{ end }}
+            {{ range .Events }}
+                <div class="article-card events__card-article">
+                    <a class="link-no" href="/evento/{{ .Url }}">
+                        <div class="article-card__wrapper">
+                            <div class="article-card__container-image">
+                                <img loading="lazy" class="article-card__image" src="/public/images/{{ .ImageUrl }}" alt="{{ .ImageAlt }}">
+                            </div>
+                            <div class="article-card__container-content">
+                                <h2 class="article-card__title h3">{{ .Title }}</h2>
+                                <p class="h4">{{ .Description }}</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {{ end }}
+        {{ else }}
+            <div class="events__container-result-info">
+                <h3 class="h3">Nessun risultato trovato con la ricerca <em>{{ .ParameterTitle }}</em></h3>
+            </div>
+        {{ end }}
+    </div>
+</div>
+{{end}}

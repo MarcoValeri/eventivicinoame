@@ -1,0 +1,26 @@
+.event {
+    padding: 5rem;
+    margin: auto;
+
+    @include respond("md") {
+        padding: 5rem 1rem;
+    }
+
+    &__container-title {
+        margin-bottom: 2rem;
+    }
+
+    &__container-image {
+        width: 80%;
+        margin: 5rem auto;
+    }
+
+    &__image {
+        width: 100%;
+        height: 100%;
+    }
+
+    &__card-article {
+        margin: 5rem auto;
+    }
+}
