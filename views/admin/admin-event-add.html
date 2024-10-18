@@ -1,0 +1,111 @@
+{{template "baseAdmin" .}}
+
+{{define "title"}}{{ .PageTitle }}{{end}}
+
+{{define "adminContent"}}
+<div class="admin-event-add">
+    <div class="admin-event-add__container-title">
+        <h2 class="h2">Admin Event Add</h2>
+    </div>
+    <div>
+        <form method="POST">
+            <div class="admin-event-add__form-wrapper">
+                <div>
+                    <input class="input-text" type="text" name="event-title" placeholder="Title*" required />
+                    <span class="input-error">{{ .TitleError }}</span>
+                </div>
+                <div>
+                    <input class="input-text" type="text" name="event-description" placeholder="Description*" required />
+                    <span class="input-error">{{ .DescriptionError }}</span>
+                </div>
+                <div>
+                    <input class="input-text" type="text" name="event-url" placeholder="Url*" required />
+                    <span class="input-error">{{ .UrlError }}</span>
+                </div>
+                <div>
+                    <input class="input-date" type="datetime-local" name="event-published" required />
+                    <span class="input-error">{{ .PublishedError }}</span>
+                </div>
+                <div>
+                    <input class="input-date" type="datetime-local" name="event-updated" required />
+                    <span class="input-error">{{ .UpdatedError }}</span>
+                </div>
+                <div>
+                    <select class="input-select" name="event-image">
+                        {{ if .Images }}
+                            {{ range .Images }}
+                                <option value="{{ .Url }}">{{ .Url }}</option>
+                            {{ end }}
+                        {{ else }}
+                                <option value="no-image-found">No image found</option>
+                        {{ end }}
+                    </select>
+                    <span class="input-error">{{ .ImageError }}</span>
+                </div>
+                <div>
+                    <select class="input-select" name="event-author">
+                        {{ if .Authors }}
+                            {{ range .Authors }}
+                                <option value="{{ .Url }}">{{ .Url }}</option>
+                            {{ end }}
+                        {{ else }}
+                                <option value="no-image-found">No author found</option>
+                        {{ end }}
+                    </select>
+                    <span class="input-error">{{ .AuthorError }}</span>
+                </div>
+                <div>
+                    <select class="input-select" name="event-type">
+                        <option value="marcatini">marcatini</option>
+                        <option value="musei">musei</option>
+                        <option value="mostre">mostre</option>
+                        <option value="spettacoli">spettacoli</option>
+                        <option value="corsi">corsi</option>
+                        <option value="cinema">cinema</option>
+                        <option value="conferenze">conferenze</option>
+                        <option value="sport">sport</option>
+                        <option value="escursioni">escursioni</option>
+                        <option value="altro">altro</option>
+                    </select>
+                    <span class="input-error">{{ .EventTypeError }}</span>
+                </div>
+                <div>
+                    <textarea class="admin-event-add__form-text-area input-textarea" name="event-content"></textarea>
+                    <span class="input-error">{{ .ContentError }}</span>
+                </div>
+                <div>
+                    <input class="input-text" type="text" name="event-country" placeholder="Country*" required />
+                    <span class="input-error">{{ .CountryError }}</span>
+                </div>
+                <div>
+                    <input class="input-text" type="text" name="event-region" placeholder="Region*" required />
+                    <span class="input-error">{{ .RegioneError }}</span>
+                </div>
+                <div>
+                    <input class="input-text" type="text" name="event-city" placeholder="City*" required />
+                    <span class="input-error">{{ .CityError }}</span>
+                </div>
+                <div>
+                    <input class="input-text" type="text" name="event-town" placeholder="Town*" required />
+                    <span class="input-error">{{ .TownError }}</span>
+                </div>
+                <div>
+                    <input class="input-text" type="text" name="event-fraction" placeholder="Fraction*" required />
+                    <span class="input-error">{{ .FractionError }}</span>
+                </div>
+                <div>
+                    <input class="input-date" type="datetime-local" name="event-start-date" required />
+                    <span class="input-error">{{ .EventStartDateError }}</span>
+                </div>
+                <div>
+                    <input class="input-date" type="datetime-local" name="event-end-date" required />
+                    <span class="input-error">{{ .EventEndDateError }}</span>
+                </div>
+                <div>
+                    <input class="input-submit" type="submit" name="event-add" value="Add new event" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{{end}}

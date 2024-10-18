@@ -120,7 +120,7 @@ func AdminSagraAdd() {
 
 			imagesData, errImagesData := models.ImageShowImages()
 			if errImagesData != nil {
-				fmt.Println("Error getting imagesData:", imagesData)
+				fmt.Println("Error getting imagesData:", errImagesData)
 			}
 
 			authorsData, errAuthorsData := models.AuthorShowAuthors()
