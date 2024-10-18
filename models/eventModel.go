@@ -110,6 +110,20 @@ func EventEdit(getEvent Event) error {
 	return nil
 }
 
+func EventDelete(getEventId int) error {
+	db := database.DatabaseConnection()
+	defer db.Close()
+
+	rows, err := db.Query("DELETE FROM events WHERE id = ? LIMIT 1", getEventId)
+	if err != nil {
+		fmt.Println("Error, no able to delete this event:", err)
+		return err
+	}
+	defer rows.Close()
+
+	return nil
+}
+
 func EventNewWithRelatedFields(getId int, getTitle string, getDescription string, getUrl string, getPublished string, getUpdated string, getImageId int, getImageUrl string, getImageAlt string, getAuthorId int, getAuthorName string, getAuthorSurname string, getAuthorUrl string, getAuthorImageUrl string, getAuthorDescription string, getEventType string, getContent string, getCountry string, getRegion string, getCity string, getTown string, getFraction string, getEventStartDate string, getEventEndDate string) EventWithRelatedFields {
 	newEventWithRelatedFields := EventWithRelatedFields{
 		Id:                getId,

@@ -211,7 +211,7 @@ func SagraDelete(getSagraId int) error {
 	db := database.DatabaseConnection()
 	defer db.Close()
 
-	rows, err := db.Query("DELETE FROM sagre WHERE id = ?", getSagraId)
+	rows, err := db.Query("DELETE FROM sagre WHERE id = ? LIMIT 1", getSagraId)
 	if err != nil {
 		fmt.Println("Error, no able to delete this sagra:", err)
 		return err

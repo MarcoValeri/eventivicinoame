@@ -679,6 +679,16 @@ button {
   min-height: 20rem;
 }
 
+.admin-event-delete__container-title {
+  margin-bottom: 5rem;
+}
+.admin-event-delete__container-data {
+  margin-bottom: 5rem;
+}
+.admin-event-delete__container-form {
+  margin-bottom: 2rem;
+}
+
 .admin-dashboard__main {
   display: grid;
   grid-template-columns: 1fr 3fr;

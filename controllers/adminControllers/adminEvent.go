@@ -657,3 +657,66 @@ func AdminEventEdit() {
 
 	})
 }
+
+func AdminEventDelete() {
+	tmpl := template.Must(template.ParseFiles("./views/admin/templates/baseAdmin.html", "./views/admin/admin-event-delete.html"))
+	http.HandleFunc("/admin/admin-event-delete/", func(w http.ResponseWriter, r *http.Request) {
+
+		session, errSession := store.Get(r, "session-user-admin-authentication")
+		if errSession != nil {
+			fmt.Println("Error on session-authentication:", errSession)
+		}
+
+		if session.Values["admin-user-authentication"] == true {
+			idPath := strings.TrimPrefix(r.URL.Path, "/admin/admin-event-delete/")
+			idPath = util.FormSanitizeStringInput(idPath)
+
+			eventId, err := strconv.Atoi(idPath)
+			if err != nil {
+				fmt.Println("Error converting string to integer:", err)
+				return
+			}
+
+			getEventDelete, err := models.EventWithRelatedFieldsFindById(eventId)
+			if err != nil {
+				fmt.Println("Error to find event by id:", err)
+			}
+
+			data := eventData{
+				PageTitle:              "Admin Delete Event",
+				EventWithRelatedFields: getEventDelete,
+			}
+
+			/**
+			* Check if the form for deleting sagra
+			* has been submitted
+			* and
+			* delete the selected sagra
+			 */
+			isFormSubmittionValid := false
+
+			// Get the value from the form
+			getAdminEventDeleteSubmit := r.FormValue("admin-event-delete")
+
+			// Sanitize the form input
+			getAdminEventDeleteSubmit = util.FormSanitizeStringInput(getAdminEventDeleteSubmit)
+
+			// Check if the form has been submitte
+			if getAdminEventDeleteSubmit == "Delete this event" {
+				isFormSubmittionValid = true
+			}
+
+			// Delete the event
+			if isFormSubmittionValid {
+				models.EventDelete(eventId)
+				http.Redirect(w, r, "/admin/admin-events/1", http.StatusSeeOther)
+			}
+
+			tmpl.Execute(w, data)
+
+		} else {
+			http.Redirect(w, r, "/admin/login", http.StatusSeeOther)
+		}
+
+	})
+}
