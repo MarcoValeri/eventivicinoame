@@ -415,6 +415,12 @@ button {
 .footer__container-content {
   text-align: center;
 }
+.footer__link-cookie-policy {
+  margin-right: 2rem;
+}
+.footer__link-privacy-policy {
+  margin-left: 2rem;
+}
 .footer__heart {
   font-size: 2rem;
   color: #d00;

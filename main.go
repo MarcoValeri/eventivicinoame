@@ -30,6 +30,8 @@ func main() {
 	controllers.SagraController()
 	controllers.SagreOctober()
 	controllers.SagreNovember()
+	controllers.SagreDecember()
+	controllers.SagreAutumn()
 
 	controllers.EventsSearchController()
 	controllers.EventController()
