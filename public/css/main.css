@@ -711,7 +711,12 @@ button {
 }
 .admin-dashboard__main-sidebar-menu-item {
   padding: 1rem;
-  border-bottom: 2rem;
+}
+.admin-dashboard__main-sidebar-menu-item-separator {
+  width: 80%;
+  background-color: #197278;
+  padding: 0.1rem;
+  margin-bottom: 2rem;
 }
 .admin-dashboard__main-section {
   grid-area: admin-dashboard__main-section;

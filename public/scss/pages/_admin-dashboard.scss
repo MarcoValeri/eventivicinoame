@@ -19,7 +19,13 @@
 
     &__main-sidebar-menu-item {
         padding: 1rem;
-        border-bottom: 2rem;
+    }
+
+    &__main-sidebar-menu-item-separator {
+        width: 80%;
+        background-color: $greenEVM;
+        padding: .1rem;
+        margin-bottom: 2rem;
     }
 
     &__main-section {

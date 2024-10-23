@@ -1,0 +1,40 @@
+{{template "baseAdmin" .}}
+
+{{define "title"}}{{ .PageTitle }}{{end}}
+
+{{define "adminContent"}}
+<div class="admin-sagre">
+    <div class="admin-sagre__container-title">
+        <h2 class="h2">Admin Sagre Checker</h2>
+    </div>
+    {{ if .SagreWithRelatedFields }}
+        {{ range .SagreWithRelatedFields }}
+            <div class="admin-sagre__container-sagra">
+                <div>
+                    <h1 class="h1">{{ .Title }}</h1>
+                    <h2 class="h2">{{ .Description }}</h2>
+                    <p class="p">ID: {{ .Id }}</p>
+                    <p class="p">Published: {{ .Published }}</p>
+                    <p class="p">Updated: {{ .Updated }}</p>
+                    <p class="p">Start Date: {{ .SagraStartDate }}</p>
+                    <p class="p">End Date: {{ .SagraEndDate }}</p>
+                </div>
+                <div>
+                    <img src="/public/images/{{ .ImageUrl }}" alt="{{ .ImageAlt }}" width="150" height="150">
+                </div>
+                <div>
+                    <p class="p-xl"><a class="link" href="/sagra/{{ .Url }}">View</a></p>
+                    <p class="p-xl"><a class="link" href="/admin/admin-sagra-edit/{{ .Id }}">Edit</a></p>
+                    <p class="p-xl"><a class="link" href="/admin/admin-sagra-delete/{{ .Id }}">Delete</a></p>
+                </div>
+            </div>
+        {{ end }}
+    {{ else }}
+        <h4 class="h4">All sagre are updated</h4>
+    {{ end }}
+    <div class="admin-sagre__container-buttons">
+        {{ if .PreviusButton }}<a class="button" href="/admin/admin-sagre/{{ .PreviousPage }}">Previous</a>{{ end }}
+        {{ if .NextButton }}<a class="button" href="/admin/admin-sagre/{{ .NextPage }}">Next</a>{{ end }}
+    </div>
+</div>
+{{end}}

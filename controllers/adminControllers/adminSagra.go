@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+	"time"
 )
 
 type sagraData struct {
@@ -427,6 +428,7 @@ func AdminSagraEdit() {
 			getAdminSagraStartDateEdit := r.FormValue("sagra-edit-start-date")
 			getAdminSagraEndDateEdit := r.FormValue("sagra-edit-end-date")
 			getAdminSagraAddEdit := r.FormValue("sagra-edit")
+			getAdminSagraAddEditAndExit := r.FormValue("sagra-edit-and-exit")
 
 			// Sanitize form inputs
 			getAdminSagraTitleEdit = util.FormSanitizeStringInput(getAdminSagraTitleEdit)
@@ -444,9 +446,10 @@ func AdminSagraEdit() {
 			getAdminSagraStartDateEdit = util.FormSanitizeStringInput(getAdminSagraStartDateEdit)
 			getAdminSagraEndDateEdit = util.FormSanitizeStringInput(getAdminSagraEndDateEdit)
 			getAdminSagraAddEdit = util.FormSanitizeStringInput(getAdminSagraAddEdit)
+			getAdminSagraAddEditAndExit = util.FormSanitizeStringInput(getAdminSagraAddEditAndExit)
 
 			// Check if the form has been submitted
-			if getAdminSagraAddEdit == "Edit this sagra" {
+			if getAdminSagraAddEdit == "Edit this sagra" || getAdminSagraAddEditAndExit == "Edit this sagra and exit" {
 				// Title validation
 				if len(getAdminSagraTitleEdit) > 0 {
 					data.TitleError = ""
@@ -616,7 +619,14 @@ func AdminSagraEdit() {
 						getAdminSagraEndDateEdit,
 					)
 					models.SagraEdit(editSagra)
-					http.Redirect(w, r, "/admin/admin-sagre/1", http.StatusSeeOther)
+
+					if getAdminSagraAddEdit == "Edit this sagra" {
+						http.Redirect(w, r, "/admin/admin-sagra-edit/"+idPath, http.StatusSeeOther)
+					} else if getAdminSagraAddEditAndExit == "Edit this sagra and exit" {
+						http.Redirect(w, r, "/admin/admin-sagre/1", http.StatusSeeOther)
+					} else {
+						http.Redirect(w, r, "/admin/admin-sagre/1", http.StatusSeeOther)
+					}
 				}
 			}
 			tmpl.Execute(w, data)
@@ -685,5 +695,79 @@ func AdminSagraDelete() {
 			http.Redirect(w, r, "/admin/login", http.StatusSeeOther)
 		}
 
+	})
+}
+
+func AdminSagreChecker() {
+	tmpl := template.Must(template.ParseFiles("./views/admin/templates/baseAdmin.html", "./views/admin/admin-sagre-checker.html"))
+	http.HandleFunc("/admin/admin-sagre-checker/", func(w http.ResponseWriter, r *http.Request) {
+
+		session, errSession := store.Get(r, "session-user-admin-authentication")
+		if errSession != nil {
+			fmt.Println("Error on session-authentication:", errSession)
+		}
+
+		if session.Values["admin-user-authentication"] == true {
+
+			urlPath := strings.TrimPrefix(r.URL.Path, "/admin/admin-sagre-checker/")
+			urlPath = util.FormSanitizeStringInput(urlPath)
+
+			pageNumber, err := strconv.Atoi(urlPath)
+			if err != nil {
+				fmt.Println("Error converting strng to integer:", err)
+				return
+			}
+
+			// Redirect to /admin/admin-sagre-checker/1 if pageNumber is 0
+			if pageNumber == 0 {
+				http.Redirect(w, r, "/admin/admin-sagre-checker/1", http.StatusSeeOther)
+			}
+
+			// Set limit and offset for MySQL query
+			limit := 10
+			offset := (pageNumber - 1) * limit
+
+			// Set current date
+			getCurrentDate := time.Now()
+			setCurrentDate := getCurrentDate.String()
+
+			sagrePassed, err := models.SagreGetAllPassed(setCurrentDate[:19], 10, offset)
+			if err != nil {
+				fmt.Println("Error getting sagrePassed:", err)
+			}
+
+			// The previous and next buttons
+			setPreviousButton := false
+			var setPreviousPage int
+			var setPreviousPageStr string
+			if (pageNumber - 1) > 0 {
+				setPreviousButton = true
+				setPreviousPage = pageNumber - 1
+				setPreviousPageStr = strconv.Itoa(setPreviousPage)
+			}
+
+			setNextButton := false
+			var setNextPage int
+			var setNextPageStr string
+			if len(sagrePassed) >= 10 {
+				setNextButton = true
+				setNextPage = pageNumber + 1
+				setNextPageStr = strconv.Itoa(setNextPage)
+			}
+
+			data := sagraData{
+				PageTitle:              "Sagre Checker",
+				PreviusButton:          setPreviousButton,
+				NextButton:             setNextButton,
+				PreviousPage:           setPreviousPageStr,
+				NextPage:               setNextPageStr,
+				SagreWithRelatedFields: sagrePassed,
+			}
+
+			tmpl.Execute(w, data)
+
+		} else {
+			http.Redirect(w, r, "/admin/login", http.StatusSeeOther)
+		}
 	})
 }
