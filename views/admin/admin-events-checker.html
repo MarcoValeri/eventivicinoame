@@ -30,11 +30,11 @@
             </div>
         {{ end }}
     {{ else }}
-        <h4 class="h4">No events found</h4>
+        <h4 class="h4">All events are updated</h4>
     {{ end }}
     <div class="admin-events-checker__container-buttons">
-        {{ if .PreviusButton }}<a class="button" href="/admin/admin-events/{{ .PreviousPage }}">Previous</a>{{ end }}
-        {{ if .NextButton }}<a class="button" href="/admin/admin-events/{{ .NextPage }}">Next</a>{{ end }}
+        {{ if .PreviusButton }}<a class="button" href="/admin/admin-events-checker/{{ .PreviousPage }}">Previous</a>{{ end }}
+        {{ if .NextButton }}<a class="button" href="/admin/admin-events-checker/{{ .NextPage }}">Next</a>{{ end }}
     </div>
 </div>
 {{end}}
