@@ -3,13 +3,13 @@
 {{define "title"}}{{ .PageTitle }}{{end}}
 
 {{define "adminContent"}}
-<div class="admin-sagre">
-    <div class="admin-sagre__container-title">
+<div class="admin-sagre-checker">
+    <div class="admin-sagre-checker__container-title">
         <h2 class="h2">Admin Sagre Checker</h2>
     </div>
     {{ if .SagreWithRelatedFields }}
         {{ range .SagreWithRelatedFields }}
-            <div class="admin-sagre__container-sagra">
+            <div class="admin-sagre-checker__container-sagra">
                 <div>
                     <h1 class="h1">{{ .Title }}</h1>
                     <h2 class="h2">{{ .Description }}</h2>
@@ -32,7 +32,7 @@
     {{ else }}
         <h4 class="h4">All sagre are updated</h4>
     {{ end }}
-    <div class="admin-sagre__container-buttons">
+    <div class="admin-sagre-checker__container-buttons">
         {{ if .PreviusButton }}<a class="button" href="/admin/admin-sagre/{{ .PreviousPage }}">Previous</a>{{ end }}
         {{ if .NextButton }}<a class="button" href="/admin/admin-sagre/{{ .NextPage }}">Next</a>{{ end }}
     </div>

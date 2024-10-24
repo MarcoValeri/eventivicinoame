@@ -1,0 +1,40 @@
+{{template "baseAdmin" .}}
+
+{{define "title"}}{{ .PageTitle }}{{end}}
+
+{{define "adminContent"}}
+<div class="admin-events-checker">
+    <div class="admin-events-checker__container-title">
+        <h2 class="h2">Admin Events</h2>
+    </div>
+    {{ if .EventsWithRelatedFields }}
+        {{ range .EventsWithRelatedFields }}
+            <div class="admin-events-checker__container-event">
+                <div>
+                    <h1 class="h1">{{ .Title }}</h1>
+                    <h2 class="h2">{{ .Description }}</h2>
+                    <p class="p">ID: {{ .Id }}</p>
+                    <p class="p">Published: {{ .Published }}</p>
+                    <p class="p">Updated: {{ .Updated }}</p>
+                    <p class="p">Start Date: {{ .EventStartDate }}</p>
+                    <p class="p">End Date: {{ .EventEndDate }}</p>
+                </div>
+                <div>
+                    <img src="/public/images/{{ .ImageUrl }}" alt="{{ .ImageAlt }}" width="150" height="150">
+                </div>
+                <div>
+                    <p class="p-xl"><a class="link" href="/evento/{{ .Url }}">View</a></p>
+                    <p class="p-xl"><a class="link" href="/admin/admin-event-edit/{{ .Id }}">Edit</a></p>
+                    <p class="p-xl"><a class="link" href="/admin/admin-event-delete/{{ .Id }}">Delete</a></p>
+                </div>
+            </div>
+        {{ end }}
+    {{ else }}
+        <h4 class="h4">No events found</h4>
+    {{ end }}
+    <div class="admin-events-checker__container-buttons">
+        {{ if .PreviusButton }}<a class="button" href="/admin/admin-events/{{ .PreviousPage }}">Previous</a>{{ end }}
+        {{ if .NextButton }}<a class="button" href="/admin/admin-events/{{ .NextPage }}">Next</a>{{ end }}
+    </div>
+</div>
+{{end}}

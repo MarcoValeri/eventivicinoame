@@ -668,6 +668,25 @@ button {
   min-height: 20rem;
 }
 
+.admin-events-checker__container-title {
+  margin-bottom: 5rem;
+}
+.admin-events-checker__container-event {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  border: 2px solid #197278;
+  border-radius: 10px;
+}
+.admin-events-checker__container-buttons {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 5rem;
+}
+
 .admin-event-edit__container-title {
   margin-bottom: 5rem;
 }
@@ -721,6 +740,11 @@ button {
 .admin-dashboard__main-section {
   grid-area: admin-dashboard__main-section;
   padding: 2rem;
+}
+.admin-dashboard__container-line {
+  background-color: #197278;
+  padding: 0.1rem;
+  margin-bottom: 2rem;
 }
 
 .admin-login {
@@ -778,6 +802,25 @@ button {
   width: 80%;
   height: auto;
   min-height: 20rem;
+}
+
+.admin-sagre-checker__container-title {
+  margin-bottom: 5rem;
+}
+.admin-sagre-checker__container-sagra {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  border: 2px solid #197278;
+  border-radius: 10px;
+}
+.admin-sagre-checker__container-buttons {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 5rem;
 }
 
 .admin-sagre-delete__container-title {

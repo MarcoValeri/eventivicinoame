@@ -714,7 +714,7 @@ func AdminSagreChecker() {
 
 			pageNumber, err := strconv.Atoi(urlPath)
 			if err != nil {
-				fmt.Println("Error converting strng to integer:", err)
+				fmt.Println("Error converting string to integer:", err)
 				return
 			}
 
@@ -729,9 +729,9 @@ func AdminSagreChecker() {
 
 			// Set current date
 			getCurrentDate := time.Now()
-			setCurrentDate := getCurrentDate.String()
+			setCurrentDate := getCurrentDate.Format("2006-01-02 15:04:05")
 
-			sagrePassed, err := models.SagreGetAllPassed(setCurrentDate[:19], 10, offset)
+			sagrePassed, err := models.SagreGetAllPassed(setCurrentDate, 10, offset)
 			if err != nil {
 				fmt.Println("Error getting sagrePassed:", err)
 			}

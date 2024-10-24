@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+	"time"
 )
 
 type eventData struct {
@@ -442,6 +443,7 @@ func AdminEventEdit() {
 			getAdminEventEditStartDate := r.FormValue("event-edit-start-date")
 			getAdminEventEditEndDate := r.FormValue("event-edit-end-date")
 			getAdminEventEditAdd := r.FormValue("event-edit")
+			getAdminEventEditAndExit := r.FormValue("event-edit-and-exit")
 
 			// Sanitize form inputs
 			getAdminEventEditTitle = util.FormSanitizeStringInput(getAdminEventEditTitle)
@@ -460,9 +462,10 @@ func AdminEventEdit() {
 			getAdminEventEditStartDate = util.FormSanitizeStringInput(getAdminEventEditStartDate)
 			getAdminEventEditEndDate = util.FormSanitizeStringInput(getAdminEventEditEndDate)
 			getAdminEventEditAdd = util.FormSanitizeStringInput(getAdminEventEditAdd)
+			getAdminEventEditAndExit = util.FormSanitizeStringInput(getAdminEventEditAndExit)
 
 			// Check if the form has been submitted
-			if getAdminEventEditAdd == "Edit this event" {
+			if getAdminEventEditAdd == "Edit this event" || getAdminEventEditAndExit == "Edit this event and exit" {
 
 				// Title validation
 				if len(getAdminEventEditTitle) > 0 {
@@ -646,7 +649,14 @@ func AdminEventEdit() {
 						getAdminEventEditEndDate,
 					)
 					models.EventEdit(editEvent)
-					http.Redirect(w, r, "/admin/admin-events/1", http.StatusSeeOther)
+
+					if getAdminEventEditAdd == "Edit this event" {
+						http.Redirect(w, r, "/admin/admin-event-edit/"+idPath, http.StatusSeeOther)
+					} else if getAdminEventEditAndExit == "Edit this event and exit" {
+						http.Redirect(w, r, "/admin/admin-events/1", http.StatusSeeOther)
+					} else {
+						http.Redirect(w, r, "/admin/admin-events/1", http.StatusSeeOther)
+					}
 				}
 			}
 			tmpl.Execute(w, data)
@@ -718,5 +728,79 @@ func AdminEventDelete() {
 			http.Redirect(w, r, "/admin/login", http.StatusSeeOther)
 		}
 
+	})
+}
+
+func AdminEventsChecker() {
+	tmpl := template.Must(template.ParseFiles("./views/admin/templates/baseAdmin.html", "./views/admin/admin-events-checker.html"))
+	http.HandleFunc("/admin/admin-events-checker/", func(w http.ResponseWriter, r *http.Request) {
+
+		session, errSession := store.Get(r, "session-user-admin-authentication")
+		if errSession != nil {
+			fmt.Println("Error on session-authentication:", errSession)
+		}
+
+		if session.Values["admin-user-authentication"] == true {
+
+			urlPath := strings.TrimPrefix(r.URL.Path, "/admin/admin-events-checker/")
+			urlPath = util.FormSanitizeStringInput(urlPath)
+
+			pageNumber, err := strconv.Atoi(urlPath)
+			if err != nil {
+				fmt.Println("Error converting string to integer:", err)
+				return
+			}
+
+			// Redirect to /admin/admin-events-checker/1 if pageNumber is 0
+			if pageNumber == 0 {
+				http.Redirect(w, r, "/admin/admin-events-checker/1", http.StatusSeeOther)
+			}
+
+			// Set limit and offset for MySQL query
+			limit := 10
+			offset := (pageNumber - 1) * limit
+
+			// Set current date
+			getCurrentDate := time.Now()
+			setCurrentDate := getCurrentDate.Format("2006-01-02 15:04:05")
+
+			eventsPassed, err := models.EventsGetAllPassed(setCurrentDate, 10, offset)
+			if err != nil {
+				fmt.Println("Error getting eventsPassed:", err)
+			}
+
+			// The previous and next buttons
+			setPreviousButton := false
+			var setPreviousPage int
+			var setPreviousPageStr string
+			if (pageNumber - 1) > 0 {
+				setPreviousButton = true
+				setPreviousPage = pageNumber - 1
+				setPreviousPageStr = strconv.Itoa(setPreviousPage)
+			}
+
+			setNextButton := false
+			var setNextPage int
+			var setNextPageStr string
+			if len(eventsPassed) >= 10 {
+				setNextButton = true
+				setNextPage = pageNumber + 1
+				setNextPageStr = strconv.Itoa(setNextPage)
+			}
+
+			data := eventData{
+				PageTitle:               "Events Admin",
+				PreviusButton:           setPreviousButton,
+				NextButton:              setNextButton,
+				PreviousPage:            setPreviousPageStr,
+				NextPage:                setNextPageStr,
+				EventsWithRelatedFields: eventsPassed,
+			}
+
+			tmpl.Execute(w, data)
+
+		} else {
+			http.Redirect(w, r, "/admin/login", http.StatusSeeOther)
+		}
 	})
 }

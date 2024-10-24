@@ -20,4 +20,5 @@ func AdminController() {
 	admincontrollers.AdminEventAdd()
 	admincontrollers.AdminEventEdit()
 	admincontrollers.AdminEventDelete()
+	admincontrollers.AdminEventsChecker()
 }
