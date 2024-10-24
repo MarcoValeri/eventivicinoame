@@ -66,6 +66,7 @@
                         <select class="input-select" name="event-edit-type">
                             {{ if .EventWithRelatedFields.EventType }}
                                 <option value="{{ .EventWithRelatedFields.EventType }}" selected="selected">{{ .EventWithRelatedFields.EventType }}</option>
+                                <option value="mercatini di natale">mercatini di natale</option>
                                 <option value="marcatini">marcatini</option>
                                 <option value="musei">musei</option>
                                 <option value="mostre">mostre</option>
@@ -78,6 +79,7 @@
                                 <option value="altro">altro</option>
                             {{ else }}
                                 <option value="event-type-not-found" selected="selected">Event Type not found</option>
+                                <option value="mercatini di natale">mercatini di natale</option>
                                 <option value="marcatini">marcatini</option>
                                 <option value="musei">musei</option>
                                 <option value="mostre">mostre</option>
