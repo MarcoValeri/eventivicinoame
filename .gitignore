@@ -1,6 +1,9 @@
 # .env
 .env
 
+# Node Modules
+node_modules
+
 # Images
 public/images/*
 !public/images/.gitignore
@@ -45,6 +48,11 @@ public/images/*
 !public/images/radicchio-rosso-con-noci-su-un-piatto.webp
 !public/images/lodine-provincia-di-nuoro-in-sardegna.webp
 !public/images/radicchio-rosso-su-piano-da-lavoro-in-cucina.webp
-
-# Node Modules
-node_modules
+!public/images/mercatino-di-natale-a-pizza-navona-a-roma.webp
+!public/images/autunno-nel-borgo-di-gadoni-in-provincia-di-nuoro-in-sardegna.webp
+!public/images/festa-della-befana-a-roma-al-mercatino-di-natale-di-piazza-navona.webp
+!public/images/christmas-world-a-villa-borghese-a-roma.webp
+!public/images/luci-colorate-di-natale-sulla-letterina-di-babbo-natale.webp
+!public/images/mercatino-di-natale-a-milano-marittima.webp
+!public/images/mercatino-di-natale-a-milano-piazza-duomo.webp
+!public/images/mercatino-di-natale-a-cervia.webp
