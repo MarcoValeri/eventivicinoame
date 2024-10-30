@@ -452,6 +452,82 @@ func EventsFindByParameter(getParameter string) ([]EventWithRelatedFields, error
 	return allEvents, nil
 }
 
+func EventsFindByParameterAlsoNotPublished(getParameter string) ([]EventWithRelatedFields, error) {
+	db := database.DatabaseConnection()
+	defer db.Close()
+
+	query := "SELECT events.id, events.title, events.description, events.url, events.published, events.updated, events.image_id, images.url, images.description, events.author_id, authors.name, authors.surname, authors.url, authors.image_url, authors.description, events.event_type, events.content, events.country, events.region, events.city, events.town, events.fraction, events.event_start_date, events.event_end_date FROM events JOIN images ON events.image_id = images.id JOIN authors ON events.author_id = authors.id WHERE (events.title LIKE ? OR events.description LIKE ? OR events.content LIKE ?) ORDER BY events.updated DESC LIMIT ?"
+	likePattern := "%" + getParameter + "%"
+
+	rows, err := db.Query(query, likePattern, likePattern, likePattern, 50)
+	if err != nil {
+		fmt.Println("Error on the events query:", err)
+		return nil, err
+	}
+	defer rows.Close()
+
+	var allEvents []EventWithRelatedFields
+	for rows.Next() {
+		var eventId int
+		var eventTitle string
+		var eventDescription string
+		var eventUrl string
+		var eventPublished string
+		var eventUpdated string
+		var eventImageId int
+		var eventImageUrl string
+		var eventImageAlt string
+		var eventAuthorId int
+		var eventAuthorName string
+		var eventAuthorSurname string
+		var eventAuthorUrl string
+		var eventAuthorImageUrl string
+		var eventAuthorDescription string
+		var eventType string
+		var eventContent string
+		var eventCountry string
+		var eventRegion string
+		var eventCity string
+		var eventTown string
+		var eventFraction string
+		var eventStartDate string
+		var eventEndDate string
+		err = rows.Scan(&eventId, &eventTitle, &eventDescription, &eventUrl, &eventPublished, &eventUpdated, &eventImageId, &eventImageUrl, &eventImageAlt, &eventAuthorId, &eventAuthorName, &eventAuthorSurname, &eventAuthorUrl, &eventAuthorImageUrl, &eventAuthorDescription, &eventType, &eventContent, &eventCountry, &eventRegion, &eventCity, &eventTown, &eventFraction, &eventStartDate, &eventEndDate)
+		if err != nil {
+			return allEvents, err
+		}
+
+		eventDetails := EventNewWithRelatedFields(
+			eventId,
+			eventTitle,
+			eventDescription,
+			eventUrl,
+			eventPublished,
+			eventUpdated,
+			eventImageId,
+			eventImageUrl,
+			eventImageAlt,
+			eventAuthorId,
+			eventAuthorName,
+			eventAuthorSurname,
+			eventAuthorUrl,
+			eventAuthorImageUrl,
+			eventAuthorDescription,
+			eventType,
+			eventContent,
+			eventCountry,
+			eventRegion,
+			eventCity,
+			eventTown,
+			eventFraction,
+			eventStartDate,
+			eventEndDate,
+		)
+		allEvents = append(allEvents, eventDetails)
+	}
+	return allEvents, nil
+}
+
 func EventsGetAllPassed(getCurrentDate string, getLimit int, getOffset int) ([]EventWithRelatedFields, error) {
 	db := database.DatabaseConnection()
 	defer db.Close()

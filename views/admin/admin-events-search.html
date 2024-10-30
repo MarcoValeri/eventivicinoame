@@ -1,0 +1,56 @@
+{{template "baseAdmin" .}}
+
+{{define "title"}}{{ .PageTitle }}{{end}}
+
+{{define "adminContent"}}
+<div class="admin-events-search">
+    <div class="admin-events-search__container-title">
+        <h2 class="h2">Admin Events Search</h2>
+    </div>
+    <div class="admin-events-search__container-form">
+        <form method="POST">
+            <div class="admin-events-search__form-wrapper">
+
+                <div>
+                    <input class="input-text" type="text" name="admin-events-search-input" placeholder="Search" required />
+                    <span>{{ .EventsSearchInputError }}</span>
+                </div>
+                <div>
+                    <input class="input-submit" type="submit" name="admin-events-search-button" value="Search" />
+                </div>
+            </div>
+        </form>
+    </div>
+    <div>
+        {{ if .EventsWithRelatedFields }}
+            {{ if .EventsSearchInput }}
+                <div class="admin-events-search__container-title">
+                    <h3 class="h3">Search result for input: {{ .EventsSearchInput }}</h3>
+                </div>
+            {{ end }}
+            {{ range .EventsWithRelatedFields }}
+                <div class="admin-events-search__container-event">
+                    <div>
+                        <h1 class="h1">{{ .Title }}</h1>
+                        <h2 class="h2">{{ .Description }}</h2>
+                        <p class="p">ID: {{ .Id }}</p>
+                        <p class="p">Published: {{ .Published }}</p>
+                        <p class="p">Updated: {{ .Updated }}</p>
+                    </div>
+                    <div>
+                        <img src="/public/images/{{ .ImageUrl }}" alt="{{ .ImageAlt }}" width="150" height="150">
+                    </div>
+                    <div>
+                        <p class="p-xl"><a class="link" href="/admin/admin-event-edit/{{ .Id }}">Edit</a></p>
+                        <p class="p-xl"><a class="link" href="/admin/admin-event-delete/{{ .Id }}">Delete</a></p>
+                    </div>
+                </div>
+            {{ end }}
+        {{ else }}
+            <div>
+                <h3 class="h3">Result not found with the input <em>{{ .EventsSearchInput }}</em></h3>
+            </div>
+        {{ end }}
+    </div>
+</div>
+{{end}}

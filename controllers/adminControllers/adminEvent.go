@@ -30,6 +30,8 @@ type eventData struct {
 	FractionError           string
 	EventStartDateError     string
 	EventEndDateError       string
+	EventsSearchInput       string
+	EventsSearchInputError  string
 	NextButton              bool
 	PreviousPage            string
 	NextPage                string
@@ -698,10 +700,10 @@ func AdminEventDelete() {
 			}
 
 			/**
-			* Check if the form for deleting sagra
+			* Check if the form for deleting event
 			* has been submitted
 			* and
-			* delete the selected sagra
+			* delete the selected event
 			 */
 			isFormSubmittionValid := false
 
@@ -802,5 +804,81 @@ func AdminEventsChecker() {
 		} else {
 			http.Redirect(w, r, "/admin/login", http.StatusSeeOther)
 		}
+	})
+}
+
+func AdminEventsSearch() {
+	tmpl := template.Must(template.ParseFiles("./views/admin/templates/baseAdmin.html", "./views/admin/admin-events-search.html"))
+	http.HandleFunc("/admin/admin-events-search/", func(w http.ResponseWriter, r *http.Request) {
+
+		session, errSession := store.Get(r, "session-user-admin-authentication")
+		if errSession != nil {
+			fmt.Println("Error on session-authentication:", errSession)
+		}
+
+		if session.Values["admin-user-authentication"] == true {
+			urlPath := strings.TrimPrefix(r.URL.Path, "/admin/admin-events-search/")
+			urlPath = util.FormSanitizeStringInput(urlPath)
+
+			data := eventData{
+				PageTitle: "Admin Events Search",
+			}
+
+			/**
+			* Check if the form for searching has been submitted
+			* and
+			* validate the inputs
+			 */
+			var areAdminEventsSerachInputValid [1]bool
+			isFormSubmittionValid := false
+
+			// Get values from the form
+			getAdminEventsSearchInput := r.FormValue("admin-events-search-input")
+			getAdminEventsSearchButton := r.FormValue("admin-events-search-button")
+
+			// Sanitize form inputs
+			getAdminEventsSearchInput = util.FormSanitizeStringInput(getAdminEventsSearchInput)
+			getAdminEventsSearchButton = util.FormSanitizeStringInput(getAdminEventsSearchButton)
+
+			if getAdminEventsSearchButton == "Search" {
+				// Input validation
+				if len(getAdminEventsSearchInput) > 0 {
+					data.EventsSearchInputError = ""
+					areAdminEventsSerachInputValid[0] = true
+				} else {
+					data.EventsSearchInputError = "Add a valid input"
+					areAdminEventsSerachInputValid[0] = false
+				}
+
+				for i := 0; i < len(areAdminEventsSerachInputValid); i++ {
+					isFormSubmittionValid = true
+					if !areAdminEventsSerachInputValid[i] {
+						isFormSubmittionValid = false
+						http.Redirect(w, r, "/admin/admin-events-search/", http.StatusSeeOther)
+						break
+					}
+				}
+
+				if isFormSubmittionValid {
+					// Get events by search parameter
+					redirectURL := "/admin/admin-events-search/" + getAdminEventsSearchInput
+					http.Redirect(w, r, redirectURL, http.StatusSeeOther)
+				}
+			} else {
+				getEvents, err := models.EventsFindByParameterAlsoNotPublished(urlPath)
+				if err != nil {
+					fmt.Println("Error getting the events by search input:", err)
+				}
+
+				// Add data for the page
+				data.EventsSearchInput = urlPath
+				data.EventsWithRelatedFields = getEvents
+
+				tmpl.Execute(w, data)
+			}
+		} else {
+			http.Redirect(w, r, "/admin/login", http.StatusSeeOther)
+		}
+
 	})
 }

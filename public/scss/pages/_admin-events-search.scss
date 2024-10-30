@@ -1,0 +1,33 @@
+.admin-events-search {
+
+    &__container-title {
+        margin-bottom: 5rem;
+    }
+
+    &__container-form {
+        margin-bottom: 5rem;
+    }
+
+    &__form-wrapper {
+        display: flex;
+        flex-direction: column;
+        row-gap: 2rem;
+    }
+
+    &__form-text-area {
+        width: 80%;
+        height: auto;
+        min-height: 20rem;
+    }
+
+    &__container-event {
+        display: flex;
+        flex-direction: column;
+        row-gap: 1rem;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        border: 2px solid $greenEVM;
+        border-radius: 10px;
+    }
+
+}
