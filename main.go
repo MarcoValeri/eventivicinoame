@@ -34,6 +34,7 @@ func main() {
 
 	controllers.EventsSearchController()
 	controllers.EventController()
+	controllers.EventsMercatiniDiNatale()
 
 	controllers.AuthorController()
 	controllers.AdminController()

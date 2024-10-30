@@ -140,3 +140,25 @@ func EventController() {
 		tmpl.Execute(w, data)
 	})
 }
+
+func EventsMercatiniDiNatale() {
+	tmpl := template.Must(template.ParseFiles("./views/templates/base.html", "./views/events/events-mercatini-di-natale.html"))
+	http.HandleFunc("/eventi/mercatini-di-natale", func(w http.ResponseWriter, r *http.Request) {
+		// Get all the events that hava event_type = mercatini di natale
+		getEventsTypeMercatiniDiNatale, err := models.EventsGetByEventType("mercatini di natale", 50)
+		if err != nil {
+			fmt.Println("Error getting event type Marcatini di Natale:", err)
+		}
+
+		data := EventData{
+			PageTitle:       template.HTML("Mercatini di Natale 2024: mercati, fiere e feste natalizie"),
+			PageDescription: template.HTML("Mercatini di Natale 2024: mercati, fiere e feste natalizie in Italia, Europa e nel resto del mondo, dal più bel mercato di Natale a quello con più bancarelle"),
+			CurrentYear:     time.Now().Year(),
+			CurrentUrl:      "/eventi-cerca",
+			Events:          getEventsTypeMercatiniDiNatale,
+		}
+
+		tmpl.Execute(w, data)
+	})
+
+}
