@@ -1,0 +1,56 @@
+{{template "baseAdmin" .}}
+
+{{define "title"}}{{ .PageTitle }}{{end}}
+
+{{define "adminContent"}}
+<div class="admin-sagra-search">
+    <div class="admin-sagra-search__container-title">
+        <h2 class="h2">Admin Sagre Search</h2>
+    </div>
+    <div class="admin-sagra-search__container-form">
+        <form method="POST">
+            <div class="admin-sagra-search__form-wrapper">
+
+                <div>
+                    <input class="input-text" type="text" name="admin-sagre-search-input" placeholder="Search" required />
+                    <span>{{ .SagreSearchInputError }}</span>
+                </div>
+                <div>
+                    <input class="input-submit" type="submit" name="admin-sagre-search-button" value="Search" />
+                </div>
+            </div>
+        </form>
+    </div>
+    <div>
+        {{ if .SagreWithRelatedFields }}
+            {{ if .SagreSearchInput }}
+                <div class="admin-sagra-search__container-title">
+                    <h3 class="h3">Search result for input: {{ .SagreSearchInput }}</h3>
+                </div>
+            {{ end }}
+            {{ range .SagreWithRelatedFields }}
+                <div class="admin-sagra-search__container-sagra">
+                    <div>
+                        <h1 class="h1">{{ .Title }}</h1>
+                        <h2 class="h2">{{ .Description }}</h2>
+                        <p class="p">ID: {{ .Id }}</p>
+                        <p class="p">Published: {{ .Published }}</p>
+                        <p class="p">Updated: {{ .Updated }}</p>
+                    </div>
+                    <div>
+                        <img src="/public/images/{{ .ImageUrl }}" alt="{{ .ImageAlt }}" width="150" height="150">
+                    </div>
+                    <div>
+                        <p class="p-xl"><a class="link" href="/admin/admin-sagra-edit/{{ .Id }}">Edit</a></p>
+                        <p class="p-xl"><a class="link" href="/admin/admin-sagra-delete/{{ .Id }}">Delete</a></p>
+                    </div>
+                </div>
+            {{ end }}
+        {{ else }}
+            <div>
+                <h3 class="h3">Result not found with the input <em>{{ .SagreSearchInput }}</em></h3>
+            </div>
+        {{ end }}
+    </div>
+</div>
+{{end}}

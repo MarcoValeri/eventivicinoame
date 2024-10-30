@@ -79,7 +79,6 @@ func SagreSearchController() {
 				// Get sagre by search parameter
 				redirectURL := "/sagre-cerca/" + getSagraSearchParameterTitle
 				http.Redirect(w, r, redirectURL, http.StatusSeeOther)
-
 			}
 		} else {
 			getSagre, err := models.SagraFindByParameter(urlPath)

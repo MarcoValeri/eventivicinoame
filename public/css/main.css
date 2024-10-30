@@ -850,6 +850,32 @@ button {
   min-height: 20rem;
 }
 
+.admin-sagra-search__container-title {
+  margin-bottom: 5rem;
+}
+.admin-sagra-search__container-form {
+  margin-bottom: 5rem;
+}
+.admin-sagra-search__form-wrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 2rem;
+}
+.admin-sagra-search__form-text-area {
+  width: 80%;
+  height: auto;
+  min-height: 20rem;
+}
+.admin-sagra-search__container-sagra {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  border: 2px solid #197278;
+  border-radius: 10px;
+}
+
 .event {
   padding: 5rem;
   margin: auto;

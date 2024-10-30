@@ -28,6 +28,8 @@ type sagraData struct {
 	FractionError          string
 	SagraStartDateError    string
 	SagraEndDateError      string
+	SagreSearchInput       string
+	SagreSearchInputError  string
 	PreviusButton          bool
 	NextButton             bool
 	PreviousPage           string
@@ -769,5 +771,81 @@ func AdminSagreChecker() {
 		} else {
 			http.Redirect(w, r, "/admin/login", http.StatusSeeOther)
 		}
+	})
+}
+
+func AdminSagreSearch() {
+	tmpl := template.Must(template.ParseFiles("./views/admin/templates/baseAdmin.html", "./views/admin/admin-sagre-search.html"))
+	http.HandleFunc("/admin/admin-sagre-search/", func(w http.ResponseWriter, r *http.Request) {
+
+		session, errSession := store.Get(r, "session-user-admin-authentication")
+		if errSession != nil {
+			fmt.Println("Error on session-authentication:", errSession)
+		}
+
+		if session.Values["admin-user-authentication"] == true {
+			urlPath := strings.TrimPrefix(r.URL.Path, "/admin/admin-sagre-search/")
+			urlPath = util.FormSanitizeStringInput(urlPath)
+
+			data := sagraData{
+				PageTitle: "Admin Sagre Search",
+			}
+
+			/**
+			* Check if the form for searching has been submitted
+			* and
+			* validate the inputs
+			 */
+			var areAdminSagreSerachInputValid [1]bool
+			isFormSubmittionValid := false
+
+			// Get values from the form
+			getAdminSagreSearchInput := r.FormValue("admin-sagre-search-input")
+			getAdminSagreSearchButton := r.FormValue("admin-sagre-search-button")
+
+			// Sanitize form inputs
+			getAdminSagreSearchInput = util.FormSanitizeStringInput(getAdminSagreSearchInput)
+			getAdminSagreSearchButton = util.FormSanitizeStringInput(getAdminSagreSearchButton)
+
+			if getAdminSagreSearchButton == "Search" {
+				// Input validation
+				if len(getAdminSagreSearchInput) > 0 {
+					data.SagreSearchInputError = ""
+					areAdminSagreSerachInputValid[0] = true
+				} else {
+					data.SagreSearchInputError = "Add a valid input"
+					areAdminSagreSerachInputValid[0] = false
+				}
+
+				for i := 0; i < len(areAdminSagreSerachInputValid); i++ {
+					isFormSubmittionValid = true
+					if !areAdminSagreSerachInputValid[i] {
+						isFormSubmittionValid = false
+						http.Redirect(w, r, "/admin/admin-sagre-search/", http.StatusSeeOther)
+						break
+					}
+				}
+
+				if isFormSubmittionValid {
+					// Get sagre by search parameter
+					redirectURL := "/admin/admin-sagre-search/" + getAdminSagreSearchInput
+					http.Redirect(w, r, redirectURL, http.StatusSeeOther)
+				}
+			} else {
+				getSagre, err := models.SagraFindByParameterAlsoNotPublished(urlPath)
+				if err != nil {
+					fmt.Println("Error getting the sagre by search input:", err)
+				}
+
+				// Add data for the page
+				data.SagreSearchInput = urlPath
+				data.SagreWithRelatedFields = getSagre
+
+				tmpl.Execute(w, data)
+			}
+		} else {
+			http.Redirect(w, r, "/admin/login", http.StatusSeeOther)
+		}
+
 	})
 }
