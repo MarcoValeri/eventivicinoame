@@ -35,6 +35,8 @@ const cookieBanner = () => {
 
     if (checkCookieBanner("accepted") || checkCookieBanner("rejected")) {
         cookieBannerComponent.style.display = "none";
+    } else {
+        cookieBannerComponent.style.display = "block";
     }
 
     // Click event

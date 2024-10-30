@@ -273,6 +273,7 @@ button {
 }
 
 .cookie-banner {
+  display: none;
   width: 50%;
   position: fixed;
   bottom: 0%;
