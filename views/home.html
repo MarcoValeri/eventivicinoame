@@ -5,32 +5,63 @@
 
 {{define "content"}}
 <div class="home">
-    <div class="home__container-title">
-        <h2 class="h2">Le ultime sagre di <em>Eventi Vicino a Me</em></h2>
-    </div>
-    {{ if .Sagre }}
-        {{ range .Sagre }}
-            <div class="article-card home__card-article">
-                <a class="link-no" href="/sagra/{{ .Url }}">
-                    <div class="article-card__wrapper">
-                        <div class="article-card__container-image">
-                            <img loading="lazy" class="article-card__image" src="/public/images/{{ .ImageUrl }}" alt="{{ .ImageAlt }}">
+    <div class="home__container-section">
+        <div class="home__container-title">
+            <h2 class="h2">Le ultime sagre di <em>Eventi Vicino a Me</em></h2>
+        </div>
+        {{ if .Sagre }}
+            {{ range .Sagre }}
+                <div class="article-card home__card-article">
+                    <a class="link-no" href="/sagra/{{ .Url }}">
+                        <div class="article-card__wrapper">
+                            <div class="article-card__container-image">
+                                <img loading="lazy" class="article-card__image" src="/public/images/{{ .ImageUrl }}" alt="{{ .ImageAlt }}">
+                            </div>
+                            <div class="article-card__container-content">
+                                <h2 class="article-card__title h3">{{ .Title }}</h2>
+                                <p class="h4">{{ .Description }}</p>
+                            </div>
                         </div>
-                        <div class="article-card__container-content">
-                            <h2 class="article-card__title h3">{{ .Title }}</h2>
-                            <p class="h4">{{ .Description }}</p>
-                        </div>
-                    </div>
-                </a>
+                    </a>
+                </div>
+            {{ end }}
+        {{ else }}
+            <div class="home__container-no-found">
+                <h4 class="h4">Nessuna sagra disponibile al momento</h4>
             </div>
         {{ end }}
-    {{ else }}
-        <div class="home__container-no-found">
-            <h4 class="h4">Nessuna sagra disponibile al momento</h4>
+        <div class="home__container-button">
+            <a class="button" href="/sagre-cerca/">Scopri tutte le sagre</a>
         </div>
-    {{ end }}
-    <div class="home__container-button">
-        <a class="button" href="/sagre-cerca/">Scopri tutte le sagre</a>
+    </div>
+    <div class="home__container-section">
+        <div class="home__container-title">
+            <h2 class="h2">Gli ultmi eventi di <em>Eventi Vicino a Me</em></h2>
+        </div>
+        {{ if .Events }}
+            {{ range .Events }}
+                <div class="article-card home__card-article">
+                    <a class="link-no" href="/evento/{{ .Url }}">
+                        <div class="article-card__wrapper">
+                            <div class="article-card__container-image">
+                                <img loading="lazy" class="article-card__image" src="/public/images/{{ .ImageUrl }}" alt="{{ .ImageAlt }}">
+                            </div>
+                            <div class="article-card__container-content">
+                                <h2 class="article-card__title h3">{{ .Title }}</h2>
+                                <p class="h4">{{ .Description }}</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {{ end }}
+        {{ else }}
+            <div class="home__container-no-found">
+                <h4 class="h4">Nessun evento disponibile al momento</h4>
+            </div>
+        {{ end }}
+        <div class="home__container-button">
+            <a class="button" href="/eventi-cerca/">Scopri tutti gli eventi</a>
+        </div>
     </div>
 </div>
 {{end}}

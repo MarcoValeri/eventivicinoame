@@ -409,8 +409,20 @@ button {
   border-top: 3px solid #197278;
   border-bottom: 3px solid #197278;
 }
+.footer__container-logo {
+  margin-bottom: 2rem;
+}
 .footer__logo {
   width: 20rem;
+}
+.footer__container-social {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.footer__social-icon {
+  width: 60px;
+  height: 60px;
+  padding-top: 1rem;
 }
 .footer__container-content {
   text-align: center;
@@ -448,6 +460,7 @@ button {
 }
 .header__logo {
   width: 20rem;
+  height: 15rem;
 }
 
 .main {
@@ -481,6 +494,14 @@ button {
 }
 .main__container-sidebar-single-menu--button {
   padding-bottom: 5rem;
+}
+.main__sidebar-single-menu-wrapper-icon {
+  text-align: center;
+  padding: 2rem;
+}
+.main__sidebar-menu-icon {
+  width: 80px;
+  height: 80px;
 }
 .main__sidebar-menu-title {
   margin-bottom: 5rem;
@@ -969,6 +990,9 @@ button {
     padding: 5rem 1rem;
   }
 }
+.home__container-section {
+  margin-bottom: 5rem;
+}
 .home__container-title {
   text-align: center;
   margin-bottom: 5rem;
@@ -982,6 +1006,7 @@ button {
 }
 .home__container-button {
   text-align: center;
+  padding-bottom: 5rem;
 }
 
 .sagra {

@@ -15,6 +15,7 @@ type HomepageData struct {
 	CurrentYear     int
 	CurrentUrl      string
 	Sagre           []models.SagraWithRelatedFields
+	Events          []models.EventWithRelatedFields
 }
 
 func Home() {
@@ -26,10 +27,16 @@ func Home() {
 			http.Redirect(w, r, "/error/error-404", http.StatusSeeOther)
 		}
 
-		// Get last three published sagre
+		// Get last 10 published sagre
 		getLastPublishedSagre, err := models.SagraGetLimitPublishedSagre(10)
 		if err != nil {
 			fmt.Println("Error getting last ten sagre:", err)
+		}
+
+		// Get last 10 published events
+		getLastPublishedEvents, err := models.EventsGetLimitPublishedEvents(10)
+		if err != nil {
+			fmt.Println("Error getting last ten events:", err)
 		}
 
 		// Get current path
@@ -41,6 +48,7 @@ func Home() {
 			CurrentYear:     time.Now().Year(),
 			CurrentUrl:      currentUrlPath,
 			Sagre:           getLastPublishedSagre,
+			Events:          getLastPublishedEvents,
 		}
 		tmpl.Execute(w, data)
 	})

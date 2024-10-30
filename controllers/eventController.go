@@ -162,3 +162,47 @@ func EventsMercatiniDiNatale() {
 	})
 
 }
+
+func EventsNovember() {
+	tmpl := template.Must(template.ParseFiles("./views/templates/base.html", "./views/events/events-novembre.html"))
+	http.HandleFunc("/eventi/eventi-novembre", func(w http.ResponseWriter, r *http.Request) {
+		// Get all the events that hava event_type = mercatini di natale
+		getEventsNovember, err := models.EventsGetThemByPeriodOfTime("2024-11-01 00:00:00", "2024-11-30 23:59:59", 50)
+		if err != nil {
+			fmt.Println("Error getting November's events:", err)
+		}
+
+		data := EventData{
+			PageTitle:       template.HTML("Eventi novembre 2024: le cose più belle da fare a novembre"),
+			PageDescription: template.HTML("Eventi novembre 2024: le cose più belle da fare in questo periodo dell'anno in Italia, Europa e resto del mondo, pianifica il tuo evento in autunno"),
+			CurrentYear:     time.Now().Year(),
+			CurrentUrl:      "/eventi-cerca",
+			Events:          getEventsNovember,
+		}
+
+		tmpl.Execute(w, data)
+	})
+
+}
+
+func EventsDecember() {
+	tmpl := template.Must(template.ParseFiles("./views/templates/base.html", "./views/events/events-dicembre.html"))
+	http.HandleFunc("/eventi/eventi-dicembre", func(w http.ResponseWriter, r *http.Request) {
+		// Get all the events that hava event_type = mercatini di natale
+		getEventsNovember, err := models.EventsGetThemByPeriodOfTime("2024-12-01 00:00:00", "2024-12-31 23:59:59", 50)
+		if err != nil {
+			fmt.Println("Error getting December's events:", err)
+		}
+
+		data := EventData{
+			PageTitle:       template.HTML("Eventi dicembre 2024: le cose più belle da fare a dicembre"),
+			PageDescription: template.HTML("Eventi dicembre 2024: le cose più belle da fare in questo periodo dell'anno in Italia, Europa e resto del mondo, pianifica il tuo evento in autunno e inverno"),
+			CurrentYear:     time.Now().Year(),
+			CurrentUrl:      "/eventi-cerca",
+			Events:          getEventsNovember,
+		}
+
+		tmpl.Execute(w, data)
+	})
+
+}

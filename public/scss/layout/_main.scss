@@ -30,8 +30,19 @@
         border-bottom: 3px solid $greenEVM;
     }
 
+    
     &__container-sidebar-single-menu--button {
         padding-bottom: 5rem;
+    }
+
+    &__sidebar-single-menu-wrapper-icon {
+        text-align: center;
+        padding: 2rem;
+    }
+
+    &__sidebar-menu-icon {
+        width: 80px;
+        height: 80px;
     }
 
     &__sidebar-menu-title {

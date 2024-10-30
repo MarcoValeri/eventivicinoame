@@ -1,0 +1,35 @@
+{{template "base" .}}
+
+{{define "title"}}{{.PageTitle}}{{end}}
+{{define "description"}}<meta name="description" content="{{.PageDescription}}">{{end}}
+
+{{ define "content"}}
+<div class="events">
+    <div class="events__container-title">
+        <h2 class="h2">{{ .PageTitle }}</h2>
+    </div>
+    <div>
+        {{ if .Events }}
+            {{ range .Events }}
+                <div class="article-card events__card-article">
+                    <a class="link-no" href="/evento/{{ .Url }}">
+                        <div class="article-card__wrapper">
+                            <div class="article-card__container-image">
+                                <img loading="lazy" class="article-card__image" src="/public/images/{{ .ImageUrl }}" alt="{{ .ImageAlt }}">
+                            </div>
+                            <div class="article-card__container-content">
+                                <h2 class="article-card__title h3">{{ .Title }}</h2>
+                                <p class="h4">{{ .Description }}</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {{ end }}
+        {{ else }}
+            <div class="events__container-result-info">
+                <h3 class="h3">Nessun evento di novembre disponibile al momento</h3>
+            </div>
+        {{ end }}
+    </div>
+</div>
+{{end}}

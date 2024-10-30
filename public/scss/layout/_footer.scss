@@ -7,8 +7,23 @@
     border-top: 3px solid $greenEVM;
     border-bottom: 3px solid $greenEVM;
 
+    &__container-logo {
+        margin-bottom: 2rem;
+    }
+
     &__logo {
         width: 20rem;
+    }
+
+    &__container-social {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    &__social-icon {
+        width: 60px;
+        height: 60px;
+        padding-top: 1rem;
     }
     
     &__container-content {
