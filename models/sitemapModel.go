@@ -14,7 +14,7 @@ func SitemapAllURL() ([]SitemapURL, error) {
 	var setURLsList []SitemapURL
 
 	// Set URLs that are not stored in the db
-	urlZero := SitemapURL{"https://www.eventivicinoame.com/", "2024-09-26"}
+	urlZero := SitemapURL{"https://www.eventivicinoame.com/", "2024-10-30"}
 	urlOne := SitemapURL{"https://www.eventivicinoame.com/sagre-cerca/", "2024-09-26"}
 	urlThree := SitemapURL{"https://www.eventivicinoame.com/page/chi-siamo", "2024-09-20"}
 	urlFour := SitemapURL{"https://www.eventivicinoame.com/page/contatti", "2024-09-20"}
