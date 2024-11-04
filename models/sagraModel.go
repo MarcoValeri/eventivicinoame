@@ -732,7 +732,7 @@ func SagreGetAllPassed(getCurrentDate string, getLimit int, getOffset int) ([]Sa
 	db := database.DatabaseConnection()
 	defer db.Close()
 
-	mySqlQuery := "SELECT sagre.id, sagre.title, sagre.description, sagre.url, sagre.published, sagre.updated, sagre.image_id, images.url, images.description, sagre.author_id, authors.name, authors.surname, authors.url, authors.image_url, authors.description, sagre.content, sagre.country, sagre.region, sagre.city, sagre.town, sagre.fraction, sagre.sagra_start_date, sagre.sagra_end_date FROM sagre JOIN images ON sagre.image_id = images.id JOIN authors ON sagre.author_id = authors.id WHERE sagre.sagra_end_date <= ? AND sagre.published < NOW() ORDER BY sagre.sagra_end_date DESC LIMIT ? OFFSET ?"
+	mySqlQuery := "SELECT sagre.id, sagre.title, sagre.description, sagre.url, sagre.published, sagre.updated, sagre.image_id, images.url, images.description, sagre.author_id, authors.name, authors.surname, authors.url, authors.image_url, authors.description, sagre.content, sagre.country, sagre.region, sagre.city, sagre.town, sagre.fraction, sagre.sagra_start_date, sagre.sagra_end_date FROM sagre JOIN images ON sagre.image_id = images.id JOIN authors ON sagre.author_id = authors.id WHERE sagre.sagra_end_date <= ? AND sagre.published < NOW() ORDER BY sagre.sagra_end_date ASC LIMIT ? OFFSET ?"
 	rows, err := db.Query(mySqlQuery, getCurrentDate, getLimit, getOffset)
 	if err != nil {
 		fmt.Println("Error getting passed sagre:", err)

@@ -532,7 +532,7 @@ func EventsGetAllPassed(getCurrentDate string, getLimit int, getOffset int) ([]E
 	db := database.DatabaseConnection()
 	defer db.Close()
 
-	mysqlQuery := "SELECT events.id, events.title, events.description, events.url, events.published, events.updated, events.image_id, images.url, images.description, events.author_id, authors.name, authors.surname, authors.url, authors.image_url, authors.description, events.event_type, events.content, events.country, events.region, events.city, events.town, events.fraction, events.event_start_date, events.event_end_date FROM events JOIN images ON events.image_id = images.id JOIN authors ON events.author_id = authors.id WHERE events.event_end_date <= ? AND events.published < NOW() ORDER BY events.event_end_date DESC LIMIT ? OFFSET ?"
+	mysqlQuery := "SELECT events.id, events.title, events.description, events.url, events.published, events.updated, events.image_id, images.url, images.description, events.author_id, authors.name, authors.surname, authors.url, authors.image_url, authors.description, events.event_type, events.content, events.country, events.region, events.city, events.town, events.fraction, events.event_start_date, events.event_end_date FROM events JOIN images ON events.image_id = images.id JOIN authors ON events.author_id = authors.id WHERE events.event_end_date <= ? AND events.published < NOW() ORDER BY events.event_end_date ASC LIMIT ? OFFSET ?"
 	rows, err := db.Query(mysqlQuery, getCurrentDate, getLimit, getOffset)
 	if err != nil {
 		fmt.Println("Error getting passed events:", err)
