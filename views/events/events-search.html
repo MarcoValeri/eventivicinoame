@@ -4,37 +4,60 @@
 {{define "description"}}<meta name="description" content="{{.PageDescription}}">{{end}}
 
 {{define "structure"}}
-<script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [{
-            "@type": "ListItem",
-            "position": 1,
-            "name": "Home",
-            "item": "https://www.eventivicinoame.com/"
-        },
-        {
-            "@type": "ListItem",
-            "position": 2,
-            "name": "Sagre cerca",
-            "item": "https://www.eventivicinoame.com/eventi-cerca/"
-        },
-        {
-            "@type": "ListItem",
-            "position": 3,
-            "name": "{{.ParameterTitle}}",
-            "item": "https://www.eventivicinoame.com/eventi-cerca/{{.ParameterTitle}}"
-        }]
-    }
-</script>
+    {{ if .ParameterTitle }}
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Home",
+                    "item": "https://www.eventivicinoame.com/"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Sagre cerca",
+                    "item": "https://www.eventivicinoame.com/eventi-cerca/"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": "{{.ParameterTitle}}",
+                    "item": "https://www.eventivicinoame.com/eventi-cerca/{{.ParameterTitle}}"
+                }]
+            }
+        </script>
+    {{ else }}
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Home",
+                    "item": "https://www.eventivicinoame.com/"
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Sagre cerca",
+                    "item": "https://www.eventivicinoame.com/eventi-cerca/"
+                }]
+            }
+        </script>
+    {{ end }}
 {{end}}
 
 {{define "breadcrumb"}}
 <ol class="breadcrumb__menu">
     <li class="breadcrumb__menu-list"><a class="link-content p" href="https://www.eventivicinoame.com/">Home</a> /</li>
     <li class="breadcrumb__menu-list"><a class="link-content p" href="https://www.eventivicinoame.com/eventi-cerca/">Eventi cerca</a> /</li>
-    <li class="breadcrumb__menu-list"><a class="link-content p" href="https://www.eventivicinoame.com/eventi-cerca/{{.ParameterTitle}}">{{.ParameterTitle}}</a></li>
+    {{ if .ParameterTitle }}
+        <li class="breadcrumb__menu-list"><a class="link-content p" href="https://www.eventivicinoame.com/eventi-cerca/{{.ParameterTitle}}">{{.ParameterTitle}}</a></li>
+    {{ end }}
 </ol>
 {{end}}
 
