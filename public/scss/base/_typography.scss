@@ -103,6 +103,15 @@
     color: #00d;
 }
 
+.link-content {
+    color: #197278;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
 .link-no {
     color: #000;
     text-decoration: none;

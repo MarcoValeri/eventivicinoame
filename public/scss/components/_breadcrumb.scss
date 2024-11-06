@@ -1,0 +1,18 @@
+.breadcrumb {
+    padding: .5rem;
+
+    &__menu {
+        list-style: none;
+        margin-left: 3rem;
+
+        @include respond("md") {
+            margin-left: 1rem;
+        }
+    }
+
+    &__menu-list {
+        display: inline;
+        font-size: 1.6rem;
+        margin-bottom: 1rem;
+    }
+}

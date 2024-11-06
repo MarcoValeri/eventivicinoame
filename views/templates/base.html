@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="/public/css/main.css">
     <title>{{template "title" .}}</title>
     {{template "description" .}}
+    {{template "structure" .}}
     <link rel="icon" type="image/x-icon" href="/public/images/eventi-vicino-a-me-logo.png" >
 
     <script type="module" src="/public/js/main.js" defer></script>
@@ -53,6 +54,7 @@
                 <img loading="lazy" class="header__logo" src="/public/images/eventi-vicino-a-me-logo.png" alt="Ape, il logo ufficiale di Eventi Vicino A Me" width="250" height="150" />
             </a>
         </div>
+        <nav aria-label="Breadcrumb" class="breadcrumb">{{template "breadcrumb" .}}</nav>
     </header>
     <main class="main">
         <div class="main__container-content">{{template "content" .}}</div>

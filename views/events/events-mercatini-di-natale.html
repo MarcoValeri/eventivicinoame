@@ -3,6 +3,34 @@
 {{define "title"}}{{.PageTitle}}{{end}}
 {{define "description"}}<meta name="description" content="{{.PageDescription}}">{{end}}
 
+{{define "structure"}}
+<script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://www.eventivicinoame.com/"
+        },
+        {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "{{.PageTitle}}",
+            "item": "https://www.eventivicinoame.com/eventi/mercatini-di-natale"
+        }]
+    }
+</script>
+{{end}}
+
+{{define "breadcrumb"}}
+<ol class="breadcrumb__menu">
+    <li class="breadcrumb__menu-list"><a class="link-content p" href="https://www.eventivicinoame.com/">Home</a> /</li>
+    <li class="breadcrumb__menu-list"><a class="link-content p" href="https://www.eventivicinoame.com/eventi/mercatini-di-natale">{{.PageTitle}}</a></li>
+</ol>
+{{end}}
+
 {{ define "content"}}
 <div class="events">
     <div class="events__container-title">

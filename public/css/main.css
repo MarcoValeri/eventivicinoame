@@ -129,6 +129,14 @@ button {
   color: #00d;
 }
 
+.link-content {
+  color: #197278;
+  text-decoration: none;
+}
+.link-content:hover {
+  text-decoration: underline;
+}
+
 .link-no {
   color: #000;
   text-decoration: none;
@@ -269,6 +277,24 @@ button {
   }
 }
 .author-card__title {
+  margin-bottom: 1rem;
+}
+
+.breadcrumb {
+  padding: 0.5rem;
+}
+.breadcrumb__menu {
+  list-style: none;
+  margin-left: 3rem;
+}
+@media only screen and (max-width: 767px) {
+  .breadcrumb__menu {
+    margin-left: 1rem;
+  }
+}
+.breadcrumb__menu-list {
+  display: inline;
+  font-size: 1.6rem;
   margin-bottom: 1rem;
 }
 
