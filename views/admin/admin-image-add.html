@@ -1,0 +1,48 @@
+{{template "baseAdmin" .}}
+
+{{define "title"}}{{ .PageTitle }}{{end}}
+
+{{define "adminContent"}}
+<div class="admin-images-add">
+    <div class="admin-images-add__container-title">
+        <h2 class="h2">Admin Image Add</h2>
+    </div>
+    <div>
+        <form method="POST" enctype="multipart/form-data">
+            <div class="admin-images-add__form-wrapper">
+                <div>
+                    <input class="input-text" type="text" name="image-title" placeholder="Image Title*" required />
+                    <span class="input-error">{{ .ImageTitleError }}</span>
+                </div>
+                <div>
+                    <input class="input-text" type="text" name="image-url" placeholder="Image Url*" required />
+                    <span class="input-error">{{ .ImageUrlError }}</span>
+                </div>
+                <div>
+                    <input class="input-text" type="text" name="image-description" placeholder="Image Description*" required />
+                    <span class="input-error">{{ .ImageDescriptionError }}</span>
+                </div>
+                <div>
+                    <input class="input-text" type="text" name="image-credit" placeholder="Image Credit*" required />
+                    <span class="input-error">{{ .ImageCreditError }}</span>
+                </div>
+                <div>
+                    <input class="input-date" type="datetime-local" name="image-published" required />
+                    <span class="input-error">{{ .ImagePublishedError }}</span>
+                </div>
+                <div>
+                    <input class="input-date" type="datetime-local" name="image-updated" required />
+                    <span class="input-error">{{ .ImageUpdatedError }}</span>
+                </div>
+                <div>
+                    <input class="input-text" type="file" name="image-file" accept="image/png, image/jpeg, image/webp" required />
+                    <span class="input-error">{{ .ImageFileError }}</span>
+                </div>
+                <div>
+                    <input class="input-submit" type="submit" name="image-add-new" value="Add new image" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{{end}}

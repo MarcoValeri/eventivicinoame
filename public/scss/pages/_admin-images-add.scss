@@ -1,0 +1,18 @@
+.admin-images-add {
+
+    &__container-title {
+        margin-bottom: 5rem;
+    }
+
+    &__form-wrapper {
+        display: flex;
+        flex-direction: column;
+        row-gap: 2rem;
+    }
+
+    &__form-text-area {
+        width: 80%;
+        height: auto;
+        min-height: 20rem;
+    }
+}
