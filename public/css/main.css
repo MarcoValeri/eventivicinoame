@@ -854,6 +854,23 @@ button {
   min-height: 20rem;
 }
 
+.admin-image-edit__container-title {
+  margin-bottom: 5rem;
+}
+.admin-image-edit__container-data {
+  margin-bottom: 5rem;
+}
+.admin-image-edit__form-wrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 2rem;
+}
+.admin-image-edit__form-text-area {
+  width: 80%;
+  height: auto;
+  min-height: 20rem;
+}
+
 .admin-login {
   height: 100vh;
   position: relative;

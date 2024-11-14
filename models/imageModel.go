@@ -106,18 +106,19 @@ func ImageDelete(getImageId int) error {
 	return nil
 }
 
-func ImageFindIt(getImageId int) ([]Image, error) {
+func ImageFindItById(getImageId int) (Image, error) {
 	db := database.DatabaseConnection()
 	defer db.Close()
+
+	var getImageData Image
 
 	rows, err := db.Query("SELECT * FROM images WHERE id=?", getImageId)
 	if err != nil {
 		fmt.Println("Error on image query:", err)
-		return nil, err
+		return getImageData, err
 	}
 	defer rows.Close()
 
-	var getImageData []Image
 	for rows.Next() {
 		var imageId int
 		var imageTitle string
@@ -129,11 +130,11 @@ func ImageFindIt(getImageId int) ([]Image, error) {
 		err = rows.Scan(&imageId, &imageTitle, &imageDescription, &imageCredit, &imageUrl, &imagePublished, &imageUpdated)
 		if err != nil {
 			fmt.Println("Error getting image data:", err)
-			return nil, err
+			return getImageData, err
 		}
 
 		imageDetails := ImageNew(imageId, imageTitle, imageDescription, imageCredit, imageUrl, imagePublished, imageUpdated)
-		getImageData = append(getImageData, imageDetails)
+		getImageData = imageDetails
 	}
 
 	return getImageData, nil

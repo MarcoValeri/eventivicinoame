@@ -26,6 +26,7 @@ type imageData struct {
 	NextButton            bool
 	PreviousPage          string
 	NextPage              string
+	Image                 models.Image
 	Images                []models.Image
 }
 
@@ -279,5 +280,148 @@ func AdminImageAdd() {
 			http.Redirect(w, r, "/admin/login", http.StatusSeeOther)
 		}
 
+	})
+}
+
+func AdminImageEdit() {
+	tmpl := template.Must(template.ParseFiles("./views/admin/templates/baseAdmin.html", "./views/admin/admin-image-edit.html"))
+	http.HandleFunc("/admin/admin-image-edit/", func(w http.ResponseWriter, r *http.Request) {
+
+		session, errSession := store.Get(r, "session-user-admin-authentication")
+		if errSession != nil {
+			fmt.Println("Error on session-authentication:", errSession)
+		}
+
+		if session.Values["admin-user-authentication"] == true {
+
+			idPath := strings.TrimPrefix(r.URL.Path, "/admin/admin-image-edit/")
+			idPath = util.FormSanitizeStringInput(idPath)
+
+			imageId, err := strconv.Atoi(idPath)
+			if err != nil {
+				fmt.Println("Error converting strings to integer:", err)
+				return
+			}
+
+			getImageEdit, err := models.ImageFindItById(imageId)
+			if err != nil {
+				fmt.Println("Error to find image by id:", err)
+			}
+
+			data := imageData{
+				PageTitle: "Admin Image Edit",
+				Image:     getImageEdit,
+			}
+
+			/**
+			* Check if the form for editing the image has been submitted
+			* and
+			* validate the inputs
+			 */
+			var areAdminImageEditInputsValid [6]bool
+			isFormSubmittionValid := false
+
+			// Get the values from the form
+			getAdminImageTitleEdit := r.FormValue("image-edit-title")
+			getAdminImageDescriptionEdit := r.FormValue("image-edit-description")
+			getAdminImageCreditEdit := r.FormValue("image-edit-credit")
+			getAdminImageUrlEdit := r.FormValue("image-edit-url")
+			getAdminImagePublishedEdit := r.FormValue("image-edit-published")
+			getAdminImageUpdatedEdit := r.FormValue("image-edit-updated")
+			getAdminImageSubmitEdit := r.FormValue("image-edit")
+			getAdminImageSubmitEditAndExit := r.FormValue("image-edit-and-exit")
+
+			// Sanitize form inputs
+			getAdminImageTitleEdit = util.FormSanitizeStringInput(getAdminImageTitleEdit)
+			getAdminImageDescriptionEdit = util.FormSanitizeStringInput(getAdminImageDescriptionEdit)
+			getAdminImageCreditEdit = util.FormSanitizeStringInput(getAdminImageCreditEdit)
+			getAdminImageUrlEdit = util.FormSanitizeStringInput(getAdminImageUrlEdit)
+			getAdminImagePublishedEdit = util.FormSanitizeStringInput(getAdminImagePublishedEdit)
+			getAdminImageUpdatedEdit = util.FormSanitizeStringInput(getAdminImageUpdatedEdit)
+			getAdminImageSubmitEdit = util.FormSanitizeStringInput(getAdminImageSubmitEdit)
+			getAdminImageSubmitEditAndExit = util.FormSanitizeStringInput(getAdminImageSubmitEditAndExit)
+
+			// Check if the form has been submitted
+			if getAdminImageSubmitEdit == "Edit this image" || getAdminImageSubmitEditAndExit == "Edit this image and exit" {
+				// Title validation
+				if len(getAdminImageTitleEdit) > 0 {
+					data.ImageTitleError = ""
+					areAdminImageEditInputsValid[0] = true
+				} else {
+					data.ImageTitleError = "Title should be longer than 0 characters"
+					areAdminImageEditInputsValid[0] = false
+				}
+
+				// Description validation
+				if len(getAdminImageDescriptionEdit) > 0 {
+					data.ImageDescriptionError = ""
+					areAdminImageEditInputsValid[1] = true
+				} else {
+					data.ImageDescriptionError = "Description should be longer than 0 characters"
+					areAdminImageEditInputsValid[1] = false
+				}
+
+				// Credit validation
+				if len(getAdminImageCreditEdit) > 0 {
+					data.ImageCreditError = ""
+					areAdminImageEditInputsValid[2] = true
+				} else {
+					data.ImageCreditError = "Credit should be longer than 0 characters"
+					areAdminImageEditInputsValid[2] = false
+				}
+
+				// Url validation
+				if len(getAdminImageUrlEdit) > 0 {
+					data.ImageUrlError = ""
+					areAdminImageEditInputsValid[3] = true
+				} else {
+					data.ImageUrlError = "URL should be longer than 0 characters"
+					areAdminImageEditInputsValid[3] = false
+				}
+
+				// Published validation
+				if len(getAdminImagePublishedEdit) > 0 {
+					data.ImagePublishedError = ""
+					areAdminImageEditInputsValid[4] = true
+				} else {
+					data.ImagePublishedError = "Add a date"
+					areAdminImageEditInputsValid[4] = false
+				}
+
+				// Uploaded validation
+				if len(getAdminImageUpdatedEdit) > 0 {
+					data.ImageUpdatedError = ""
+					areAdminImageEditInputsValid[5] = true
+				} else {
+					data.ImageUpdatedError = "Add a date"
+					areAdminImageEditInputsValid[5] = false
+				}
+
+				for i := 0; i < len(areAdminImageEditInputsValid); i++ {
+					isFormSubmittionValid = true
+					if !areAdminImageEditInputsValid[i] {
+						isFormSubmittionValid = false
+						break
+					}
+				}
+
+				// Edit image if all inputs are valid and redirect to all images list
+				if isFormSubmittionValid {
+					editImage := models.ImageNew(imageId, getAdminImageTitleEdit, getAdminImageDescriptionEdit, getAdminImageCreditEdit, getAdminImageUrlEdit, getAdminImagePublishedEdit, getAdminImageUpdatedEdit)
+					models.ImageEdit(editImage)
+
+					if getAdminImageSubmitEdit == "Edit this image" {
+						http.Redirect(w, r, "/admin/admin-image-edit/"+idPath, http.StatusSeeOther)
+					} else if getAdminImageSubmitEditAndExit == "Edit this image and exit" {
+						http.Redirect(w, r, "/admin/admin-images/1", http.StatusSeeOther)
+					} else {
+						http.Redirect(w, r, "/admin/admin-images/1", http.StatusSeeOther)
+					}
+				}
+			}
+			tmpl.Execute(w, data)
+		} else {
+			http.Redirect(w, r, "/admin/login", http.StatusSeeOther)
+		}
 	})
 }

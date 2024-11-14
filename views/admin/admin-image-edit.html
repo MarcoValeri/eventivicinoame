@@ -1,0 +1,55 @@
+{{template "baseAdmin" .}}
+
+{{define "title"}}{{ .PageTitle }}{{end}}
+
+{{define "adminContent"}}
+<div class="admin-image-edit">
+    <div class="admin-image-edit__container-title">
+        <h2 class="h2">Admin Image Edit</h2>
+    </div>
+    {{ if .Image }}
+        <div class="admin-image-edit__container-data">
+            <p class="p-xl">ID: {{ .Image.Id }}</p>
+            <p class="p-xl">{{ .Image.Title }}</p>
+            <p class="p-xl">{{ .Image.Description }}</p>
+            <p class="p-xl">{{ .Image.Url }}</p>
+        </div>
+        <div>
+            <form method="POST">
+                <div class="admin-image-edit__form-wrapper">
+                    <div>
+                        <input class="input-text" type="text" name="image-edit-title" value="{{ .Image.Title }}" placeholder="Image Title*" required />
+                        <span class="input-error">{{ .ImageTitleError }}</span>
+                    </div>
+                    <div>
+                        <input class="input-text" type="text" name="image-edit-description" value="{{ .Image.Description }}" placeholder="Image Description*" required />
+                        <span class="input-error">{{ .ImageDescriptionError }}</span>
+                    </div>
+                    <div>
+                        <input class="input-text" type="text" name="image-edit-credit" value="{{ .Image.Credit }}" placeholder="Image Credit*" required />
+                        <span class="input-error">{{ .ImageCreditError }}</span>
+                    </div>
+                    <div>
+                        <input class="input-text" type="text" name="image-edit-url" value="{{ .Image.Url }}" placeholder="Url*" required />
+                        <span class="input-error">{{ .ImageUrlError }}</span>
+                    </div>
+                    <div>
+                        <input class="input-date" type="datetime-local" name="image-edit-published" value="{{ .Image.Published }}" required />
+                        <span class="input-error">{{ .ImagePublishedError }}</span>
+                    </div>
+                    <div>
+                        <input class="input-date" type="datetime-local" name="image-edit-updated"  value="{{ .Image.Updated }}" required />
+                        <span class="input-error">{{ .ImageUpdatedError }}</span>
+                    </div>
+                    <div>
+                        <input class="input-submit" type="submit" name="image-edit" value="Edit this image" />
+                    </div>
+                    <div>
+                        <input class="input-submit" type="submit" name="image-edit-and-exit" value="Edit this image and exit" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    {{ end }}
+</div>
+{{end}}
