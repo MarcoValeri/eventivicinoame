@@ -1,0 +1,37 @@
+{{template "baseAdmin" .}}
+
+{{define "title"}}{{ .PageTitle }}{{end}}
+
+{{define "adminContent"}}
+<div class="admin-images">
+    <div class="admin-images__container-title">
+        <h2 class="h2">Admin Images</h2>
+    </div>
+    {{ if .Images }}
+        {{ range .Images }}
+            <div class="admin-images__container-image">
+                <div>
+                    <h1 class="h1">{{ .Title }}</h1>
+                    <h2 class="h2">{{ .Description }}</h2>
+                    <p class="p">ID: {{ .Id }}</p>
+                    <p class="p">Published: {{ .Published }}</p>
+                    <p class="p">Updated: {{ .Updated }}</p>
+                </div>
+                <div>
+                    <img src="/public/images/{{ .Url }}" alt="Image {{ .Title }}" width="150" height="150">
+                </div>
+                <div>
+                    <p class="p-xl"><a class="link" href="/admin/admin-image-edit/{{ .Id }}">Edit</a></p>
+                    <p class="p-xl"><a class="link" href="/admin/admin-image-delete/{{ .Id }}">Delete</a></p>
+                </div>
+            </div>
+        {{ end }}
+    {{ else }}
+        <h4 class="h4">No images found</h4>
+    {{ end }}
+    <div class="admin-images__container-buttons">
+        {{ if .PreviusButton }}<a class="button" href="/admin/admin-images/{{ .PreviousPage }}">Previous</a>{{ end }}
+        {{ if .NextButton }}<a class="button" href="/admin/admin-images/{{ .NextPage }}">Next</a>{{ end }}
+    </div>
+</div>
+{{end}}

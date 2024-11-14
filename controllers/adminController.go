@@ -23,4 +23,6 @@ func AdminController() {
 	admincontrollers.AdminEventDelete()
 	admincontrollers.AdminEventsSearch()
 	admincontrollers.AdminEventsChecker()
+
+	admincontrollers.AdminImages()
 }

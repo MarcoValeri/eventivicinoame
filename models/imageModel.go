@@ -171,3 +171,36 @@ func ImageFindByUrlReturnItsId(getImageUrl string) (int, error) {
 
 	return getImageData.Id, nil
 }
+
+func ImagesGetLimitAndPagination(getLimit, getPageNumber int) ([]Image, error) {
+	db := database.DatabaseConnection()
+	defer db.Close()
+
+	mySqlQuery := "SELECT * FROM images ORDER BY images.published DESC LIMIT ? OFFSET ?"
+	rows, err := db.Query(mySqlQuery, getLimit, getPageNumber)
+	if err != nil {
+		fmt.Println("Error getting limit pagination of images:", err)
+		return nil, err
+	}
+	defer rows.Close()
+
+	var allImages []Image
+	for rows.Next() {
+		var imageId int
+		var imageTitle string
+		var imageDescription string
+		var imageCredit string
+		var imageUrl string
+		var imagePublished string
+		var imageUpdated string
+		err = rows.Scan(&imageId, &imageTitle, &imageDescription, &imageCredit, &imageUrl, &imagePublished, &imageUpdated)
+		if err != nil {
+			fmt.Println("Error getting image data:", err)
+			return allImages, err
+		}
+
+		imageDetails := ImageNew(imageId, imageTitle, imageDescription, imageCredit, imageUrl, imagePublished, imageUpdated)
+		allImages = append(allImages, imageDetails)
+	}
+	return allImages, nil
+}
