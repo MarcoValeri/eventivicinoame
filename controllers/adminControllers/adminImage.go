@@ -425,3 +425,84 @@ func AdminImageEdit() {
 		}
 	})
 }
+
+func AdminImageDelete() {
+	tmpl := template.Must(template.ParseFiles("./views/admin/templates/baseAdmin.html", "./views/admin/admin-image-delete.html"))
+	http.HandleFunc("/admin/admin-image-delete/", func(w http.ResponseWriter, r *http.Request) {
+
+		session, errSession := store.Get(r, "session-user-admin-authentication")
+		if errSession != nil {
+			fmt.Println("Error on session-authentication:", errSession)
+		}
+
+		if session.Values["admin-user-authentication"] == true {
+
+			idPath := strings.TrimPrefix(r.URL.Path, "/admin/admin-image-delete/")
+			idPath = util.FormSanitizeStringInput(idPath)
+
+			imageId, err := strconv.Atoi(idPath)
+			if err != nil {
+				fmt.Println("Error converting string to integer:", err)
+				return
+			}
+
+			getImageDelete, err := models.ImageFindItById(imageId)
+			if err != nil {
+				fmt.Println("Error to find image:", err)
+			}
+
+			data := imageData{
+				PageTitle: "Admin Delete Image",
+				Image:     getImageDelete,
+			}
+
+			/**
+			* Check if the form for deleting image has
+			* been submitted
+			* and
+			* delete the selected image
+			 */
+			isFormSubmittionValid := false
+
+			// Get the value from the form
+			getAdminImageDeleteUrl := r.FormValue("admin-delete-image-url")
+			getAdminImageDeleteSubmit := r.FormValue("admin-delete-image")
+
+			// Sanitize form input
+			getAdminImageDeleteUrl = util.FormSanitizeStringInput(getAdminImageDeleteUrl)
+			getAdminImageDeleteSubmit = util.FormSanitizeStringInput(getAdminImageDeleteSubmit)
+
+			// Check if the form has been submitted
+			if getAdminImageDeleteSubmit == "Delete this image" && len(getAdminImageDeleteUrl) > 0 {
+
+				// Delete image from the images folder
+				imagePath := filepath.Join("public/images", getAdminImageDeleteUrl)
+
+				if _, err := os.Stat(imagePath); os.IsNotExist(err) {
+					fmt.Println("Image not found:", err)
+					isFormSubmittionValid = false
+				} else {
+					isFormSubmittionValid = true
+				}
+
+				err := os.Remove(imagePath)
+				if err != nil {
+					fmt.Println("Error deleteing image:", err)
+					isFormSubmittionValid = false
+				} else {
+					isFormSubmittionValid = true
+				}
+
+			}
+
+			if isFormSubmittionValid {
+				models.ImageDelete(imageId)
+				http.Redirect(w, r, "/admin/admin-images/1", http.StatusSeeOther)
+			}
+
+			tmpl.Execute(w, data)
+		} else {
+			http.Redirect(w, r, "/admin/login", http.StatusSeeOther)
+		}
+	})
+}

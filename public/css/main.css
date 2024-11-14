@@ -871,6 +871,16 @@ button {
   min-height: 20rem;
 }
 
+.admin-image-delete__container-title {
+  margin-bottom: 5rem;
+}
+.admin-image-delete__container-data {
+  margin-bottom: 5rem;
+}
+.admin-image-delete__container-form {
+  margin-bottom: 2rem;
+}
+
 .admin-login {
   height: 100vh;
   position: relative;
