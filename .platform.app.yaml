@@ -18,6 +18,10 @@ mounts:
     'web/uploads':
         source: local
         source_path: uploads
+    '/public/images':
+        source: service
+        service: image-storage
+        source_path: 'images'
 
 # The size of the persistent disk of the application (in MB).
 disk: 2048
