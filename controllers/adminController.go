@@ -28,4 +28,5 @@ func AdminController() {
 	admincontrollers.AdminImageAdd()
 	admincontrollers.AdminImageEdit()
 	admincontrollers.AdminImageDelete()
+	admincontrollers.AdminImageAddOnlyFile()
 }

@@ -1,0 +1,24 @@
+{{template "baseAdmin" .}}
+
+{{define "title"}}{{ .PageTitle }}{{end}}
+
+{{define "adminContent"}}
+<div class="admin-images-add">
+    <div class="admin-images-add__container-title">
+        <h2 class="h2">Admin Image Add Only The File</h2>
+    </div>
+    <div>
+        <form method="POST" enctype="multipart/form-data">
+            <div class="admin-images-add__form-wrapper">
+                <div>
+                    <input class="input-text" type="file" name="image-add-new-only-file" accept="image/png, image/jpeg, image/webp" required />
+                    <span class="input-error">{{ .ImageFileError }}</span>
+                </div>
+                <div>
+                    <input class="input-submit" type="submit" name="image-add-new-file" value="Add new image only file" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{{end}}

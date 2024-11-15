@@ -506,3 +506,114 @@ func AdminImageDelete() {
 		}
 	})
 }
+
+func AdminImageAddOnlyFile() {
+	tmpl := template.Must(template.ParseFiles("./views/admin/templates/baseAdmin.html", "./views/admin/admin-image-add-only-file.html"))
+	http.HandleFunc("/admin/admin-image-add-only-file", func(w http.ResponseWriter, r *http.Request) {
+		session, errSession := store.Get(r, "session-user-admin-authentication")
+		if errSession != nil {
+			fmt.Println("Error on session-authentication:", errSession)
+		}
+
+		if session.Values["admin-user-authentication"] == true {
+			data := imageData{
+				PageTitle: "Admin Add Only Image File",
+			}
+
+			// Flag validation
+			var areAdminImageInputsValid [1]bool
+			isFormSubmittionValid := false
+
+			// Get the value from the form
+			getImageAddNewFile := r.FormValue("image-add-new-file")
+			getImageFileOnly, header, errImageFile := r.FormFile("image-add-new-only-file")
+
+			// Sanitize the form inputs
+			getImageAddNewFile = util.FormSanitizeStringInput(getImageAddNewFile)
+
+			if getImageAddNewFile == "Add new image only file" {
+				// Image file validation
+				if util.FormIsValidImage(getImageFileOnly, header.Filename) {
+					data.ImageFileError = ""
+					areAdminImageInputsValid[0] = true
+				} else {
+					data.ImageFileError = "Image file is not valid"
+					areAdminImageInputsValid[0] = false
+				}
+			}
+
+			for i := 0; i < len(areAdminImageInputsValid); i++ {
+				isFormSubmittionValid = true
+				if !areAdminImageInputsValid[i] {
+					isFormSubmittionValid = false
+					break
+				}
+			}
+
+			// Store image and save its data to the db
+			if isFormSubmittionValid {
+				// Flag validation for uploading image
+				var isImageUploadedCorrectly [4]bool
+				isImageUploaded := false
+
+				if errImageFile != nil {
+					fmt.Println("Error retrieving the image file:", errImageFile)
+					data.ImageFileError = "Image file is not valid"
+					isImageUploadedCorrectly[0] = false
+				} else {
+					data.ImageFileError = ""
+					isImageUploadedCorrectly[0] = true
+				}
+
+				imagePath := filepath.Join("public", "images", header.Filename)
+				absImagePath, errImagePath := filepath.Abs(imagePath)
+				if errImagePath != nil {
+					fmt.Println("Error determing image path:", errImagePath)
+					data.ImageFileError = "Image file is not valid"
+					isImageUploadedCorrectly[1] = false
+				} else {
+					data.ImageFileError = ""
+					isImageUploadedCorrectly[1] = true
+				}
+
+				dst, erDst := os.Create(absImagePath)
+				if erDst != nil {
+					fmt.Println("Error creating image file:", erDst)
+					data.ImageFileError = "Image file is not valid"
+					isImageUploadedCorrectly[2] = false
+				} else {
+					data.ImageFileError = ""
+					isImageUploadedCorrectly[2] = true
+				}
+
+				_, errCopy := io.Copy(dst, getImageFileOnly)
+				if errCopy != nil {
+					fmt.Println("Error saving image file:", errCopy)
+					data.ImageFileError = "Image file is not valid"
+					isImageUploadedCorrectly[3] = false
+				} else {
+					data.ImageFileError = ""
+					isImageUploadedCorrectly[3] = true
+				}
+
+				defer dst.Close()
+				defer getImageFileOnly.Close()
+
+				for i := 0; i < len(isImageUploadedCorrectly); i++ {
+					isImageUploaded = true
+					if !isImageUploadedCorrectly[i] {
+						isImageUploaded = false
+						break
+					}
+				}
+
+				if isImageUploaded {
+					http.Redirect(w, r, "/admin/admin-images/1", http.StatusSeeOther)
+				}
+			}
+			tmpl.Execute(w, data)
+		} else {
+			http.Redirect(w, r, "/admin/login", http.StatusSeeOther)
+		}
+	})
+}
