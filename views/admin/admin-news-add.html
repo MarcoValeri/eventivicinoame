@@ -1,0 +1,68 @@
+{{template "baseAdmin" .}}
+
+{{define "title"}}{{ .PageTitle }}{{end}}
+
+{{define "adminContent"}}
+<div class="admin-news-add">
+    <div class="admin-news-add__container-title">
+        <h2 class="h2">Admin News Add</h2>
+    </div>
+    <div>
+        <form method="POST">
+            <div class="admin-news-add__form-wrapper">
+                <div>
+                    <input class="input-text" type="text" name="news-title" placeholder="Title*" required />
+                    <span class="input-error">{{ .TitleError }}</span>
+                </div>
+                <div>
+                    <input class="input-text" type="text" name="news-description" placeholder="Description*" required />
+                    <span class="input-error">{{ .DescriptionError }}</span>
+                </div>
+                <div>
+                    <input class="input-text" type="text" name="news-url" placeholder="Url*" required />
+                    <span class="input-error">{{ .UrlError }}</span>
+                </div>
+                <div>
+                    <input class="input-date" type="datetime-local" name="news-published" required />
+                    <span class="input-error">{{ .PublishedError }}</span>
+                </div>
+                <div>
+                    <input class="input-date" type="datetime-local" name="news-updated" required />
+                    <span class="input-error">{{ .UpdatedError }}</span>
+                </div>
+                <div>
+                    <select class="input-select" name="news-image">
+                        {{ if .Images }}
+                            {{ range .Images }}
+                                <option value="{{ .Url }}">{{ .Url }}</option>
+                            {{ end }}
+                        {{ else }}
+                                <option value="no-image-found">No image found</option>
+                        {{ end }}
+                    </select>
+                    <span class="input-error">{{ .ImageError }}</span>
+                </div>
+                <div>
+                    <select class="input-select" name="news-author">
+                        {{ if .Authors }}
+                            {{ range .Authors }}
+                                <option value="{{ .Url }}">{{ .Url }}</option>
+                            {{ end }}
+                        {{ else }}
+                                <option value="no-image-found">No author found</option>
+                        {{ end }}
+                    </select>
+                    <span class="input-error">{{ .AuthorError }}</span>
+                </div>
+                <div>
+                    <textarea class="admin-news-add__form-text-area input-textarea" name="news-content"></textarea>
+                    <span class="input-error">{{ .ContentError }}</span>
+                </div>
+                <div>
+                    <input class="input-submit" type="submit" name="news-add" value="Add new news" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{{end}}
