@@ -881,6 +881,25 @@ button {
   margin-bottom: 2rem;
 }
 
+.admin-news__container-title {
+  margin-bottom: 5rem;
+}
+.admin-news__container-event {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  border: 2px solid #197278;
+  border-radius: 10px;
+}
+.admin-news__container-buttons {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 5rem;
+}
+
 .admin-login {
   height: 100vh;
   position: relative;
