@@ -260,3 +260,198 @@ func AdminNewsAdd() {
 		}
 	})
 }
+
+func AdminNewsEdit() {
+	tmpl := template.Must(template.ParseFiles("./views/admin/templates/baseAdmin.html", "./views/admin/admin-news-edit.html"))
+	http.HandleFunc("/admin/admin-news-edit/", func(w http.ResponseWriter, r *http.Request) {
+		session, errSession := store.Get(r, "session-user-admin-authentication")
+		if errSession != nil {
+			fmt.Println("Error on session-authentication:", errSession)
+		}
+
+		if session.Values["admin-user-authentication"] == true {
+			idPath := strings.TrimPrefix(r.URL.Path, "/admin/admin-news-edit/")
+			idPath = util.FormSanitizeStringInput(idPath)
+
+			newsId, err := strconv.Atoi(idPath)
+			if err != nil {
+				fmt.Println("Error converting string to integer:", err)
+				return
+			}
+
+			getNewsEdit, err := models.NewsWithRelatedFieldsFindById(newsId)
+			if err != nil {
+				fmt.Println("Error to find this news:", err)
+				return
+			}
+
+			imagesData, errImagesData := models.ImageShowImages()
+			if errImagesData != nil {
+				fmt.Println("Error getting imagesData:", errImagesData)
+			}
+
+			authorsData, errAuthorsData := models.AuthorShowAuthors()
+			if errAuthorsData != nil {
+				fmt.Println("Error getting authorsData:", errAuthorsData)
+			}
+
+			// Create data for the page
+			data := newsData{
+				PageTitle:                      "Admin News Edit",
+				GetSingleNewsWithRelatedFields: getNewsEdit,
+				Images:                         imagesData,
+				Authors:                        authorsData,
+			}
+
+			/**
+			* Check if the form for editing the news has been submitted
+			* and
+			* validate the inputs
+			 */
+			// Flag validation
+			var areAdminNewsAddInputsValid [8]bool
+			isFormSubmittionValid := false
+
+			// Get the values from the form
+			getAdminEditNewsTitle := r.FormValue("news-edit-title")
+			getAdminEditNewsDescription := r.FormValue("news-edit-description")
+			getAdminEditNewsUrl := r.FormValue("news-edit-url")
+			getAdminEditNewsPublished := r.FormValue("news-edit-published")
+			getAdminEditNewsUpdated := r.FormValue("news-edit-updated")
+			getAdminEditNewsImage := r.FormValue("news-edit-image")
+			getAdminEditNewsAuthor := r.FormValue("news-edit-author")
+			getAdminEditNewsContent := r.FormValue("news-edit-content")
+			getAdminEditNews := r.FormValue("news-edit")
+			getAdminEditNewsAndExit := r.FormValue("news-edit-and-exit")
+
+			// Sanitize form inputs
+			getAdminEditNewsTitle = util.FormSanitizeStringInput(getAdminEditNewsTitle)
+			getAdminEditNewsDescription = util.FormSanitizeStringInput(getAdminEditNewsDescription)
+			getAdminEditNewsUrl = util.FormSanitizeStringInput(getAdminEditNewsUrl)
+			getAdminEditNewsPublished = util.FormSanitizeStringInput(getAdminEditNewsPublished)
+			getAdminEditNewsUpdated = util.FormSanitizeStringInput(getAdminEditNewsUpdated)
+			getAdminEditNewsImage = util.FormSanitizeStringInput(getAdminEditNewsImage)
+			getAdminEditNewsAuthor = util.FormSanitizeStringInput(getAdminEditNewsAuthor)
+			getAdminEditNewsContent = util.FormSanitizeStringInput(getAdminEditNewsContent)
+			getAdminEditNews = util.FormSanitizeStringInput(getAdminEditNews)
+			getAdminEditNewsAndExit = util.FormSanitizeStringInput(getAdminEditNewsAndExit)
+
+			if getAdminEditNews == "Edit this news" || getAdminEditNewsAndExit == "Edit this news and exit" {
+				// Title validation
+				if len(getAdminEditNewsTitle) > 0 {
+					data.TitleError = ""
+					areAdminNewsAddInputsValid[0] = true
+				} else {
+					data.TitleError = "Title should be longer than 0"
+					areAdminNewsAddInputsValid[0] = false
+				}
+
+				// Description validation
+				if len(getAdminEditNewsDescription) > 0 {
+					data.TitleError = ""
+					areAdminNewsAddInputsValid[1] = true
+				} else {
+					data.TitleError = "Description should be longer than 0"
+					areAdminNewsAddInputsValid[1] = false
+				}
+
+				// Url validation
+				if len(getAdminEditNewsUrl) > 0 {
+					data.TitleError = ""
+					areAdminNewsAddInputsValid[2] = true
+				} else {
+					data.TitleError = "Url should be longer than 0"
+					areAdminNewsAddInputsValid[2] = false
+				}
+
+				// Published validation
+				if len(getAdminEditNewsPublished) > 0 {
+					data.TitleError = ""
+					areAdminNewsAddInputsValid[3] = true
+				} else {
+					data.TitleError = "Add a date"
+					areAdminNewsAddInputsValid[3] = false
+				}
+
+				// Updated validation
+				if len(getAdminEditNewsUpdated) > 0 {
+					data.TitleError = ""
+					areAdminNewsAddInputsValid[4] = true
+				} else {
+					data.TitleError = "Add a date"
+					areAdminNewsAddInputsValid[4] = false
+				}
+
+				// Image validation
+				if len(getAdminEditNewsImage) > 0 {
+					data.TitleError = ""
+					areAdminNewsAddInputsValid[5] = true
+				} else {
+					data.TitleError = "An image is required"
+					areAdminNewsAddInputsValid[5] = false
+				}
+
+				// Author validation
+				if len(getAdminEditNewsAuthor) > 0 {
+					data.TitleError = ""
+					areAdminNewsAddInputsValid[6] = true
+				} else {
+					data.TitleError = "An author is required"
+					areAdminNewsAddInputsValid[6] = false
+				}
+
+				// Content validation
+				if len(getAdminEditNewsContent) > 0 {
+					data.TitleError = ""
+					areAdminNewsAddInputsValid[7] = true
+				} else {
+					data.TitleError = "Content should be longer than 0"
+					areAdminNewsAddInputsValid[7] = false
+				}
+
+				// Check if the all inputs are valid
+				for i := 0; i < len(areAdminNewsAddInputsValid); i++ {
+					isFormSubmittionValid = true
+					if !areAdminNewsAddInputsValid[i] {
+						isFormSubmittionValid = false
+						break
+					}
+				}
+
+				// Edit current news if all the inputs are valid and redirect to all news list
+				if isFormSubmittionValid {
+					// Get the image id for the relationship one-to-many between news and images
+					getAdminNewsImageIdEdit, _ := models.ImageFindByUrlReturnItsId(getAdminEditNewsImage)
+
+					// Get the author id for the relationship one-to-many between news and images
+					getAdminNewsAuthorIdEdit, _ := models.AuthorFindByUrlReturnItsId(getAdminEditNewsAuthor)
+
+					editNews := models.NewsNew(
+						newsId,
+						getAdminEditNewsTitle,
+						getAdminEditNewsDescription,
+						getAdminEditNewsUrl,
+						getAdminEditNewsPublished,
+						getAdminEditNewsUpdated,
+						getAdminEditNewsContent,
+						getAdminNewsImageIdEdit,
+						getAdminNewsAuthorIdEdit,
+					)
+
+					models.NewsEdit(editNews)
+
+					if getAdminEditNews == "Edit this news" {
+						http.Redirect(w, r, "/admin/admin-news-edit/"+idPath, http.StatusSeeOther)
+					} else if getAdminEditNewsAndExit == "Edit this news and exit" {
+						http.Redirect(w, r, "/admin/admin-news/1", http.StatusSeeOther)
+					} else {
+						http.Redirect(w, r, "/adin/admin-news/1", http.StatusSeeOther)
+					}
+				}
+			}
+			tmpl.Execute(w, data)
+		} else {
+			http.Redirect(w, r, "/admin/login", http.StatusSeeOther)
+		}
+	})
+}

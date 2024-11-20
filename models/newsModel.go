@@ -89,6 +89,21 @@ func NewsAddNewToDB(getSingleNews News) error {
 	return nil
 }
 
+func NewsEdit(getNews News) error {
+	db := database.DatabaseConnection()
+	defer db.Close()
+
+	mySqlQuery := "UPDATE news SET title = ?, description = ?, url = ?, published = ?, updated = ?, content = ?, image_id = ?, author_id = ? WHERE id = ?"
+	query, err := db.Query(mySqlQuery, getNews.Title, getNews.Description, getNews.Url, getNews.Published, getNews.Updated, getNews.Content, getNews.ImageId, getNews.AuthorId, getNews.Id)
+	if err != nil {
+		fmt.Println("Error on editing event:", err)
+		return err
+	}
+	defer query.Close()
+
+	return nil
+}
+
 func NewsGetLimitAndPagination(getLimit int, getPageNumber int) ([]NewsWithRelatedFields, error) {
 	db := database.DatabaseConnection()
 	defer db.Close()
@@ -145,4 +160,62 @@ func NewsGetLimitAndPagination(getLimit int, getPageNumber int) ([]NewsWithRelat
 		allNews = append(allNews, newsDetails)
 	}
 	return allNews, nil
+}
+
+func NewsWithRelatedFieldsFindById(getNewsId int) (NewsWithRelatedFields, error) {
+	db := database.DatabaseConnection()
+	defer db.Close()
+
+	var getNewsDate NewsWithRelatedFields
+
+	mySqlQuery := "SELECT news.id, news.title, news.description, news.url, news.published, news.updated, news.content, news.image_id, images.url, images.description, news.author_id, authors.name, authors.surname, authors.url, authors.image_url, authors.description FROM news JOIN images ON news.image_id = images.id JOIN authors ON news.author_id = authors.id WHERE news.id = ?"
+	rows, err := db.Query(mySqlQuery, getNewsId)
+	if err != nil {
+		fmt.Println("Error on the event query NewsWithRelatedFieldsFindById:", err)
+		return getNewsDate, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var newsId int
+		var newsTitle string
+		var newsDescription string
+		var newsUrl string
+		var newsPublished string
+		var newsUpdated string
+		var newsContent string
+		var newsImageId int
+		var newsImageUrl string
+		var newsImageAlt string
+		var newsAuthorId int
+		var newsAuthorName string
+		var newsAuthorSurname string
+		var newsAuthorUrl string
+		var newsAuthorImageUrl string
+		var newsAuthorDescription string
+		err = rows.Scan(&newsId, &newsTitle, &newsDescription, &newsUrl, &newsPublished, &newsUpdated, &newsContent, &newsImageId, &newsImageUrl, &newsImageAlt, &newsAuthorId, &newsAuthorName, &newsAuthorSurname, &newsAuthorUrl, &newsAuthorImageUrl, &newsAuthorDescription)
+		if err != nil {
+			return getNewsDate, err
+		}
+
+		getNewsDate = NewsNewWithRelatedFileds(
+			newsId,
+			newsTitle,
+			newsDescription,
+			newsUrl,
+			newsPublished,
+			newsUpdated,
+			newsContent,
+			newsImageId,
+			newsImageUrl,
+			newsImageAlt,
+			newsAuthorId,
+			newsAuthorName,
+			newsAuthorSurname,
+			newsAuthorUrl,
+			newsAuthorImageUrl,
+			newsAuthorDescription,
+		)
+	}
+	return getNewsDate, nil
 }

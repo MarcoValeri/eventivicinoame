@@ -1,0 +1,80 @@
+{{template "baseAdmin" .}}
+
+{{define "title"}}{{ .PageTitle }}{{end}}
+
+{{define "adminContent"}}
+<div class="admin-news-edit">
+    <div class="admin-news-edit__container-title">
+        <h2 class="h2">Admin News Edit</h2>
+    </div>
+    {{ if .GetSingleNewsWithRelatedFields }}
+        <div class="admin-news-edit__container-data">
+            <p class="p-xl">ID: {{ .GetSingleNewsWithRelatedFields.Id }}</p>
+            <p class="p-xl">{{ .GetSingleNewsWithRelatedFields.Title }}</p>
+            <p class="p-xl">{{ .GetSingleNewsWithRelatedFields.Description }}</p>
+        </div>
+        <div>
+            <form method="POST">
+                <div class="admin-news-edit__form-wrapper">
+                    <div>
+                        <input class="input-text" type="text" name="news-edit-title" value="{{ .GetSingleNewsWithRelatedFields.Title }}" placeholder="Title*" required />
+                        <span class="input-error">{{ .TitleError }}</span>
+                    </div>
+                    <div>
+                        <input class="input-text" type="text" name="news-edit-description" value="{{ .GetSingleNewsWithRelatedFields.Description }}" placeholder="Description*" required />
+                        <span class="input-error">{{ .DescriptionError }}</span>
+                    </div>
+                    <div>
+                        <input class="input-text" type="text" name="news-edit-url" value="{{ .GetSingleNewsWithRelatedFields.Url }}" placeholder="Url*" required />
+                        <span class="input-error">{{ .UrlError }}</span>
+                    </div>
+                    <div>
+                        <input class="input-date" type="datetime-local" name="news-edit-published" value="{{ .GetSingleNewsWithRelatedFields.Published }}" required />
+                        <span class="input-error">{{ .PublishedError }}</span>
+                    </div>
+                    <div>
+                        <input class="input-date" type="datetime-local" name="news-edit-updated"  value="{{ .GetSingleNewsWithRelatedFields.Updated }}" required />
+                        <span class="input-error">{{ .UpdatedError }}</span>
+                    </div>
+                    <div>
+                        <select class="input-select" name="news-edit-image">
+                            {{ if .Images }}
+                                <option value="{{ .GetSingleNewsWithRelatedFields.ImageUrl }}" selected="selected">{{ .GetSingleNewsWithRelatedFields.ImageUrl }}</option>
+                                {{ range .Images }}
+                                    <option value="{{ .Url }}">{{ .Url }}</option>
+                                {{ end }}
+                            {{ else }}
+                                    <option value="no-image-found">No image found</option>
+                            {{ end }}
+                        </select>
+                        <span class="input-error">{{ .ImageError }}</span>
+                    </div>
+                    <div>
+                        <select class="input-select" name="news-edit-author">
+                            {{ if .Authors }}
+                                <option value="{{ .GetSingleNewsWithRelatedFields.AuthorUrl }}" selected="selected">{{ .GetSingleNewsWithRelatedFields.AuthorUrl }}</option>
+                                {{ range .Authors }}
+                                    <option value="{{ .Url }}">{{ .Url }}</option>
+                                {{ end }}
+                            {{ else }}
+                                    <option value="no-image-found">No author found</option>
+                            {{ end }}
+                        </select>
+                        <span class="input-error">{{ .AuthorError }}</span>
+                    </div>
+                    <div>
+                        <textarea class="admin-event-add__form-text-area input-textarea" name="news-edit-content">{{.GetSingleNewsWithRelatedFields.Content}}</textarea>
+                        <span class="input-error">{{ .ContentError }}</span>
+                    </div>
+                    <div>
+                        <input class="input-submit" type="submit" name="news-edit" value="Edit this news" />
+                    </div>
+                    <div>
+                        <input class="input-submit" type="submit" name="news-edit-and-exit" value="Edit this news and exit" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    {{ end }}
+</div>
+{{end}}
