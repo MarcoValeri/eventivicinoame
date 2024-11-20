@@ -27,6 +27,7 @@ func AdminController() {
 	admincontrollers.AdminNews()
 	admincontrollers.AdminNewsAdd()
 	admincontrollers.AdminNewsEdit()
+	admincontrollers.AdminNewsDelete()
 
 	admincontrollers.AdminImages()
 	admincontrollers.AdminImageAdd()

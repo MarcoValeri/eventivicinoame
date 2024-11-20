@@ -104,6 +104,21 @@ func NewsEdit(getNews News) error {
 	return nil
 }
 
+func NewsDelete(getNewsId int) error {
+	db := database.DatabaseConnection()
+	defer db.Close()
+
+	mySqlQuery := "DELETE FROM news WHERE id = ? LIMIT 1"
+	rows, err := db.Query(mySqlQuery, getNewsId)
+	if err != nil {
+		fmt.Println("Error, no able to delete this event:", err)
+		return err
+	}
+	defer rows.Close()
+
+	return nil
+}
+
 func NewsGetLimitAndPagination(getLimit int, getPageNumber int) ([]NewsWithRelatedFields, error) {
 	db := database.DatabaseConnection()
 	defer db.Close()
@@ -218,4 +233,64 @@ func NewsWithRelatedFieldsFindById(getNewsId int) (NewsWithRelatedFields, error)
 		)
 	}
 	return getNewsDate, nil
+}
+
+func NewsFindByParameter(getParameter string) ([]NewsWithRelatedFields, error) {
+	db := database.DatabaseConnection()
+	defer db.Close()
+
+	mySqlQuery := "SELECT news.id, news.title, news.description, news.url, news.published, news.updated, news.content, news.image_id, images.url, images.description, news.author_id, authors.name, authors.surname, authors.url, authors.image_url, authors.description FROM news JOIN images ON news.image_id = images.id JOIN authors ON news.author_id = authors.id WHERE (news.title LIKE ? OR news.description LIKE ? OR news.content LIKE ?) AND news.published < NOW() ORDER BY news.updated DESC LIMIT ?"
+	likePattern := "%" + getParameter + "%"
+
+	rows, err := db.Query(mySqlQuery, likePattern, likePattern, likePattern, 10)
+	if err != nil {
+		fmt.Println("Error on the news query:", err)
+		return nil, err
+	}
+	defer rows.Close()
+
+	var allNews []NewsWithRelatedFields
+	for rows.Next() {
+		var newsId int
+		var newsTitle string
+		var newsDescription string
+		var newsUrl string
+		var newsPublished string
+		var newsUpdated string
+		var newsContent string
+		var newsImageId int
+		var newsImageUrl string
+		var newsImageAlt string
+		var newsAuthorId int
+		var newsAuthorName string
+		var newsAuthorSurname string
+		var newsAuthorUrl string
+		var newsAuthorImageUrl string
+		var newsAuthorDescription string
+		err = rows.Scan(&newsId, &newsTitle, &newsDescription, &newsUrl, &newsPublished, &newsUpdated, &newsContent, &newsImageId, &newsImageUrl, &newsImageAlt, &newsAuthorId, &newsAuthorName, &newsAuthorSurname, &newsAuthorUrl, &newsAuthorImageUrl, &newsAuthorDescription)
+		if err != nil {
+			return allNews, err
+		}
+
+		newsDetails := NewsNewWithRelatedFileds(
+			newsId,
+			newsTitle,
+			newsDescription,
+			newsUrl,
+			newsPublished,
+			newsUpdated,
+			newsContent,
+			newsImageId,
+			newsImageUrl,
+			newsImageAlt,
+			newsAuthorId,
+			newsAuthorName,
+			newsAuthorSurname,
+			newsAuthorUrl,
+			newsAuthorImageUrl,
+			newsAuthorDescription,
+		)
+		allNews = append(allNews, newsDetails)
+	}
+	return allNews, nil
 }

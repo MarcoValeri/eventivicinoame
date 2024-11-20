@@ -455,3 +455,62 @@ func AdminNewsEdit() {
 		}
 	})
 }
+
+func AdminNewsDelete() {
+	tmpl := template.Must(template.ParseFiles("./views/admin/templates/baseAdmin.html", "./views/admin/admin-news-delete.html"))
+	http.HandleFunc("/admin/admin-news-delete/", func(w http.ResponseWriter, r *http.Request) {
+		session, errSession := store.Get(r, "session-user-admin-authentication")
+		if errSession != nil {
+			fmt.Println("Error on session-authentication:", errSession)
+		}
+
+		if session.Values["admin-user-authentication"] == true {
+			idPath := strings.TrimPrefix(r.URL.Path, "/admin/admin-news-delete/")
+			idPath = util.FormSanitizeStringInput(idPath)
+
+			newsId, err := strconv.Atoi(idPath)
+			if err != nil {
+				fmt.Println("Error converting string to integer:", err)
+				return
+			}
+
+			getNewsDelete, err := models.NewsWithRelatedFieldsFindById(newsId)
+			if err != nil {
+				fmt.Println("Error to find news by id:", err)
+			}
+
+			data := newsData{
+				PageTitle:                      "Admin Delete News",
+				GetSingleNewsWithRelatedFields: getNewsDelete,
+			}
+
+			/**
+			* Check if the form for deleting event
+			* has been submitted
+			* and
+			* delete the selected event
+			 */
+			isFormSubmittionValid := false
+
+			// Get the value from the form
+			getAdminNewsDeleteSubmit := r.FormValue("admin-news-delete")
+
+			// Santize the form input
+			getAdminNewsDeleteSubmit = util.FormSanitizeStringInput(getAdminNewsDeleteSubmit)
+
+			// Check if the form has been submitted
+			if getAdminNewsDeleteSubmit == "Delete this news" {
+				isFormSubmittionValid = true
+			}
+
+			if isFormSubmittionValid {
+				models.NewsDelete(newsId)
+				http.Redirect(w, r, "/admin/admin-news/1", http.StatusSeeOther)
+			}
+
+			tmpl.Execute(w, data)
+		} else {
+			http.Redirect(w, r, "/admin/login", http.StatusSeeOther)
+		}
+	})
+}
