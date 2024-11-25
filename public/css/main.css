@@ -1191,6 +1191,30 @@ button {
   margin-bottom: 5rem;
 }
 
+.new {
+  padding: 5rem;
+  margin: auto;
+}
+@media only screen and (max-width: 767px) {
+  .new {
+    padding: 5rem 1rem;
+  }
+}
+.new__container-title {
+  margin-bottom: 2rem;
+}
+.new__container-image {
+  width: 80%;
+  margin: 5rem auto;
+}
+.new__image {
+  width: 100%;
+  height: 100%;
+}
+.new__card-article {
+  margin: 5rem auto;
+}
+
 .sagra {
   padding: 5rem;
   margin: auto;

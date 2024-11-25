@@ -1,0 +1,66 @@
+{{template "base" .}}
+
+{{define "title"}}{{.PageTitle}}{{end}}
+{{define "description"}}<meta name="description" content="{{.PageDescription}}">{{end}}
+
+{{define "structure"}}
+<script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://www.eventivicinoame.com/"
+        },
+        {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "{{.SingleNews.Title}}",
+            "item": "https://www.eventivicinoame.com/news/{{.SingleNews.Url}}"
+        }]
+    }
+</script>
+{{end}}
+
+{{define "breadcrumb"}}
+<ol class="breadcrumb__menu">
+    <li class="breadcrumb__menu-list"><a class="link-content p" href="https://www.eventivicinoame.com/">Home</a> /</li>
+    <li class="breadcrumb__menu-list"><a class="link-content p" href="https://www.eventivicinoame.com/news/{{.SingleNews.Url}}">{{.SingleNews.Title}}</a></li>
+</ol>
+{{end}}
+
+{{ define "content"}}
+<div class="new">
+    {{ if .SingleNews }}
+        <div class="new__container-title">
+            <h1 class="h1">{{ .SingleNews.Title }}</h2>
+        </div>
+        <div class="content">
+            {{ .NewsContentRaw }}
+        </div>
+        <div class="new__container-image">
+            <img loading="lazy" class="new__image" src="/public/images/{{ .SingleNews.ImageUrl }}" alt="{{ .SingleNews.ImageAlt }}">
+        </div>
+        <div>
+            <h2 class="h4">Articolo scritto da</h2>
+        </div>
+        <div class="author-card new__card-article">
+            <a class="link-no" href="/author/{{ .SingleNews.AuthorUrl }}">
+                <div class="author-card__wrapper">
+                    <div class="author-card__container-image">
+                        <img loading="lazy" class="author-card__image" src="/public/images/{{ .SingleNews.AuthorImageUrl }}" alt="Foto autore {{ .SingleNews.AuthorName }} {{ .SingleNews.AuthorSurname }}">
+                    </div>
+                    <div class="author-card__container-content">
+                        <h2 class="author-card__title h3">{{ .SingleNews.AuthorName }} {{ .SingleNews.AuthorSurname }}</h2>
+                        <p class="h4">{{ .SingleNews.AuthorDescription }}</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    {{ else }}
+        <h4 class="h4">News no found</h4>
+    {{ end }}
+</div>
+{{end}}

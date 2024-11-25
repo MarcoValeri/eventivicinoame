@@ -29,6 +29,8 @@ func SitemapAllURL() ([]SitemapURL, error) {
 	urlThirteen := SitemapURL{"https://www.eventivicinoame.com/eventi/eventi-novembre", "2024-10-30"}
 	urlFourteen := SitemapURL{"https://www.eventivicinoame.com/eventi/eventi-dicembre", "2024-10-30"}
 	urlFifteen := SitemapURL{"https://www.eventivicinoame.com/eventi/mercatini-di-natale", "2024-10-30"}
+	urlSixteen := SitemapURL{"https://www.eventivicinoame.com/news-cerca/", "2024-11-25"}
+
 	setURLsList = append(setURLsList, urlZero)
 	setURLsList = append(setURLsList, urlOne)
 	setURLsList = append(setURLsList, urlThree)
@@ -44,6 +46,7 @@ func SitemapAllURL() ([]SitemapURL, error) {
 	setURLsList = append(setURLsList, urlThirteen)
 	setURLsList = append(setURLsList, urlFourteen)
 	setURLsList = append(setURLsList, urlFifteen)
+	setURLsList = append(setURLsList, urlSixteen)
 
 	// Get all sagre URLs
 	db := database.DatabaseConnection()
@@ -86,6 +89,26 @@ func SitemapAllURL() ([]SitemapURL, error) {
 		urlEvent.Loc = "https://www.eventivicinoame.com/evento/" + eventUrl
 		urlEvent.LastMod = eventUpdated[:10]
 		setURLsList = append(setURLsList, urlEvent)
+	}
+
+	// Get all news URLs
+	rowsNews, errNews := db.Query("SELECT url, updated FROM news WHERE published < NOW()")
+	if errNews != nil {
+		return nil, err
+	}
+	defer rowsNews.Close()
+
+	var urlNews SitemapURL
+	for rowsNews.Next() {
+		var newsUrl string
+		var newsUpdated string
+		err = rowsNews.Scan(&newsUrl, &newsUpdated)
+		if err != nil {
+			return nil, err
+		}
+		urlNews.Loc = "https://www.eventivicinoame.com/news/" + newsUrl
+		urlNews.LastMod = newsUpdated[:10]
+		setURLsList = append(setURLsList, urlNews)
 	}
 
 	// Get all the images

@@ -33,8 +33,8 @@ func NewsSearchController() {
 		currentUrlPath := path.Clean(r.URL.Path)
 
 		data := NewsData{
-			PageTitle:       "ADD TITLE",
-			PageDescription: "ADD DESCRIPTION",
+			PageTitle:       "Eventi Vicino a Me News: novità e notizie su cosa fare",
+			PageDescription: "Eventi Vicino a Me News: novità, notizie e aggiornamenti su cosa fare in Italia, in Europa e nel resto del mondo, tra eventi, feste e tempo libero",
 			CurrentYear:     time.Now().Year(),
 			CurrentUrl:      currentUrlPath,
 		}
@@ -92,5 +92,48 @@ func NewsSearchController() {
 
 			tmpl.Execute(w, data)
 		}
+	})
+}
+
+func NewsController() {
+	tmpl := template.Must(template.ParseFiles("./views/templates/base.html", "./views/news/news.html"))
+	http.HandleFunc("/news/", func(w http.ResponseWriter, r *http.Request) {
+		urlPath := strings.TrimPrefix(r.URL.Path, "/news/")
+		urlPath = util.FormSanitizeStringInput(urlPath)
+
+		// Get News by URL
+		getNews, err := models.NewsWithRelatedFieldsFindByUrl(urlPath)
+		if err != nil {
+			fmt.Println("Error finding news by URL:", err)
+		}
+
+		/**
+		* Redirect to 404 page if the
+		* news does not exist
+		* or
+		* if it is not published yet
+		 */
+		if getNews.Id == 0 {
+			http.Redirect(w, r, "/error/error-404", http.StatusSeeOther)
+		}
+
+		// Create raw content for html template
+		newsRowTitle := template.HTML(getNews.Title)
+		newsRowDescription := template.HTML(getNews.Description)
+		newsRowContent := template.HTML(getNews.Content)
+
+		// Get current path
+		currentUrlPath := path.Clean(r.URL.Path)
+
+		data := NewsData{
+			PageTitle:       newsRowTitle,
+			PageDescription: newsRowDescription,
+			SingleNews:      getNews,
+			NewsContentRaw:  newsRowContent,
+			CurrentYear:     time.Now().Year(),
+			CurrentUrl:      currentUrlPath,
+		}
+
+		tmpl.Execute(w, data)
 	})
 }
