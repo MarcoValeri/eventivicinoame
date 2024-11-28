@@ -141,6 +141,28 @@ func SagraController() {
 	})
 }
 
+func SagreJanuary() {
+	tmpl := template.Must(template.ParseFiles("./views/templates/base.html", "./views/sagre/sagre-gennaio.html"))
+	http.HandleFunc("/sagre/sagre-gennaio", func(w http.ResponseWriter, r *http.Request) {
+		// Get Sagre that are planned in October
+		getJanuarySagre, err := models.SagreGetThemByPeriodOfTime("2025-01-01 00:00:00", "2025-01-31 23:59:59", 50)
+		if err != nil {
+			fmt.Println("Error getting January's sagre:", err)
+		}
+
+		data := SagraData{
+			PageTitle:       template.HTML("Sagre gennaio 2024: fiere, feste ed eventi in Italia"),
+			PageDescription: template.HTML("Sagre gennaio 2024: fiere, feste ed eventi da non perdere che si svolgono in tutta Italia durante il mese di gennaio, nel pieno della stagione invernale"),
+			CurrentYear:     time.Now().Year(),
+			CurrentUrl:      "/sagre-cerca",
+			Sagre:           getJanuarySagre,
+		}
+
+		tmpl.Execute(w, data)
+
+	})
+}
+
 func SagreOctober() {
 	tmpl := template.Must(template.ParseFiles("./views/templates/base.html", "./views/sagre/sagre-ottobre.html"))
 	http.HandleFunc("/sagre/sagre-ottobre", func(w http.ResponseWriter, r *http.Request) {

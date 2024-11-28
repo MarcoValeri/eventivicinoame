@@ -163,6 +163,27 @@ func EventsMercatiniDiNatale() {
 
 }
 
+func EventsJanuary() {
+	tmpl := template.Must(template.ParseFiles("./views/templates/base.html", "./views/events/events-gennaio.html"))
+	http.HandleFunc("/eventi/eventi-gennaio", func(w http.ResponseWriter, r *http.Request) {
+		// Get all the events that hava event_type = mercatini di natale
+		getEventsNovember, err := models.EventsGetThemByPeriodOfTime("2025-01-01 00:00:00", "2025-01-31 23:59:59", 50)
+		if err != nil {
+			fmt.Println("Error getting November's events:", err)
+		}
+
+		data := EventData{
+			PageTitle:       template.HTML("Eventi gennaio 2024: le cose più belle da fare a gennaio"),
+			PageDescription: template.HTML("Eventi gennaio 2024: le cose più belle da fare in questo periodo dell'anno in Italia, Europa e resto del mondo, pianifica il tuo evento in inverno"),
+			CurrentYear:     time.Now().Year(),
+			CurrentUrl:      "/eventi-cerca",
+			Events:          getEventsNovember,
+		}
+
+		tmpl.Execute(w, data)
+	})
+}
+
 func EventsNovember() {
 	tmpl := template.Must(template.ParseFiles("./views/templates/base.html", "./views/events/events-novembre.html"))
 	http.HandleFunc("/eventi/eventi-novembre", func(w http.ResponseWriter, r *http.Request) {
@@ -182,7 +203,6 @@ func EventsNovember() {
 
 		tmpl.Execute(w, data)
 	})
-
 }
 
 func EventsDecember() {
