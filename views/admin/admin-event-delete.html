@@ -3,18 +3,18 @@
 {{define "title"}}{{ .PageTitle }}{{end}}
 
 {{define "adminContent"}}
-<div class="admin-event-delete">
-    <div class="admin-event-delete__container-title">
+<div class="admin-page-delete">
+    <div class="admin-page-delete__container-title">
         <h2 class="h2">Admin Event Delete</h2>
     </div>
     {{ if .EventWithRelatedFields }}
-        <div class="admin-event-delete__container-data">
+        <div class="admin-page-delete__container-data">
             <p class="p-xl">ID: {{ .EventWithRelatedFields.Id }}</p>
             <p class="p-xl">{{ .EventWithRelatedFields.Title }}</p>
             <p class="p-xl">{{ .EventWithRelatedFields.Description }}</p>
             <h4 class="h4">Do you want to delete this event?</h4>
         </div>
-        <div class="admin-event-delete__container-form">
+        <div class="admin-page-delete__container-form">
             <form method="POST">
                 <input class="input-submit" type="submit" name="admin-event-delete" value="Delete this event" />
             </form>

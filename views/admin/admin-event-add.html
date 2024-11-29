@@ -3,13 +3,13 @@
 {{define "title"}}{{ .PageTitle }}{{end}}
 
 {{define "adminContent"}}
-<div class="admin-event-add">
-    <div class="admin-event-add__container-title">
+<div class="admin-page-add">
+    <div class="admin-page-add__container-title">
         <h2 class="h2">Admin Event Add</h2>
     </div>
     <div>
         <form method="POST">
-            <div class="admin-event-add__form-wrapper">
+            <div class="admin-page-add__form-wrapper">
                 <div>
                     <input class="input-text" type="text" name="event-title" placeholder="Title*" required />
                     <span class="input-error">{{ .TitleError }}</span>
@@ -76,7 +76,7 @@
                     <span class="input-error">{{ .EventTypeError }}</span>
                 </div>
                 <div>
-                    <textarea class="admin-event-add__form-text-area input-textarea" name="event-content"></textarea>
+                    <textarea class="admin-page-add__form-text-area input-textarea" name="event-content"></textarea>
                     <span class="input-error">{{ .ContentError }}</span>
                 </div>
                 <div>

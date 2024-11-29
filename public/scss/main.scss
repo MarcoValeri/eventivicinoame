@@ -13,6 +13,12 @@
 @import "../scss/components/cookie-banner";
 
 // Import layout files
+@import "../scss/layout/admin-page";
+@import "../scss/layout/admin-page-add";
+@import "../scss/layout/admin-page-edit";
+@import "../scss/layout/admin-page-delete";
+@import "../scss/layout/admin-page-search";
+@import "../scss/layout/admin-page-checker";
 @import "../scss/layout/content";
 @import "../scss/layout/footer";
 @import "../scss/layout/header";
@@ -22,27 +28,7 @@
 
 // Import pages files
 @import "../scss/pages/admin-dashboard";
-@import "../scss/pages/admin-events";
-@import "../scss/pages/admin-events-add";
-@import "../scss/pages/admin-events-checker";
-@import "../scss/pages/admin-events-edit";
-@import "../scss/pages/admin-events-delete";
-@import "../scss/pages/admin-events-search";
-@import "../scss/pages/admin-images";
-@import "../scss/pages/admin-images-add";
-@import "../scss/pages/admin-images-edit";
-@import "../scss/pages/admin-images-delete";
-@import "../scss/pages/admin-news";
-@import "../scss/pages/admin-news-add";
-@import "../scss/pages/admin-news-edit";
-@import "../scss/pages/admin-news-delete";
 @import "../scss/pages/admin-login";
-@import "../scss/pages/admin-sagre";
-@import "../scss/pages/admin-sagre-add";
-@import "../scss/pages/admin-sagre-checker";
-@import "../scss/pages/admin-sagre-delete";
-@import "../scss/pages/admin-sagre-edit";
-@import "../scss/pages/admin-sagre-search";
 @import "../scss/pages/event";
 @import "../scss/pages/events";
 @import "../scss/pages/home";

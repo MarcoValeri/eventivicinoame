@@ -1,10 +1,10 @@
-.admin-image-edit {
+.admin-page-search {
 
     &__container-title {
         margin-bottom: 5rem;
     }
 
-    &__container-data {
+    &__container-form {
         margin-bottom: 5rem;
     }
 
@@ -19,4 +19,15 @@
         height: auto;
         min-height: 20rem;
     }
+
+    &__container-event {
+        display: flex;
+        flex-direction: column;
+        row-gap: 1rem;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        border: 2px solid $greenEVM;
+        border-radius: 10px;
+    }
+
 }

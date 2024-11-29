@@ -3,13 +3,13 @@
 {{define "title"}}{{ .PageTitle }}{{end}}
 
 {{define "adminContent"}}
-<div class="admin-news-add">
-    <div class="admin-news-add__container-title">
+<div class="admin-page-add">
+    <div class="admin-page-add__container-title">
         <h2 class="h2">Admin News Add</h2>
     </div>
     <div>
         <form method="POST">
-            <div class="admin-news-add__form-wrapper">
+            <div class="admin-page-add__form-wrapper">
                 <div>
                     <input class="input-text" type="text" name="news-title" placeholder="Title*" required />
                     <span class="input-error">{{ .TitleError }}</span>
@@ -55,7 +55,7 @@
                     <span class="input-error">{{ .AuthorError }}</span>
                 </div>
                 <div>
-                    <textarea class="admin-news-add__form-text-area input-textarea" name="news-content"></textarea>
+                    <textarea class="admin-page-add__form-text-area input-textarea" name="news-content"></textarea>
                     <span class="input-error">{{ .ContentError }}</span>
                 </div>
                 <div>

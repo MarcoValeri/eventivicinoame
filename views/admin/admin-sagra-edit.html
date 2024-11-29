@@ -3,19 +3,19 @@
 {{define "title"}}{{ .PageTitle }}{{end}}
 
 {{define "adminContent"}}
-<div class="admin-sagra-edit">
-    <div class="admin-sagra-edit__container-title">
+<div class="admin-page-edit">
+    <div class="admin-page-edit__container-title">
         <h2 class="h2">Admin Sagre Edit</h2>
     </div>
     {{ if .SagraWithRelatedFields }}
-        <div class="admin-sagra-edit__container-data">
+        <div class="admin-page-edit__container-data">
             <p class="p-xl">ID: {{ .SagraWithRelatedFields.Id }}</p>
             <p class="p-xl">{{ .SagraWithRelatedFields.Title }}</p>
             <p class="p-xl">{{ .SagraWithRelatedFields.Description }}</p>
         </div>
         <div>
             <form method="POST">
-                <div class="admin-sagra-edit__form-wrapper">
+                <div class="admin-page-edit__form-wrapper">
                     <div>
                         <input class="input-text" type="text" name="sagra-edit-title" value="{{ .SagraWithRelatedFields.Title }}" placeholder="Title*" required />
                         <span class="input-error">{{ .TitleError }}</span>

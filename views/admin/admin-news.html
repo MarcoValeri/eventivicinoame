@@ -3,13 +3,13 @@
 {{define "title"}}{{ .PageTitle }}{{end}}
 
 {{define "adminContent"}}
-<div class="admin-news">
-    <div class="admin-news__container-title">
+<div class="admin-page">
+    <div class="admin-page__container-title">
         <h2 class="h2">Admin News</h2>
     </div>
     {{ if .GetNewsWithRelatedFields }}
         {{ range .GetNewsWithRelatedFields }}
-            <div class="admin-news__container-event">
+            <div class="admin-page__container-event">
                 <div>
                     <h1 class="h1">{{ .Title }}</h1>
                     <h2 class="h2">{{ .Description }}</h2>
@@ -29,7 +29,7 @@
     {{ else }}
         <h4 class="h4">No news found</h4>
     {{ end }}
-    <div class="admin-news__container-buttons">
+    <div class="admin-page__container-buttons">
         {{ if .PreviusButton }}<a class="button" href="/admin/admin-news/{{ .PreviousPage }}">Previous</a>{{ end }}
         {{ if .NextButton }}<a class="button" href="/admin/admin-news/{{ .NextPage }}">Next</a>{{ end }}
     </div>

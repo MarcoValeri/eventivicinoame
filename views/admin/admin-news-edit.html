@@ -3,19 +3,19 @@
 {{define "title"}}{{ .PageTitle }}{{end}}
 
 {{define "adminContent"}}
-<div class="admin-news-edit">
-    <div class="admin-news-edit__container-title">
+<div class="admin-page-edit">
+    <div class="admin-page-edit__container-title">
         <h2 class="h2">Admin News Edit</h2>
     </div>
     {{ if .GetSingleNewsWithRelatedFields }}
-        <div class="admin-news-edit__container-data">
+        <div class="admin-page-edit__container-data">
             <p class="p-xl">ID: {{ .GetSingleNewsWithRelatedFields.Id }}</p>
             <p class="p-xl">{{ .GetSingleNewsWithRelatedFields.Title }}</p>
             <p class="p-xl">{{ .GetSingleNewsWithRelatedFields.Description }}</p>
         </div>
         <div>
             <form method="POST">
-                <div class="admin-news-edit__form-wrapper">
+                <div class="admin-page-edit__form-wrapper">
                     <div>
                         <input class="input-text" type="text" name="news-edit-title" value="{{ .GetSingleNewsWithRelatedFields.Title }}" placeholder="Title*" required />
                         <span class="input-error">{{ .TitleError }}</span>

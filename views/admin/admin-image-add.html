@@ -3,13 +3,13 @@
 {{define "title"}}{{ .PageTitle }}{{end}}
 
 {{define "adminContent"}}
-<div class="admin-images-add">
-    <div class="admin-images-add__container-title">
+<div class="admin-page-add">
+    <div class="admin-page-add__container-title">
         <h2 class="h2">Admin Image Add</h2>
     </div>
     <div>
         <form method="POST" enctype="multipart/form-data">
-            <div class="admin-images-add__form-wrapper">
+            <div class="admin-page-add__form-wrapper">
                 <div>
                     <input class="input-text" type="text" name="image-title" placeholder="Image Title*" required />
                     <span class="input-error">{{ .ImageTitleError }}</span>

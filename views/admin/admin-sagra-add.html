@@ -3,13 +3,13 @@
 {{define "title"}}{{ .PageTitle }}{{end}}
 
 {{define "adminContent"}}
-<div class="admin-sagra-add">
-    <div class="admin-sagra-add__container-title">
+<div class="admin-page-add">
+    <div class="admin-page-add__container-title">
         <h2 class="h2">Admin Sagre Add</h2>
     </div>
     <div>
         <form method="POST">
-            <div class="admin-sagra-add__form-wrapper">
+            <div class="admin-page-add__form-wrapper">
                 <div>
                     <input class="input-text" type="text" name="sagra-title" placeholder="Title*" required />
                     <span class="input-error">{{ .TitleError }}</span>
@@ -55,7 +55,7 @@
                     <span class="input-error">{{ .AuthorError }}</span>
                 </div>
                 <div>
-                    <textarea class="admin-sagra-add__form-text-area input-textarea" name="sagra-content"></textarea>
+                    <textarea class="admin-page-add__form-text-area input-textarea" name="sagra-content"></textarea>
                     <span class="input-error">{{ .ContentError }}</span>
                 </div>
                 <div>

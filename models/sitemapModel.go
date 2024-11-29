@@ -21,15 +21,17 @@ func SitemapAllURL() ([]SitemapURL, error) {
 	urlFive := SitemapURL{"https://www.eventivicinoame.com/page/cookie-policy", "2024-09-20"}
 	urlSix := SitemapURL{"https://www.eventivicinoame.com/page/privacy-policy", "2024-09-20"}
 	urlSeven := SitemapURL{"https://www.eventivicinoame.com/sagre/sagre-ottobre", "2024-09-26"}
-	urlEight := SitemapURL{"https://www.eventivicinoame.com/sagre/sagre-novembre", "2024-10-05"}
-	urlNine := SitemapURL{"https://www.eventivicinoame.com/sagre/sagre-dicembre", "2024-10-21"}
-	urlTen := SitemapURL{"https://www.eventivicinoame.com/sagre/sagre-autunno", "2024-10-21"}
-	urlEleven := SitemapURL{"https://www.eventivicinoame.com/author/marco-valeri", "2024-10-11"}
-	urlTwelve := SitemapURL{"https://www.eventivicinoame.com/eventi-cerca/", "2024-10-18"}
-	urlThirteen := SitemapURL{"https://www.eventivicinoame.com/eventi/eventi-novembre", "2024-10-30"}
-	urlFourteen := SitemapURL{"https://www.eventivicinoame.com/eventi/eventi-dicembre", "2024-10-30"}
-	urlFifteen := SitemapURL{"https://www.eventivicinoame.com/eventi/mercatini-di-natale", "2024-10-30"}
-	urlSixteen := SitemapURL{"https://www.eventivicinoame.com/news-cerca/", "2024-11-25"}
+	urlEight := SitemapURL{"https://www.eventivicinoame.com/sagre/sagre-gennaio", "2024-11-29"}
+	urlNine := SitemapURL{"https://www.eventivicinoame.com/sagre/sagre-novembre", "2024-10-05"}
+	urlTen := SitemapURL{"https://www.eventivicinoame.com/sagre/sagre-dicembre", "2024-10-21"}
+	urlEleven := SitemapURL{"https://www.eventivicinoame.com/sagre/sagre-autunno", "2024-10-21"}
+	urlTwelve := SitemapURL{"https://www.eventivicinoame.com/author/marco-valeri", "2024-10-11"}
+	urlThirteen := SitemapURL{"https://www.eventivicinoame.com/eventi-cerca/", "2024-10-18"}
+	urlFourteen := SitemapURL{"https://www.eventivicinoame.com/eventi/eventi-gennaio", "2024-11-29"}
+	urlFifteen := SitemapURL{"https://www.eventivicinoame.com/eventi/eventi-novembre", "2024-10-30"}
+	urlSixteen := SitemapURL{"https://www.eventivicinoame.com/eventi/eventi-dicembre", "2024-10-30"}
+	urlSeventeen := SitemapURL{"https://www.eventivicinoame.com/eventi/mercatini-di-natale", "2024-10-30"}
+	urlEighteen := SitemapURL{"https://www.eventivicinoame.com/news-cerca/", "2024-11-25"}
 
 	setURLsList = append(setURLsList, urlZero)
 	setURLsList = append(setURLsList, urlOne)
@@ -47,6 +49,8 @@ func SitemapAllURL() ([]SitemapURL, error) {
 	setURLsList = append(setURLsList, urlFourteen)
 	setURLsList = append(setURLsList, urlFifteen)
 	setURLsList = append(setURLsList, urlSixteen)
+	setURLsList = append(setURLsList, urlSeventeen)
+	setURLsList = append(setURLsList, urlEighteen)
 
 	// Get all sagre URLs
 	db := database.DatabaseConnection()

@@ -3,13 +3,13 @@
 {{define "title"}}{{ .PageTitle }}{{end}}
 
 {{define "adminContent"}}
-<div class="admin-sagra-search">
-    <div class="admin-sagra-search__container-title">
+<div class="admin-page-search">
+    <div class="admin-page-search__container-title">
         <h2 class="h2">Admin Sagre Search</h2>
     </div>
-    <div class="admin-sagra-search__container-form">
+    <div class="admin-page-search__container-form">
         <form method="POST">
-            <div class="admin-sagra-search__form-wrapper">
+            <div class="admin-page-search__form-wrapper">
 
                 <div>
                     <input class="input-text" type="text" name="admin-sagre-search-input" placeholder="Search" required />
@@ -24,12 +24,12 @@
     <div>
         {{ if .SagreWithRelatedFields }}
             {{ if .SagreSearchInput }}
-                <div class="admin-sagra-search__container-title">
+                <div class="admin-page-search__container-title">
                     <h3 class="h3">Search result for input: {{ .SagreSearchInput }}</h3>
                 </div>
             {{ end }}
             {{ range .SagreWithRelatedFields }}
-                <div class="admin-sagra-search__container-sagra">
+                <div class="admin-page-search__container-sagra">
                     <div>
                         <h1 class="h1">{{ .Title }}</h1>
                         <h2 class="h2">{{ .Description }}</h2>

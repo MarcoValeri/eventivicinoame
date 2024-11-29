@@ -3,19 +3,19 @@
 {{define "title"}}{{ .PageTitle }}{{end}}
 
 {{define "adminContent"}}
-<div class="admin-image-delete">
-    <div class="admin-image-delete__container-title">
+<div class="admin-page-delete">
+    <div class="admin-page-delete__container-title">
         <h2 class="h2">Admin Image Delete</h2>
     </div>
     {{ if .Image }}
-        <div class="admin-image-delete__container-data">
+        <div class="admin-page-delete__container-data">
             <p class="p-xl">ID: {{ .Image.Id }}</p>
             <p class="p-xl">{{ .Image.Title }}</p>
             <p class="p-xl">{{ .Image.Description }}</p>
             <p class="p-xl">{{ .Image.Url }}</p>
             <h4 class="h4">Do you want to delete this image?</h4>
         </div>
-        <div class="admin-image-delete__container-form">
+        <div class="admin-page-delete__container-form">
             <form method="POST">
                 <input type="hidden" name="admin-delete-image-url" value="{{ .Image.Url }}" />
                 <input class="input-submit" type="submit" name="admin-delete-image" value="Delete this image" />

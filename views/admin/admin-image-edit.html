@@ -3,12 +3,12 @@
 {{define "title"}}{{ .PageTitle }}{{end}}
 
 {{define "adminContent"}}
-<div class="admin-image-edit">
-    <div class="admin-image-edit__container-title">
+<div class="admin-page-edit">
+    <div class="admin-page-edit__container-title">
         <h2 class="h2">Admin Image Edit</h2>
     </div>
     {{ if .Image }}
-        <div class="admin-image-edit__container-data">
+        <div class="admin-page-edit__container-data">
             <p class="p-xl">ID: {{ .Image.Id }}</p>
             <p class="p-xl">{{ .Image.Title }}</p>
             <p class="p-xl">{{ .Image.Description }}</p>
@@ -16,7 +16,7 @@
         </div>
         <div>
             <form method="POST">
-                <div class="admin-image-edit__form-wrapper">
+                <div class="admin-page-edit__form-wrapper">
                     <div>
                         <input class="input-text" type="text" name="image-edit-title" value="{{ .Image.Title }}" placeholder="Image Title*" required />
                         <span class="input-error">{{ .ImageTitleError }}</span>

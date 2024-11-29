@@ -3,19 +3,19 @@
 {{define "title"}}{{ .PageTitle }}{{end}}
 
 {{define "adminContent"}}
-<div class="admin-event-edit">
-    <div class="admin-event-edit__container-title">
+<div class="admin-page-edit">
+    <div class="admin-page-edit__container-title">
         <h2 class="h2">Admin Event Edit</h2>
     </div>
     {{ if .EventWithRelatedFields }}
-        <div class="admin-event-edit__container-data">
+        <div class="admin-page-edit__container-data">
             <p class="p-xl">ID: {{ .EventWithRelatedFields.Id }}</p>
             <p class="p-xl">{{ .EventWithRelatedFields.Title }}</p>
             <p class="p-xl">{{ .EventWithRelatedFields.Description }}</p>
         </div>
         <div>
             <form method="POST">
-                <div class="admin-event-edit__form-wrapper">
+                <div class="admin-page-edit__form-wrapper">
                     <div>
                         <input class="input-text" type="text" name="event-edit-title" value="{{ .EventWithRelatedFields.Title }}" placeholder="Title*" required />
                         <span class="input-error">{{ .TitleError }}</span>
