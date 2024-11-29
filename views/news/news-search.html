@@ -62,13 +62,13 @@
 {{end}}
 
 {{ define "content"}}
-<div class="news">
-    <div class="news__container-title">
+<div class="articles">
+    <div class="articles__container-title">
         <h2 class="h2">Cerca tra le news di <em>Eventi Vicino A Me</em></h2>
     </div>
-    <div class="news__container-form">
-        <form class="news__form" method="POST">
-            <div class="news__form-container-search">
+    <div class="articles__container-form">
+        <form class="articles__form" method="POST">
+            <div class="articles__form-container-search">
                 <input class="input-text" type="text" name="news-search-title" placeholder="Cerca" required />
                 <span>{{ .ParameterTitleError }}</span>
             </div>
@@ -80,12 +80,12 @@
     <div>
         {{ if .News }}
             {{ if .ParameterTitle }}
-                <div class="news__container-result-info">
+                <div class="articles__container-result-info">
                     <h3 class="h3">Risultati trovati con la ricerca: {{ .ParameterTitle }}</h3>
                 </div>
             {{ end }}
             {{ range .News }}
-                <div class="article-card news__card-article">
+                <div class="article-card articles__card-article">
                     <a class="link-no" href="/news/{{ .Url }}">
                         <div class="article-card__wrapper">
                             <div class="article-card__container-image">
@@ -100,7 +100,7 @@
                 </div>
             {{ end }}
         {{ else }}
-            <div class="news__container-result-info">
+            <div class="articles__container-result-info">
                 <h3 class="h3">Nessun risultato trovato con la ricerca <em>{{ .ParameterTitle }}</em></h3>
             </div>
         {{ end }}

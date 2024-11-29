@@ -32,21 +32,21 @@
 {{end}}
 
 {{ define "content"}}
-<div class="event">
+<div class="article">
     {{ if .Event }}
-        <div class="event__container-title">
+        <div class="article__container-title">
             <h1 class="h1">{{ .Event.Title }}</h2>
         </div>
         <div class="content">
             {{ .EventContentRaw }}
         </div>
-        <div class="event__container-image">
-            <img loading="lazy" class="event__image" src="/public/images/{{ .Event.ImageUrl }}" alt="{{ .Event.ImageAlt }}">
+        <div class="article__container-image">
+            <img loading="lazy" class="article__image" src="/public/images/{{ .Event.ImageUrl }}" alt="{{ .Event.ImageAlt }}">
         </div>
         <div>
             <h2 class="h4">Articolo scritto da</h2>
         </div>
-        <div class="author-card event__card-article">
+        <div class="author-card article__card-article">
             <a class="link-no" href="/author/{{ .Event.AuthorUrl }}">
                 <div class="author-card__wrapper">
                     <div class="author-card__container-image">

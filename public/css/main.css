@@ -467,6 +467,65 @@ button {
   padding: 5rem;
 }
 
+.article {
+  padding: 5rem;
+  margin: auto;
+}
+@media only screen and (max-width: 767px) {
+  .article {
+    padding: 5rem 1rem;
+  }
+}
+.article__container-title {
+  margin-bottom: 2rem;
+}
+.article__container-image {
+  width: 80%;
+  margin: 5rem auto;
+}
+.article__image {
+  width: 100%;
+  height: 100%;
+}
+.article__card-article {
+  margin: 5rem auto;
+}
+
+.articles {
+  padding: 5rem;
+  margin: auto;
+}
+@media only screen and (max-width: 767px) {
+  .articles {
+    padding: 5rem 1rem;
+  }
+}
+.articles__container-title {
+  text-align: center;
+  margin-bottom: 5rem;
+}
+.articles__container-form {
+  padding: 2rem;
+  margin-bottom: 5rem;
+  border: 2px solid #197278;
+  border-radius: 5px;
+}
+.articles__form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.articles__form-container-search {
+  margin-bottom: 2rem;
+}
+.articles__container-result-info {
+  text-align: center;
+  margin-bottom: 5rem;
+}
+.articles__card-article {
+  margin-bottom: 5rem;
+}
+
 /*
 * This container has the rules
 * for the html content showed in:
@@ -845,65 +904,6 @@ button {
   display: block;
 }
 
-.event {
-  padding: 5rem;
-  margin: auto;
-}
-@media only screen and (max-width: 767px) {
-  .event {
-    padding: 5rem 1rem;
-  }
-}
-.event__container-title {
-  margin-bottom: 2rem;
-}
-.event__container-image {
-  width: 80%;
-  margin: 5rem auto;
-}
-.event__image {
-  width: 100%;
-  height: 100%;
-}
-.event__card-article {
-  margin: 5rem auto;
-}
-
-.events {
-  padding: 5rem;
-  margin: auto;
-}
-@media only screen and (max-width: 767px) {
-  .events {
-    padding: 5rem 1rem;
-  }
-}
-.events__container-title {
-  text-align: center;
-  margin-bottom: 5rem;
-}
-.events__container-form {
-  padding: 2rem;
-  margin-bottom: 5rem;
-  border: 2px solid #197278;
-  border-radius: 5px;
-}
-.events__form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.events__form-container-search {
-  margin-bottom: 2rem;
-}
-.events__container-result-info {
-  text-align: center;
-  margin-bottom: 5rem;
-}
-.events__card-article {
-  margin-bottom: 5rem;
-}
-
 .home {
   padding: 5rem;
 }
@@ -929,124 +929,6 @@ button {
 .home__container-button {
   text-align: center;
   padding-bottom: 5rem;
-}
-
-.news {
-  padding: 5rem;
-  margin: auto;
-}
-@media only screen and (max-width: 767px) {
-  .news {
-    padding: 5rem 1rem;
-  }
-}
-.news__container-title {
-  text-align: center;
-  margin-bottom: 5rem;
-}
-.news__container-form {
-  padding: 2rem;
-  margin-bottom: 5rem;
-  border: 2px solid #197278;
-  border-radius: 5px;
-}
-.news__form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.news__form-container-search {
-  margin-bottom: 2rem;
-}
-.news__container-result-info {
-  text-align: center;
-  margin-bottom: 5rem;
-}
-.news__card-article {
-  margin-bottom: 5rem;
-}
-
-.new {
-  padding: 5rem;
-  margin: auto;
-}
-@media only screen and (max-width: 767px) {
-  .new {
-    padding: 5rem 1rem;
-  }
-}
-.new__container-title {
-  margin-bottom: 2rem;
-}
-.new__container-image {
-  width: 80%;
-  margin: 5rem auto;
-}
-.new__image {
-  width: 100%;
-  height: 100%;
-}
-.new__card-article {
-  margin: 5rem auto;
-}
-
-.sagra {
-  padding: 5rem;
-  margin: auto;
-}
-@media only screen and (max-width: 767px) {
-  .sagra {
-    padding: 5rem 1rem;
-  }
-}
-.sagra__container-title {
-  margin-bottom: 2rem;
-}
-.sagra__container-image {
-  width: 80%;
-  margin: 5rem auto;
-}
-.sagra__image {
-  width: 100%;
-  height: 100%;
-}
-.sagra__card-article {
-  margin: 5rem auto;
-}
-
-.sagre {
-  padding: 5rem;
-  margin: auto;
-}
-@media only screen and (max-width: 767px) {
-  .sagre {
-    padding: 5rem 1rem;
-  }
-}
-.sagre__container-title {
-  text-align: center;
-  margin-bottom: 5rem;
-}
-.sagre__container-form {
-  padding: 2rem;
-  margin-bottom: 5rem;
-  border: 2px solid #197278;
-  border-radius: 5px;
-}
-.sagre__form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.sagre__form-container-search {
-  margin-bottom: 2rem;
-}
-.sagre__container-result-info {
-  text-align: center;
-  margin-bottom: 5rem;
-}
-.sagre__card-article {
-  margin-bottom: 5rem;
 }
 
 /*# sourceMappingURL=main.css.map */

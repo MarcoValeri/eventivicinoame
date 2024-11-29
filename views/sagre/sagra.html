@@ -32,21 +32,21 @@
 {{end}}
 
 {{ define "content"}}
-<div class="sagra">
+<div class="article">
     {{ if .Sagra }}
-        <div class="sagra__container-title">
+        <div class="article__container-title">
             <h1 class="h1">{{ .Sagra.Title }}</h2>
         </div>
         <div class="content">
             {{ .SagraContentRaw }}
         </div>
-        <div class="sagra__container-image">
-            <img loading="lazy" class="sagra__image" src="/public/images/{{ .Sagra.ImageUrl }}" alt="{{ .Sagra.ImageAlt }}">
+        <div class="article__container-image">
+            <img loading="lazy" class="article__image" src="/public/images/{{ .Sagra.ImageUrl }}" alt="{{ .Sagra.ImageAlt }}">
         </div>
         <div>
             <h2 class="h4">Articolo scritto da</h2>
         </div>
-        <div class="author-card sagra__card-article">
+        <div class="author-card article__card-article">
             <a class="link-no" href="/author/{{ .Sagra.AuthorUrl }}">
                 <div class="author-card__wrapper">
                     <div class="author-card__container-image">

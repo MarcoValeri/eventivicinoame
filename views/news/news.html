@@ -32,21 +32,21 @@
 {{end}}
 
 {{ define "content"}}
-<div class="new">
+<div class="article">
     {{ if .SingleNews }}
-        <div class="new__container-title">
+        <div class="article__container-title">
             <h1 class="h1">{{ .SingleNews.Title }}</h2>
         </div>
         <div class="content">
             {{ .NewsContentRaw }}
         </div>
-        <div class="new__container-image">
-            <img loading="lazy" class="new__image" src="/public/images/{{ .SingleNews.ImageUrl }}" alt="{{ .SingleNews.ImageAlt }}">
+        <div class="article__container-image">
+            <img loading="lazy" class="article__image" src="/public/images/{{ .SingleNews.ImageUrl }}" alt="{{ .SingleNews.ImageAlt }}">
         </div>
         <div>
             <h2 class="h4">Articolo scritto da</h2>
         </div>
-        <div class="author-card new__card-article">
+        <div class="author-card article__card-article">
             <a class="link-no" href="/author/{{ .SingleNews.AuthorUrl }}">
                 <div class="author-card__wrapper">
                     <div class="author-card__container-image">

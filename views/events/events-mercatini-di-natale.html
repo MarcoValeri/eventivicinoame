@@ -32,14 +32,14 @@
 {{end}}
 
 {{ define "content"}}
-<div class="events">
-    <div class="events__container-title">
+<div class="articles">
+    <div class="articles__container-title">
         <h2 class="h2">{{ .PageTitle }}</h2>
     </div>
     <div>
         {{ if .Events }}
             {{ range .Events }}
-                <div class="article-card events__card-article">
+                <div class="article-card articles__card-article">
                     <a class="link-no" href="/evento/{{ .Url }}">
                         <div class="article-card__wrapper">
                             <div class="article-card__container-image">
@@ -54,7 +54,7 @@
                 </div>
             {{ end }}
         {{ else }}
-            <div class="events__container-result-info">
+            <div class="articles__container-result-info">
                 <h3 class="h3">Nessun Mercatino di Natale disponibile al momento</h3>
             </div>
         {{ end }}

@@ -32,14 +32,14 @@
 {{end}}
 
 {{ define "content"}}
-<div class="sagre">
-    <div class="sagre__container-title">
+<div class="articles">
+    <div class="articles__container-title">
         <h1 class="h1">{{.PageTitle}}</h1>
     </div>
     <div>
         {{ if .Sagre }}
             {{ range .Sagre }}
-                <div class="article-card sagre__card-article">
+                <div class="article-card articles__card-article">
                     <a class="link-no" href="/sagra/{{ .Url }}">
                         <div class="article-card__wrapper">
                             <div class="article-card__container-image">
@@ -54,7 +54,7 @@
                 </div>
             {{ end }}
         {{ else }}
-            <div class="sagre__container-result-info">
+            <div class="articles__container-result-info">
                 <h3 class="h3">Nessuna sagra disponibile al momento per il mese di dicembre</h3>
             </div>
         {{ end }}
