@@ -750,6 +750,91 @@ func EventsGetThemByPeriodOfTime(getStartDate string, getEndDate string, getLimi
 	return allEvents, nil
 }
 
+func EventsGetThemByPeriodOfTimeWithoutYear(getStartDate, getEndDate, getLimit int) ([]EventWithRelatedFields, error) {
+	db := database.DatabaseConnection()
+	defer db.Close()
+
+	mySqlQuery := "SELECT events.id, events.title, events.description, events.url, events.published, events.updated, events.image_id, images.url, images.description, events.author_id, authors.name, authors.surname, authors.url, authors.image_url, authors.description, events.event_type, events.content, events.country, events.region, events.city, events.town, events.fraction, events.event_start_date, events.event_end_date"
+	mySqlQuery += " "
+	mySqlQuery += "FROM events"
+	mySqlQuery += " "
+	mySqlQuery += "JOIN images ON events.image_id = images.id"
+	mySqlQuery += " "
+	mySqlQuery += "JOIN authors ON events.author_id = authors.id"
+	mySqlQuery += " "
+	mySqlQuery += "WHERE (CAST(DATE_FORMAT(events.event_start_date, '%m') AS UNSIGNED) <= ? AND CAST(DATE_FORMAT(events.event_end_date, '%m') AS UNSIGNED) >= ?) OR (CAST(DATE_FORMAT(events.event_start_date, '%m') AS UNSIGNED) > CAST(DATE_FORMAT(events.event_end_date, '%m') AS UNSIGNED) AND (CAST(DATE_FORMAT(events.event_start_date, '%m') AS UNSIGNED) <= ? OR CAST(DATE_FORMAT(events.event_end_date, '%m') AS UNSIGNED) >= ?))"
+	mySqlQuery += " "
+	mySqlQuery += "AND events.published < NOW() ORDER BY events.updated DESC LIMIT ?"
+
+	rows, err := db.Query(mySqlQuery, getStartDate, getEndDate, getStartDate, getEndDate, getLimit)
+	if err != nil {
+		fmt.Println("Error getting events by period of time:", err)
+		return nil, err
+	}
+	defer rows.Close()
+
+	var allEvents []EventWithRelatedFields
+	for rows.Next() {
+		var eventId int
+		var eventTitle string
+		var eventDescription string
+		var eventUrl string
+		var eventPublished string
+		var eventUpdated string
+		var eventImageId int
+		var eventImageUrl string
+		var eventImageAlt string
+		var eventAuthorId int
+		var eventAuthorName string
+		var eventAuthorSurname string
+		var eventAuthorUrl string
+		var eventAuthorImageUrl string
+		var eventAuthorDescription string
+		var eventType string
+		var eventContent string
+		var eventCountry string
+		var eventRegion string
+		var eventCity string
+		var eventTown string
+		var eventFraction string
+		var eventStartDate string
+		var eventEndDate string
+		err = rows.Scan(&eventId, &eventTitle, &eventDescription, &eventUrl, &eventPublished, &eventUpdated, &eventImageId, &eventImageUrl, &eventImageAlt, &eventAuthorId, &eventAuthorName, &eventAuthorSurname, &eventAuthorUrl, &eventAuthorImageUrl, &eventAuthorDescription, &eventType, &eventContent, &eventCountry, &eventRegion, &eventCity, &eventTown, &eventFraction, &eventStartDate, &eventEndDate)
+		if err != nil {
+			return allEvents, err
+		}
+
+		eventDetails := EventNewWithRelatedFields(
+			eventId,
+			eventTitle,
+			eventDescription,
+			eventUrl,
+			eventPublished,
+			eventUpdated,
+			eventImageId,
+			eventImageUrl,
+			eventImageAlt,
+			eventAuthorId,
+			eventAuthorName,
+			eventAuthorSurname,
+			eventAuthorUrl,
+			eventAuthorImageUrl,
+			eventAuthorDescription,
+			eventType,
+			eventContent,
+			eventCountry,
+			eventRegion,
+			eventCity,
+			eventTown,
+			eventFraction,
+			eventStartDate,
+			eventEndDate,
+		)
+		allEvents = append(allEvents, eventDetails)
+	}
+	return allEvents, nil
+}
+
 func EventsGetLimitPublishedEvents(getLimit int) ([]EventWithRelatedFields, error) {
 	db := database.DatabaseConnection()
 	defer db.Close()

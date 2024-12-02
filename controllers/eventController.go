@@ -166,15 +166,17 @@ func EventsMercatiniDiNatale() {
 func EventsJanuary() {
 	tmpl := template.Must(template.ParseFiles("./views/templates/base.html", "./views/events/events-gennaio.html"))
 	http.HandleFunc("/eventi/eventi-gennaio", func(w http.ResponseWriter, r *http.Request) {
-		// Get all the events that hava event_type = mercatini di natale
-		getEventsNovember, err := models.EventsGetThemByPeriodOfTime("2025-01-01 00:00:00", "2025-01-31 23:59:59", 50)
+		// Get all the events in January
+		startMonth := 1 // MM January
+		endMonth := 1   // MM January
+		getEventsNovember, err := models.EventsGetThemByPeriodOfTimeWithoutYear(startMonth, endMonth, 50)
 		if err != nil {
 			fmt.Println("Error getting November's events:", err)
 		}
 
 		data := EventData{
-			PageTitle:       template.HTML("Eventi gennaio 2024: le cose più belle da fare a gennaio"),
-			PageDescription: template.HTML("Eventi gennaio 2024: le cose più belle da fare in questo periodo dell'anno in Italia, Europa e resto del mondo, pianifica il tuo evento in inverno"),
+			PageTitle:       template.HTML("Eventi gennaio 2025: le cose più belle da fare a gennaio"),
+			PageDescription: template.HTML("Eventi gennaio 2025: le cose più belle da fare in questo periodo dell'anno in Italia, Europa e resto del mondo, pianifica il tuo evento in inverno"),
 			CurrentYear:     time.Now().Year(),
 			CurrentUrl:      "/eventi-cerca",
 			Events:          getEventsNovember,
@@ -187,15 +189,17 @@ func EventsJanuary() {
 func EventsNovember() {
 	tmpl := template.Must(template.ParseFiles("./views/templates/base.html", "./views/events/events-novembre.html"))
 	http.HandleFunc("/eventi/eventi-novembre", func(w http.ResponseWriter, r *http.Request) {
-		// Get all the events that hava event_type = mercatini di natale
-		getEventsNovember, err := models.EventsGetThemByPeriodOfTime("2024-11-01 00:00:00", "2024-11-30 23:59:59", 50)
+		// Get all the events in November
+		startMonth := 11 // MM November
+		endMonth := 11   // MM November
+		getEventsNovember, err := models.EventsGetThemByPeriodOfTimeWithoutYear(startMonth, endMonth, 50)
 		if err != nil {
 			fmt.Println("Error getting November's events:", err)
 		}
 
 		data := EventData{
-			PageTitle:       template.HTML("Eventi novembre 2024: le cose più belle da fare a novembre"),
-			PageDescription: template.HTML("Eventi novembre 2024: le cose più belle da fare in questo periodo dell'anno in Italia, Europa e resto del mondo, pianifica il tuo evento in autunno"),
+			PageTitle:       template.HTML("Eventi novembre 2025: le cose più belle da fare a novembre"),
+			PageDescription: template.HTML("Eventi novembre 2025: le cose più belle da fare in questo periodo dell'anno in Italia, Europa e resto del mondo, pianifica il tuo evento in autunno"),
 			CurrentYear:     time.Now().Year(),
 			CurrentUrl:      "/eventi-cerca",
 			Events:          getEventsNovember,
@@ -208,8 +212,10 @@ func EventsNovember() {
 func EventsDecember() {
 	tmpl := template.Must(template.ParseFiles("./views/templates/base.html", "./views/events/events-dicembre.html"))
 	http.HandleFunc("/eventi/eventi-dicembre", func(w http.ResponseWriter, r *http.Request) {
-		// Get all the events that hava event_type = mercatini di natale
-		getEventsNovember, err := models.EventsGetThemByPeriodOfTime("2024-12-01 00:00:00", "2024-12-31 23:59:59", 50)
+		// Get all the events in December
+		startMonth := 12 // MM December
+		endMonth := 12   // MM December
+		getEventsNovember, err := models.EventsGetThemByPeriodOfTimeWithoutYear(startMonth, endMonth, 50)
 		if err != nil {
 			fmt.Println("Error getting December's events:", err)
 		}
