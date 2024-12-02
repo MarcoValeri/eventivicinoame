@@ -145,9 +145,10 @@ func SagreJanuary() {
 	tmpl := template.Must(template.ParseFiles("./views/templates/base.html", "./views/sagre/sagre-gennaio.html"))
 	http.HandleFunc("/sagre/sagre-gennaio", func(w http.ResponseWriter, r *http.Request) {
 		// Get Sagre that are planned in January
-		startMonth := 1 // MM October
-		endMonth := 1   // MM October
-		getJanuarySagre, err := models.SagreGetThemByPeriodOfTimeWithoutYear(startMonth, endMonth, 50)
+		// startMonth := 1 // MM October
+		// endMonth := 1   // MM October
+		// getJanuarySagre, err := models.SagreGetThemByPeriodOfTimeWithoutYear(startMonth, endMonth, 50)
+		getJanuarySagre, err := models.SagreGetThemByPeriodOfTime("2025-01-01 00:00:00", "2025-01-31 23:59:59", 50)
 		if err != nil {
 			fmt.Println("Error getting January's sagre:", err)
 		}
@@ -169,16 +170,17 @@ func SagreOctober() {
 	tmpl := template.Must(template.ParseFiles("./views/templates/base.html", "./views/sagre/sagre-ottobre.html"))
 	http.HandleFunc("/sagre/sagre-ottobre", func(w http.ResponseWriter, r *http.Request) {
 		// Get Sagre that are planned in October
-		startMonth := 10 // MM October
-		endMonth := 10   // MM October
-		getOctoberSagre, err := models.SagreGetThemByPeriodOfTimeWithoutYear(startMonth, endMonth, 50)
+		// startMonth := 10 // MM October
+		// endMonth := 10   // MM October
+		// getOctoberSagre, err := models.SagreGetThemByPeriodOfTimeWithoutYear(startMonth, endMonth, 50)
+		getOctoberSagre, err := models.SagreGetThemByPeriodOfTime("2024-10-01 00:00:00", "2024-10-31 23:59:59", 50)
 		if err != nil {
 			fmt.Println("Error getting October's sagre:", err)
 		}
 
 		data := SagraData{
-			PageTitle:       template.HTML("Sagre ottobre 2025: fiere, feste ed eventi in Italia"),
-			PageDescription: template.HTML("Sagre ottobre 2025: fiere, feste ed eventi da non perdere che si svolgono in tutta Italia durante il mese di ottobre, nel pieno della stagione autunnale"),
+			PageTitle:       template.HTML("Sagre ottobre 2024: fiere, feste ed eventi in Italia"),
+			PageDescription: template.HTML("Sagre ottobre 2024: fiere, feste ed eventi da non perdere che si svolgono in tutta Italia durante il mese di ottobre, nel pieno della stagione autunnale"),
 			CurrentYear:     time.Now().Year(),
 			CurrentUrl:      "/sagre-cerca",
 			Sagre:           getOctoberSagre,
@@ -193,16 +195,17 @@ func SagreNovember() {
 	tmpl := template.Must(template.ParseFiles("./views/templates/base.html", "./views/sagre/sagre-novembre.html"))
 	http.HandleFunc("/sagre/sagre-novembre", func(w http.ResponseWriter, r *http.Request) {
 		// Get Sagre that are planned in November
-		startMonth := 11 // MM November
-		endMonth := 11   // MM November
-		getNovemberSagre, err := models.SagreGetThemByPeriodOfTimeWithoutYear(startMonth, endMonth, 50)
+		// startMonth := 11 // MM November
+		// endMonth := 11   // MM November
+		// getNovemberSagre, err := models.SagreGetThemByPeriodOfTimeWithoutYear(startMonth, endMonth, 50)
+		getNovemberSagre, err := models.SagreGetThemByPeriodOfTime("2024-11-01 00:00:00", "2024-11-30 23:59:59", 50)
 		if err != nil {
 			fmt.Println("Error getting November's sagre:", err)
 		}
 
 		data := SagraData{
-			PageTitle:       template.HTML("Sagre novembre 2025: fiere, feste ed eventi in Italia"),
-			PageDescription: template.HTML("Sagre novembre 2025: fiere, feste ed eventi da non perdere che si svolgono in tutta Italia durante il mese di novembre, nel pieno della stagione autunnale"),
+			PageTitle:       template.HTML("Sagre novembre 2024: fiere, feste ed eventi in Italia"),
+			PageDescription: template.HTML("Sagre novembre 2024: fiere, feste ed eventi da non perdere che si svolgono in tutta Italia durante il mese di novembre, nel pieno della stagione autunnale"),
 			CurrentYear:     time.Now().Year(),
 			CurrentUrl:      "/sagre-cerca",
 			Sagre:           getNovemberSagre,
@@ -216,9 +219,10 @@ func SagreDecember() {
 	tmpl := template.Must(template.ParseFiles("./views/templates/base.html", "./views/sagre/sagre-dicembre.html"))
 	http.HandleFunc("/sagre/sagre-dicembre", func(w http.ResponseWriter, r *http.Request) {
 		// Get Sagre that are planned in December
-		startMonth := 12 // MM November
-		endMonth := 12   // MM November
-		getDecemberSagre, err := models.SagreGetThemByPeriodOfTimeWithoutYear(startMonth, endMonth, 50)
+		// startMonth := 12 // MM November
+		// endMonth := 12   // MM November
+		// getDecemberSagre, err := models.SagreGetThemByPeriodOfTimeWithoutYear(startMonth, endMonth, 50)
+		getDecemberSagre, err := models.SagreGetThemByPeriodOfTime("2024-12-01 00:00:00", "2024-12-31 23:59:59", 50)
 		if err != nil {
 			fmt.Println("Error getting December's sagre:", err)
 		}
