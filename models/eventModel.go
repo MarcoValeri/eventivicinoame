@@ -764,7 +764,7 @@ func EventsGetThemByPeriodOfTimeWithoutYear(getStartDate, getEndDate, getLimit i
 	mySqlQuery += " "
 	mySqlQuery += "WHERE (CAST(DATE_FORMAT(events.event_start_date, '%m') AS UNSIGNED) <= ? AND CAST(DATE_FORMAT(events.event_end_date, '%m') AS UNSIGNED) >= ?) OR (CAST(DATE_FORMAT(events.event_start_date, '%m') AS UNSIGNED) > CAST(DATE_FORMAT(events.event_end_date, '%m') AS UNSIGNED) AND (CAST(DATE_FORMAT(events.event_start_date, '%m') AS UNSIGNED) <= ? OR CAST(DATE_FORMAT(events.event_end_date, '%m') AS UNSIGNED) >= ?))"
 	mySqlQuery += " "
-	mySqlQuery += "AND events.published < NOW() ORDER BY events.updated DESC LIMIT ?"
+	mySqlQuery += "AND events.published > NOW() ORDER BY events.updated DESC LIMIT ?"
 
 	rows, err := db.Query(mySqlQuery, getStartDate, getEndDate, getStartDate, getEndDate, getLimit)
 	if err != nil {

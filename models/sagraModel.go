@@ -742,7 +742,7 @@ func SagreGetThemByPeriodOfTimeWithoutYear(getStartMonth, getEndMonth, getLimit 
 	mySqlQuery += " "
 	mySqlQuery += "WHERE (CAST(DATE_FORMAT(sagre.sagra_start_date, '%m') AS UNSIGNED) <= ? AND CAST(DATE_FORMAT(sagre.sagra_end_date, '%m') AS UNSIGNED) >= ?) OR (CAST(DATE_FORMAT(sagre.sagra_start_date, '%m') AS UNSIGNED) > CAST(DATE_FORMAT(sagre.sagra_end_date, '%m') AS UNSIGNED) AND (CAST(DATE_FORMAT(sagre.sagra_start_date, '%m') AS UNSIGNED) <= ? OR CAST(DATE_FORMAT(sagre.sagra_end_date, '%m') AS UNSIGNED) >= ?))"
 	mySqlQuery += " "
-	mySqlQuery += "AND sagre.published < NOW() ORDER BY sagre.updated DESC LIMIT ?"
+	mySqlQuery += "AND sagre.published > NOW() ORDER BY sagre.updated DESC LIMIT ?"
 
 	rows, err := db.Query(mySqlQuery, getStartMonth, getEndMonth, getStartMonth, getEndMonth, getLimit)
 	if err != nil {
