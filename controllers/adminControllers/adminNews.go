@@ -332,7 +332,6 @@ func AdminNewsEdit() {
 			getAdminEditNewsUpdated = util.FormSanitizeStringInput(getAdminEditNewsUpdated)
 			getAdminEditNewsImage = util.FormSanitizeStringInput(getAdminEditNewsImage)
 			getAdminEditNewsAuthor = util.FormSanitizeStringInput(getAdminEditNewsAuthor)
-			getAdminEditNewsContent = util.FormSanitizeStringInput(getAdminEditNewsContent)
 			getAdminEditNews = util.FormSanitizeStringInput(getAdminEditNews)
 			getAdminEditNewsAndExit = util.FormSanitizeStringInput(getAdminEditNewsAndExit)
 
