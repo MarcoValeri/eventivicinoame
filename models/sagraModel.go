@@ -728,7 +728,7 @@ func SagreGetThemByPeriodOfTime(getStartDate string, getEndDate string, getLimit
 	return allSagre, nil
 }
 
-func SagreGetThemByPeriodOfTimeWithoutYear(getStartMonth, getEndMonth, getLimit int) ([]SagraWithRelatedFields, error) {
+func SagreGetThemByPeriodOfTimeWithoutYear(getMonth, getLimit int) ([]SagraWithRelatedFields, error) {
 	db := database.DatabaseConnection()
 	defer db.Close()
 
@@ -740,11 +740,12 @@ func SagreGetThemByPeriodOfTimeWithoutYear(getStartMonth, getEndMonth, getLimit 
 	mySqlQuery += " "
 	mySqlQuery += "JOIN authors ON sagre.author_id = authors.id"
 	mySqlQuery += " "
-	mySqlQuery += "WHERE (CAST(DATE_FORMAT(sagre.sagra_start_date, '%m') AS UNSIGNED) <= ? AND CAST(DATE_FORMAT(sagre.sagra_end_date, '%m') AS UNSIGNED) >= ?) OR (CAST(DATE_FORMAT(sagre.sagra_start_date, '%m') AS UNSIGNED) > CAST(DATE_FORMAT(sagre.sagra_end_date, '%m') AS UNSIGNED) AND (CAST(DATE_FORMAT(sagre.sagra_start_date, '%m') AS UNSIGNED) <= ? OR CAST(DATE_FORMAT(sagre.sagra_end_date, '%m') AS UNSIGNED) >= ?))"
+	// mySqlQuery += "WHERE MONTH(sagre.sagra_start_date) >= ? AND MONTH(sagre.sagra_end_date) <= ?"
+	mySqlQuery += "WHERE (? BETWEEN MONTH(sagre.sagra_start_date) AND MONTH(sagre.sagra_end_date))"
 	mySqlQuery += " "
-	mySqlQuery += "AND sagre.published > NOW() ORDER BY sagre.updated DESC LIMIT ?"
+	mySqlQuery += "AND sagre.published < NOW() ORDER BY sagre.updated DESC LIMIT ?"
 
-	rows, err := db.Query(mySqlQuery, getStartMonth, getEndMonth, getStartMonth, getEndMonth, getLimit)
+	rows, err := db.Query(mySqlQuery, getMonth, getLimit)
 	if err != nil {
 		fmt.Println("Error getting sagre by period of time:", err)
 		return nil, err

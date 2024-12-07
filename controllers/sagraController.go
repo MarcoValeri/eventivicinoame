@@ -170,10 +170,10 @@ func SagreOctober() {
 	tmpl := template.Must(template.ParseFiles("./views/templates/base.html", "./views/sagre/sagre-ottobre.html"))
 	http.HandleFunc("/sagre/sagre-ottobre", func(w http.ResponseWriter, r *http.Request) {
 		// Get Sagre that are planned in October
-		// startMonth := 10 // MM October
-		// endMonth := 10   // MM October
-		// getOctoberSagre, err := models.SagreGetThemByPeriodOfTimeWithoutYear(startMonth, endMonth, 50)
-		getOctoberSagre, err := models.SagreGetThemByPeriodOfTime("2024-10-01 00:00:00", "2024-10-31 23:59:59", 50)
+		setMonth := 10 // MM October
+		getOctoberSagre, err := models.SagreGetThemByPeriodOfTimeWithoutYear(setMonth, 50)
+
+		// getOctoberSagre, err := models.SagreGetThemByPeriodOfTime("2024-10-01 00:00:00", "2024-10-31 23:59:59", 50)
 		if err != nil {
 			fmt.Println("Error getting October's sagre:", err)
 		}
