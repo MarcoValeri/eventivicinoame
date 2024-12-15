@@ -17,7 +17,12 @@
     &__container-category {
         display: flex;
         justify-content: center;
-        column-gap: 10rem;
+        column-gap: 5rem;
+
+        @include respond("lg") {
+            flex-direction: column;
+            row-gap: 5rem;
+        }
     }
 
     &__card-article {
