@@ -1,0 +1,19 @@
+.category-card {
+    flex-basis: 100%;
+    overflow: hidden;
+    border: 1px solid $greenEVM;
+    border-radius: 50px 50px 0 0;
+
+    &__wrapper {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        padding: 4rem;
+        box-sizing: border-box;
+        transition: all 1s;
+
+        &:hover {
+            transform: scale(1.1);
+        }
+    }
+}

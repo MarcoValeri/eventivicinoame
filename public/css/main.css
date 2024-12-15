@@ -298,6 +298,24 @@ button {
   margin-bottom: 1rem;
 }
 
+.category-card {
+  flex-basis: 100%;
+  overflow: hidden;
+  border: 1px solid #197278;
+  border-radius: 50px 50px 0 0;
+}
+.category-card__wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 4rem;
+  box-sizing: border-box;
+  transition: all 1s;
+}
+.category-card__wrapper:hover {
+  transform: scale(1.1);
+}
+
 .cookie-banner {
   display: none;
   width: 50%;
@@ -918,6 +936,11 @@ button {
 .home__container-title {
   text-align: center;
   margin-bottom: 5rem;
+}
+.home__container-category {
+  display: flex;
+  justify-content: center;
+  column-gap: 10rem;
 }
 .home__card-article {
   margin-bottom: 5rem;
