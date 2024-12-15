@@ -740,11 +740,11 @@ func SagreGetThemByPeriodOfTimeWithoutYear(getMonth, getLimit int) ([]SagraWithR
 	mySqlQuery += " "
 	mySqlQuery += "JOIN authors ON sagre.author_id = authors.id"
 	mySqlQuery += " "
-	mySqlQuery += "WHERE (? BETWEEN MONTH(sagre.sagra_start_date) AND MONTH(sagre.sagra_end_date))"
+	mySqlQuery += "WHERE ((? BETWEEN MONTH(sagre.sagra_start_date) AND MONTH(sagre.sagra_end_date))"
 	mySqlQuery += " "
-	mySqlQuery += "OR (MONTH(sagre.sagra_start_date) > MONTH(sagre.sagra_end_date) AND (? >= MONTH(sagre.sagra_start_date) OR ? <= MONTH(sagre.sagra_end_date)))"
+	mySqlQuery += "OR (MONTH(sagre.sagra_start_date) > MONTH(sagre.sagra_end_date) AND (? >= MONTH(sagre.sagra_start_date) OR ? <= MONTH(sagre.sagra_end_date))))"
 	mySqlQuery += " "
-	mySqlQuery += "AND sagre.published > NOW() ORDER BY sagre.updated DESC LIMIT ?"
+	mySqlQuery += "AND sagre.published < NOW() ORDER BY sagre.updated DESC LIMIT ?"
 
 	rows, err := db.Query(mySqlQuery, getMonth, getMonth, getMonth, getLimit)
 	if err != nil {
