@@ -145,7 +145,7 @@ func SagreJanuary() {
 	tmpl := template.Must(template.ParseFiles("./views/templates/base.html", "./views/sagre/sagre-gennaio.html"))
 	http.HandleFunc("/sagre/sagre-gennaio", func(w http.ResponseWriter, r *http.Request) {
 		// Get Sagre that are planned in January
-		setMonth := 10 // MM October
+		setMonth := 1 // MM January
 		getJanuarySagre, err := models.SagreGetThemByPeriodOfTimeWithoutYear(setMonth, 50)
 		// getJanuarySagre, err := models.SagreGetThemByPeriodOfTime("2025-01-01 00:00:00", "2025-01-31 23:59:59", 50)
 		if err != nil {
@@ -194,7 +194,7 @@ func SagreNovember() {
 	tmpl := template.Must(template.ParseFiles("./views/templates/base.html", "./views/sagre/sagre-novembre.html"))
 	http.HandleFunc("/sagre/sagre-novembre", func(w http.ResponseWriter, r *http.Request) {
 		// Get Sagre that are planned in November
-		setMonth := 11 // MM October
+		setMonth := 11 // MM November
 		getNovemberSagre, err := models.SagreGetThemByPeriodOfTimeWithoutYear(setMonth, 50)
 
 		// getNovemberSagre, err := models.SagreGetThemByPeriodOfTime("2024-11-01 00:00:00", "2024-11-30 23:59:59", 50)
@@ -218,7 +218,7 @@ func SagreDecember() {
 	tmpl := template.Must(template.ParseFiles("./views/templates/base.html", "./views/sagre/sagre-dicembre.html"))
 	http.HandleFunc("/sagre/sagre-dicembre", func(w http.ResponseWriter, r *http.Request) {
 		// Get Sagre that are planned in December
-		setMonth := 12 // MM October
+		setMonth := 12 // MM December
 		getDecemberSagre, err := models.SagreGetThemByPeriodOfTimeWithoutYear(setMonth, 50)
 
 		// getDecemberSagre, err := models.SagreGetThemByPeriodOfTime("2024-12-01 00:00:00", "2024-12-31 23:59:59", 50)
