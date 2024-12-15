@@ -750,7 +750,7 @@ func EventsGetThemByPeriodOfTime(getStartDate string, getEndDate string, getLimi
 	return allEvents, nil
 }
 
-func EventsGetThemByPeriodOfTimeWithoutYear(getStartDate, getEndDate, getLimit int) ([]EventWithRelatedFields, error) {
+func EventsGetThemByPeriodOfTimeWithoutYear(getMonth, getLimit int) ([]EventWithRelatedFields, error) {
 	db := database.DatabaseConnection()
 	defer db.Close()
 
@@ -762,11 +762,11 @@ func EventsGetThemByPeriodOfTimeWithoutYear(getStartDate, getEndDate, getLimit i
 	mySqlQuery += " "
 	mySqlQuery += "JOIN authors ON events.author_id = authors.id"
 	mySqlQuery += " "
-	mySqlQuery += "WHERE (CAST(DATE_FORMAT(events.event_start_date, '%m') AS UNSIGNED) <= ? AND CAST(DATE_FORMAT(events.event_end_date, '%m') AS UNSIGNED) >= ?) OR (CAST(DATE_FORMAT(events.event_start_date, '%m') AS UNSIGNED) > CAST(DATE_FORMAT(events.event_end_date, '%m') AS UNSIGNED) AND (CAST(DATE_FORMAT(events.event_start_date, '%m') AS UNSIGNED) <= ? OR CAST(DATE_FORMAT(events.event_end_date, '%m') AS UNSIGNED) >= ?))"
+	mySqlQuery += "WHERE (? BETWEEN MONTH(events.event_start_date) AND MONTH(events.event_end_date))"
 	mySqlQuery += " "
 	mySqlQuery += "AND events.published > NOW() ORDER BY events.updated DESC LIMIT ?"
 
-	rows, err := db.Query(mySqlQuery, getStartDate, getEndDate, getStartDate, getEndDate, getLimit)
+	rows, err := db.Query(mySqlQuery, getMonth, getLimit)
 	if err != nil {
 		fmt.Println("Error getting events by period of time:", err)
 		return nil, err
