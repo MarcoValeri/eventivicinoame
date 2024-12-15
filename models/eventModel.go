@@ -766,7 +766,7 @@ func EventsGetThemByPeriodOfTimeWithoutYear(getMonth, getLimit int) ([]EventWith
 	mySqlQuery += " "
 	mySqlQuery += "OR (MONTH(events.event_start_date) > MONTH(events.event_end_date) AND (? >= MONTH(events.event_start_date) OR ? <= MONTH(events.event_end_date)))"
 	mySqlQuery += " "
-	mySqlQuery += "AND events.published < NOW() ORDER BY events.updated DESC LIMIT ?"
+	mySqlQuery += "AND events.published > NOW() ORDER BY events.updated DESC LIMIT ?"
 
 	rows, err := db.Query(mySqlQuery, getMonth, getMonth, getMonth, getLimit)
 	if err != nil {
