@@ -1,3 +1,3 @@
-import { cookieBanner } from "./components/cookie-banner.js";
+// import { cookieBanner } from "./components/cookie-banner.js";
 
-cookieBanner();
+// cookieBanner();

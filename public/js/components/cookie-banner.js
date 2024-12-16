@@ -1,3 +1,20 @@
+{/* <div id="cookie-banner-component" class="cookie-banner">
+    <div class="cookie-banner__container-logo">
+        <img loading="lazy" class="cookie-banner__logo" src="/public/images/eventi-vicino-a-me-logo.png" alt="Logo Eventi Vicino A Me, una ape che vola">
+        <h3 class="h4">Ci teniamo alla tua privacy</h3>
+    </div>
+    <div class="cookie-banner__container-content">
+        <p class="p">
+            Eventi Vicino A Me utilizza i cookies per migliorare la tua esperienza di navigazione e mostrarti contenuti personalizzati. Cliccando su "Accetta", acconsenti all'uso di tutti i cookies. Puoi leggere la nostra informativa sulla privacy selezionado l'opzione "Scopri di più" per maggiori informazioni.
+        </p>
+    </div>
+    <div class="cookie-banner__container-buttons">
+        <button id="cookie-banner-button-acept" class="cookie-banner__button button">Accetta</button>
+        <a id="cookie-banner-button-discover" class="cookie-banner__button button" href="/page/privacy-policy">Scopri di più</a>
+        <button id="cookie-banner-button-reject" class="cookie-banner__button button">Rifiuta</button>
+    </div>
+</div> */}
+
 const setNewCookie = (cookieName, cookieValue, cookieDaysToExpire) => {
     let expires = "";
     if (cookieDaysToExpire) {
