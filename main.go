@@ -49,6 +49,7 @@ func main() {
 
 	controllers.SitemapController()
 	controllers.RobotController()
+	controllers.AdsenseController()
 
 	controllers.Error404()
 
