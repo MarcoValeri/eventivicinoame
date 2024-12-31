@@ -694,7 +694,7 @@ button {
 }
 @media only screen and (max-width: 991px) {
   .main {
-    grid-template-columns: 1fr;
+    grid-template-columns: 100%;
     grid-template-areas: "main__container-content" "main__container-sidebar";
   }
 }
