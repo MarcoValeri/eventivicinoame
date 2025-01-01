@@ -18,6 +18,10 @@ type HomepageData struct {
 	Events          []models.EventWithRelatedFields
 }
 
+// func escapeApostrophes(text string) string {
+// 	return strings.ReplaceAll(text, "'", "&#39;")
+// }
+
 func Home() {
 	tmpl := template.Must(template.ParseFiles("./views/templates/base.html", "./views/home.html"))
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {

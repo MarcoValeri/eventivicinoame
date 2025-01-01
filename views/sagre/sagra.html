@@ -27,7 +27,7 @@
 {{define "breadcrumb"}}
 <ol class="breadcrumb__menu">
     <li class="breadcrumb__menu-list"><a class="link-content p" href="https://www.eventivicinoame.com/">Home</a> /</li>
-    <li class="breadcrumb__menu-list"><a class="link-content p" href="https://www.eventivicinoame.com/sagra/{{.Sagra.Url}}">{{.Sagra.Title}}</a></li>
+    <li class="breadcrumb__menu-list"><a class="link-content p" href="https://www.eventivicinoame.com/sagra/{{.Sagra.Url}}">{{.PageTitle}}</a></li>
 </ol>
 {{end}}
 
@@ -35,7 +35,7 @@
 <div class="article">
     {{ if .Sagra }}
         <div class="article__container-title">
-            <h1 class="h1">{{ .Sagra.Title }}</h2>
+            <h1 class="h1">{{ .PageTitle }}</h2>
         </div>
         <div class="content">
             {{ .SagraContentRaw }}
