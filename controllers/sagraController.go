@@ -147,7 +147,6 @@ func SagreJanuary() {
 		// Get Sagre that are planned in January
 		setMonth := 1 // MM January
 		getJanuarySagre, err := models.SagreGetThemByPeriodOfTimeWithoutYear(setMonth, 50)
-		// getJanuarySagre, err := models.SagreGetThemByPeriodOfTime("2025-01-01 00:00:00", "2025-01-31 23:59:59", 50)
 		if err != nil {
 			fmt.Println("Error getting January's sagre:", err)
 		}
@@ -171,8 +170,6 @@ func SagreOctober() {
 		// Get Sagre that are planned in October
 		setMonth := 10 // MM October
 		getOctoberSagre, err := models.SagreGetThemByPeriodOfTimeWithoutYear(setMonth, 50)
-
-		// getOctoberSagre, err := models.SagreGetThemByPeriodOfTime("2024-10-01 00:00:00", "2024-10-31 23:59:59", 50)
 		if err != nil {
 			fmt.Println("Error getting October's sagre:", err)
 		}
@@ -196,8 +193,6 @@ func SagreNovember() {
 		// Get Sagre that are planned in November
 		setMonth := 11 // MM November
 		getNovemberSagre, err := models.SagreGetThemByPeriodOfTimeWithoutYear(setMonth, 50)
-
-		// getNovemberSagre, err := models.SagreGetThemByPeriodOfTime("2024-11-01 00:00:00", "2024-11-30 23:59:59", 50)
 		if err != nil {
 			fmt.Println("Error getting November's sagre:", err)
 		}
@@ -220,8 +215,6 @@ func SagreDecember() {
 		// Get Sagre that are planned in December
 		setMonth := 12 // MM December
 		getDecemberSagre, err := models.SagreGetThemByPeriodOfTimeWithoutYear(setMonth, 50)
-
-		// getDecemberSagre, err := models.SagreGetThemByPeriodOfTime("2024-12-01 00:00:00", "2024-12-31 23:59:59", 50)
 		if err != nil {
 			fmt.Println("Error getting December's sagre:", err)
 		}

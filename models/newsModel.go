@@ -3,6 +3,7 @@ package models
 import (
 	"eventivicinoame/database"
 	"fmt"
+	"html/template"
 )
 
 type News struct {
@@ -19,8 +20,8 @@ type News struct {
 
 type NewsWithRelatedFields struct {
 	Id                int
-	Title             string
-	Description       string
+	Title             template.HTML
+	Description       template.HTML
 	Url               string
 	Published         string
 	Updated           string
@@ -51,7 +52,7 @@ func NewsNew(getId int, getTitle string, getDescription string, getUrl string, g
 	return newNews
 }
 
-func NewsNewWithRelatedFileds(getId int, getTitle string, getDescription string, getUrl string, getPublished string, getUpdated string, getContent string, getImageId int, getImageUrl string, getImageAlt string, getAuthorId int, getAuthorName string, getAuthorSurname string, getAuthorUrl string, getAuthorImageUrl string, getAuthorDescription string) NewsWithRelatedFields {
+func NewsNewWithRelatedFileds(getId int, getTitle template.HTML, getDescription template.HTML, getUrl string, getPublished string, getUpdated string, getContent string, getImageId int, getImageUrl string, getImageAlt string, getAuthorId int, getAuthorName string, getAuthorSurname string, getAuthorUrl string, getAuthorImageUrl string, getAuthorDescription string) NewsWithRelatedFields {
 	newNewsWithRelatedFields := NewsWithRelatedFields{
 		Id:                getId,
 		Title:             getTitle,
@@ -134,8 +135,8 @@ func NewsGetLimitAndPagination(getLimit int, getPageNumber int) ([]NewsWithRelat
 	var allNews []NewsWithRelatedFields
 	for rows.Next() {
 		var newsId int
-		var newsTitle string
-		var newsDescription string
+		var newsTitle template.HTML
+		var newsDescription template.HTML
 		var newsUrl string
 		var newsPublished string
 		var newsUpdated string
@@ -193,8 +194,8 @@ func NewsWithRelatedFieldsFindById(getNewsId int) (NewsWithRelatedFields, error)
 
 	for rows.Next() {
 		var newsId int
-		var newsTitle string
-		var newsDescription string
+		var newsTitle template.HTML
+		var newsDescription template.HTML
 		var newsUrl string
 		var newsPublished string
 		var newsUpdated string
@@ -252,8 +253,8 @@ func NewsFindByParameter(getParameter string) ([]NewsWithRelatedFields, error) {
 	var allNews []NewsWithRelatedFields
 	for rows.Next() {
 		var newsId int
-		var newsTitle string
-		var newsDescription string
+		var newsTitle template.HTML
+		var newsDescription template.HTML
 		var newsUrl string
 		var newsPublished string
 		var newsUpdated string
@@ -311,8 +312,8 @@ func NewsWithRelatedFieldsFindByUrl(getNewsUrl string) (NewsWithRelatedFields, e
 
 	for rows.Next() {
 		var newsId int
-		var newsTitle string
-		var newsDescription string
+		var newsTitle template.HTML
+		var newsDescription template.HTML
 		var newsUrl string
 		var newsPublished string
 		var newsUpdated string

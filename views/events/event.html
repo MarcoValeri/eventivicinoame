@@ -35,7 +35,7 @@
 <div class="article">
     {{ if .Event }}
         <div class="article__container-title">
-            <h1 class="h1">{{ .PageTitle }}</h2>
+            <h1 class="h1">{{ .Event.Title }}</h2>
         </div>
         <div class="content">
             {{ .EventContentRaw }}

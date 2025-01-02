@@ -3,6 +3,7 @@ package models
 import (
 	"eventivicinoame/database"
 	"fmt"
+	"html/template"
 )
 
 type Sagra struct {
@@ -26,8 +27,8 @@ type Sagra struct {
 
 type SagraWithRelatedFields struct {
 	Id                int
-	Title             string
-	Description       string
+	Title             template.HTML
+	Description       template.HTML
 	Url               string
 	Published         string
 	Updated           string
@@ -72,7 +73,7 @@ func SagraNew(getId int, getTitle string, getDescription string, getUrl string, 
 	return newSagra
 }
 
-func SagraNewWithRelatedFields(getId int, getTitle string, getDescription string, getUrl string, getPublished string, getUpdated string, getImageId int, getImageUrl string, getImageAlt string, getAuthorId int, getAuthorName string, getAuthorSurname string, getAuthorUrl string, getAuthorImageUrl string, getAuthorDescription string, getContent string, getCountry string, getRegion string, getCity string, getTown string, getFraction string, getSagraStartDate string, getSagraEndDate string) SagraWithRelatedFields {
+func SagraNewWithRelatedFields(getId int, getTitle template.HTML, getDescription template.HTML, getUrl string, getPublished string, getUpdated string, getImageId int, getImageUrl string, getImageAlt string, getAuthorId int, getAuthorName string, getAuthorSurname string, getAuthorUrl string, getAuthorImageUrl string, getAuthorDescription string, getContent string, getCountry string, getRegion string, getCity string, getTown string, getFraction string, getSagraStartDate string, getSagraEndDate string) SagraWithRelatedFields {
 	newSagraWithRelatedImage := SagraWithRelatedFields{
 		Id:                getId,
 		Title:             getTitle,
@@ -150,8 +151,8 @@ func SagraFindByUrl(getSagraUrl string) (SagraWithRelatedFields, error) {
 
 	for rows.Next() {
 		var sagraId int
-		var sagraTitle string
-		var sagraDescription string
+		var sagraTitle template.HTML
+		var sagraDescription template.HTML
 		var sagraUrl string
 		var sagraPublished string
 		var sagraUpdated string
@@ -235,8 +236,8 @@ func SagraShowSagre() ([]SagraWithRelatedFields, error) {
 	var allSagre []SagraWithRelatedFields
 	for rows.Next() {
 		var sagraId int
-		var sagraTitle string
-		var sagraDescription string
+		var sagraTitle template.HTML
+		var sagraDescription template.HTML
 		var sagraUrl string
 		var sagraPublished string
 		var sagraUpdated string
@@ -308,8 +309,8 @@ func SagraWithRelatedImageFindById(getSagraId int) (SagraWithRelatedFields, erro
 
 	for rows.Next() {
 		var sagraId int
-		var sagraTitle string
-		var sagraDescription string
+		var sagraTitle template.HTML
+		var sagraDescription template.HTML
 		var sagraUrl string
 		var sagraPublished string
 		var sagraUpdated string
@@ -379,8 +380,8 @@ func SagraGetLimitPublishedSagre(getLimit int) ([]SagraWithRelatedFields, error)
 	var allSagre []SagraWithRelatedFields
 	for rows.Next() {
 		var sagraId int
-		var sagraTitle string
-		var sagraDescription string
+		var sagraTitle template.HTML
+		var sagraDescription template.HTML
 		var sagraUrl string
 		var sagraPublished string
 		var sagraUpdated string
@@ -451,8 +452,8 @@ func SagreGetLimitAndPagination(getLimit, getPageNumber int) ([]SagraWithRelated
 	var allSagre []SagraWithRelatedFields
 	for rows.Next() {
 		var sagraId int
-		var sagraTitle string
-		var sagraDescription string
+		var sagraTitle template.HTML
+		var sagraDescription template.HTML
 		var sagraUrl string
 		var sagraPublished string
 		var sagraUpdated string
@@ -526,8 +527,8 @@ func SagraFindByParameter(getParameter string) ([]SagraWithRelatedFields, error)
 	var allSagre []SagraWithRelatedFields
 	for rows.Next() {
 		var sagraId int
-		var sagraTitle string
-		var sagraDescription string
+		var sagraTitle template.HTML
+		var sagraDescription template.HTML
 		var sagraUrl string
 		var sagraPublished string
 		var sagraUpdated string
@@ -600,8 +601,8 @@ func SagraFindByParameterAlsoNotPublished(getParameter string) ([]SagraWithRelat
 	var allSagre []SagraWithRelatedFields
 	for rows.Next() {
 		var sagraId int
-		var sagraTitle string
-		var sagraDescription string
+		var sagraTitle template.HTML
+		var sagraDescription template.HTML
 		var sagraUrl string
 		var sagraPublished string
 		var sagraUpdated string
@@ -671,8 +672,8 @@ func SagreGetThemByPeriodOfTime(getStartDate string, getEndDate string, getLimit
 	var allSagre []SagraWithRelatedFields
 	for rows.Next() {
 		var sagraId int
-		var sagraTitle string
-		var sagraDescription string
+		var sagraTitle template.HTML
+		var sagraDescription template.HTML
 		var sagraUrl string
 		var sagraPublished string
 		var sagraUpdated string
@@ -756,8 +757,8 @@ func SagreGetThemByPeriodOfTimeWithoutYear(getMonth, getLimit int) ([]SagraWithR
 	var allSagre []SagraWithRelatedFields
 	for rows.Next() {
 		var sagraId int
-		var sagraTitle string
-		var sagraDescription string
+		var sagraTitle template.HTML
+		var sagraDescription template.HTML
 		var sagraUrl string
 		var sagraPublished string
 		var sagraUpdated string
@@ -828,8 +829,8 @@ func SagreGetAllPassed(getCurrentDate string, getLimit int, getOffset int) ([]Sa
 	var allSagre []SagraWithRelatedFields
 	for rows.Next() {
 		var sagraId int
-		var sagraTitle string
-		var sagraDescription string
+		var sagraTitle template.HTML
+		var sagraDescription template.HTML
 		var sagraUrl string
 		var sagraPublished string
 		var sagraUpdated string

@@ -3,6 +3,7 @@ package models
 import (
 	"eventivicinoame/database"
 	"fmt"
+	"html/template"
 )
 
 type Event struct {
@@ -27,8 +28,8 @@ type Event struct {
 
 type EventWithRelatedFields struct {
 	Id                int
-	Title             string
-	Description       string
+	Title             template.HTML
+	Description       template.HTML
 	Url               string
 	Published         string
 	Updated           string
@@ -124,7 +125,7 @@ func EventDelete(getEventId int) error {
 	return nil
 }
 
-func EventNewWithRelatedFields(getId int, getTitle string, getDescription string, getUrl string, getPublished string, getUpdated string, getImageId int, getImageUrl string, getImageAlt string, getAuthorId int, getAuthorName string, getAuthorSurname string, getAuthorUrl string, getAuthorImageUrl string, getAuthorDescription string, getEventType string, getContent string, getCountry string, getRegion string, getCity string, getTown string, getFraction string, getEventStartDate string, getEventEndDate string) EventWithRelatedFields {
+func EventNewWithRelatedFields(getId int, getTitle template.HTML, getDescription template.HTML, getUrl string, getPublished string, getUpdated string, getImageId int, getImageUrl string, getImageAlt string, getAuthorId int, getAuthorName string, getAuthorSurname string, getAuthorUrl string, getAuthorImageUrl string, getAuthorDescription string, getEventType string, getContent string, getCountry string, getRegion string, getCity string, getTown string, getFraction string, getEventStartDate string, getEventEndDate string) EventWithRelatedFields {
 	newEventWithRelatedFields := EventWithRelatedFields{
 		Id:                getId,
 		Title:             getTitle,
@@ -168,8 +169,8 @@ func EventGetLimitAndPagination(getLimit, getPageNumber int) ([]EventWithRelated
 	var allEvents []EventWithRelatedFields
 	for rows.Next() {
 		var eventId int
-		var eventTitle string
-		var eventDescription string
+		var eventTitle template.HTML
+		var eventDescription template.HTML
 		var eventUrl string
 		var eventPublished string
 		var eventUpdated string
@@ -243,8 +244,8 @@ func EventWithRelatedFieldsFindById(getEventId int) (EventWithRelatedFields, err
 
 	for rows.Next() {
 		var eventId int
-		var eventTitle string
-		var eventDescription string
+		var eventTitle template.HTML
+		var eventDescription template.HTML
 		var eventUrl string
 		var eventPublished string
 		var eventUpdated string
@@ -317,8 +318,8 @@ func EventWithRelatedFieldsFindByUrl(getEventUrl string) (EventWithRelatedFields
 
 	for rows.Next() {
 		var eventId int
-		var eventTitle string
-		var eventDescription string
+		var eventTitle template.HTML
+		var eventDescription template.HTML
 		var eventUrl string
 		var eventPublished string
 		var eventUpdated string
@@ -393,8 +394,8 @@ func EventsFindByParameter(getParameter string) ([]EventWithRelatedFields, error
 	var allEvents []EventWithRelatedFields
 	for rows.Next() {
 		var eventId int
-		var eventTitle string
-		var eventDescription string
+		var eventTitle template.HTML
+		var eventDescription template.HTML
 		var eventUrl string
 		var eventPublished string
 		var eventUpdated string
@@ -469,8 +470,8 @@ func EventsFindByParameterAlsoNotPublished(getParameter string) ([]EventWithRela
 	var allEvents []EventWithRelatedFields
 	for rows.Next() {
 		var eventId int
-		var eventTitle string
-		var eventDescription string
+		var eventTitle template.HTML
+		var eventDescription template.HTML
 		var eventUrl string
 		var eventPublished string
 		var eventUpdated string
@@ -543,8 +544,8 @@ func EventsGetAllPassed(getCurrentDate string, getLimit int, getOffset int) ([]E
 	var allEvents []EventWithRelatedFields
 	for rows.Next() {
 		var eventId int
-		var eventTitle string
-		var eventDescription string
+		var eventTitle template.HTML
+		var eventDescription template.HTML
 		var eventUrl string
 		var eventPublished string
 		var eventUpdated string
@@ -617,8 +618,8 @@ func EventsGetByEventType(getEventType string, getLimit int) ([]EventWithRelated
 	var allEvents []EventWithRelatedFields
 	for rows.Next() {
 		var eventId int
-		var eventTitle string
-		var eventDescription string
+		var eventTitle template.HTML
+		var eventDescription template.HTML
 		var eventUrl string
 		var eventPublished string
 		var eventUpdated string
@@ -691,8 +692,8 @@ func EventsGetThemByPeriodOfTime(getStartDate string, getEndDate string, getLimi
 	var allEvents []EventWithRelatedFields
 	for rows.Next() {
 		var eventId int
-		var eventTitle string
-		var eventDescription string
+		var eventTitle template.HTML
+		var eventDescription template.HTML
 		var eventUrl string
 		var eventPublished string
 		var eventUpdated string
@@ -778,8 +779,8 @@ func EventsGetThemByPeriodOfTimeWithoutYear(getMonth, getLimit int) ([]EventWith
 	var allEvents []EventWithRelatedFields
 	for rows.Next() {
 		var eventId int
-		var eventTitle string
-		var eventDescription string
+		var eventTitle template.HTML
+		var eventDescription template.HTML
 		var eventUrl string
 		var eventPublished string
 		var eventUpdated string
@@ -852,8 +853,8 @@ func EventsGetLimitPublishedEvents(getLimit int) ([]EventWithRelatedFields, erro
 	var allEvents []EventWithRelatedFields
 	for rows.Next() {
 		var eventId int
-		var eventTitle string
-		var eventDescription string
+		var eventTitle template.HTML
+		var eventDescription template.HTML
 		var eventUrl string
 		var eventPublished string
 		var eventUpdated string
