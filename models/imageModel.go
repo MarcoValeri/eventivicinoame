@@ -78,6 +78,39 @@ func ImageShowImages() ([]Image, error) {
 	return allImages, nil
 }
 
+func ImageShowImagesByUpdated() ([]Image, error) {
+	db := database.DatabaseConnection()
+	defer db.Close()
+
+	rows, err := db.Query("SELECT * FROM images ORDER BY updated DESC")
+	if err != nil {
+		fmt.Println("Error retriving images data from the db:", err)
+		return nil, err
+	}
+	defer rows.Close()
+
+	var allImages []Image
+	for rows.Next() {
+		var imageId int
+		var imageTitle string
+		var imageDescription string
+		var imageCredit string
+		var imageUrl string
+		var imagePublished string
+		var imageUpdated string
+		err = rows.Scan(&imageId, &imageTitle, &imageDescription, &imageCredit, &imageUrl, &imagePublished, &imageUpdated)
+		if err != nil {
+			fmt.Println("Error to create allImages:", err)
+			return nil, err
+		}
+
+		imageDetails := ImageNew(imageId, imageTitle, imageDescription, imageCredit, imageUrl, imagePublished, imageUpdated)
+		allImages = append(allImages, imageDetails)
+	}
+
+	return allImages, nil
+}
+
 func ImageEdit(getImage Image) error {
 	db := database.DatabaseConnection()
 	defer db.Close()

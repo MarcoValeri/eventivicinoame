@@ -151,8 +151,8 @@ func EventsMercatiniDiNatale() {
 		}
 
 		data := EventData{
-			PageTitle:       template.HTML("Mercatini di Natale 2024: mercati, fiere e feste natalizie"),
-			PageDescription: template.HTML("Mercatini di Natale 2024: mercati, fiere e feste natalizie in Italia, Europa e nel resto del mondo, dal più bel mercato di Natale a quello con più bancarelle"),
+			PageTitle:       template.HTML("Mercatini di Natale 2025: mercati, fiere e feste natalizie"),
+			PageDescription: template.HTML("Mercatini di Natale 2025: mercati, fiere e feste natalizie in Italia, Europa e nel resto del mondo, dal più bel mercato di Natale a quello con più bancarelle"),
 			CurrentYear:     time.Now().Year(),
 			CurrentUrl:      "/eventi-cerca",
 			Events:          getEventsTypeMercatiniDiNatale,
@@ -180,6 +180,28 @@ func EventsJanuary() {
 			CurrentYear:     time.Now().Year(),
 			CurrentUrl:      "/eventi-cerca",
 			Events:          getEventsJanuary,
+		}
+
+		tmpl.Execute(w, data)
+	})
+}
+
+func EventsFebruary() {
+	tmpl := template.Must(template.ParseFiles("./views/templates/base.html", "./views/events/events-febbraio.html"))
+	http.HandleFunc("/eventi/eventi-febbraio", func(w http.ResponseWriter, r *http.Request) {
+		// Get all the events in February
+		setMonth := 2 // MM February
+		getEventsFebruary, err := models.EventsGetThemByPeriodOfTimeWithoutYear(setMonth, 50)
+		if err != nil {
+			fmt.Println("Error getting February's events:", err)
+		}
+
+		data := EventData{
+			PageTitle:       template.HTML("Eventi febbraio 2025: le cose più belle da fare a febbraio"),
+			PageDescription: template.HTML("Eventi febbraio 2025: le cose più belle da fare in questo periodo dell'anno in Italia, Europa e resto del mondo, pianifica il tuo evento in inverno"),
+			CurrentYear:     time.Now().Year(),
+			CurrentUrl:      "/eventi-cerca",
+			Events:          getEventsFebruary,
 		}
 
 		tmpl.Execute(w, data)
@@ -221,8 +243,8 @@ func EventsDecember() {
 		}
 
 		data := EventData{
-			PageTitle:       template.HTML("Eventi dicembre 2024: le cose più belle da fare a dicembre"),
-			PageDescription: template.HTML("Eventi dicembre 2024: le cose più belle da fare in questo periodo dell'anno in Italia, Europa e resto del mondo, pianifica il tuo evento in autunno e inverno"),
+			PageTitle:       template.HTML("Eventi dicembre 2025: le cose più belle da fare a dicembre"),
+			PageDescription: template.HTML("Eventi dicembre 2025: le cose più belle da fare in questo periodo dell'anno in Italia, Europa e resto del mondo, pianifica il tuo evento in autunno e inverno"),
 			CurrentYear:     time.Now().Year(),
 			CurrentUrl:      "/eventi-cerca",
 			Events:          getEventsDecember,

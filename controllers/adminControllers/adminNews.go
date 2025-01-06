@@ -107,7 +107,7 @@ func AdminNewsAdd() {
 
 		if session.Values["admin-user-authentication"] == true {
 
-			imagesData, errImagesData := models.ImageShowImages()
+			imagesData, errImagesData := models.ImageShowImagesByUpdated()
 			if errImagesData != nil {
 				fmt.Println("Error getting imagesData:", errImagesData)
 			}
@@ -285,7 +285,7 @@ func AdminNewsEdit() {
 				return
 			}
 
-			imagesData, errImagesData := models.ImageShowImages()
+			imagesData, errImagesData := models.ImageShowImagesByUpdated()
 			if errImagesData != nil {
 				fmt.Println("Error getting imagesData:", errImagesData)
 			}

@@ -1,0 +1,63 @@
+{{template "base" .}}
+
+{{define "title"}}{{.PageTitle}}{{end}}
+{{define "description"}}<meta name="description" content="{{.PageDescription}}">{{end}}
+
+{{define "structure"}}
+<script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://www.eventivicinoame.com/"
+        },
+        {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "{{.PageTitle}}",
+            "item": "https://www.eventivicinoame.com/sagre/sagre-febbraio"
+        }]
+    }
+</script>
+{{end}}
+
+{{define "breadcrumb"}}
+<ol class="breadcrumb__menu">
+    <li class="breadcrumb__menu-list"><a class="link-content p" href="https://www.eventivicinoame.com/">Home</a> /</li>
+    <li class="breadcrumb__menu-list"><a class="link-content p" href="https://www.eventivicinoame.com/sagre/sagre-febbraio">{{.PageTitle}}</a></li>
+</ol>
+{{end}}
+
+{{ define "content"}}
+<div class="articles">
+    <div class="articles__container-title">
+        <h1 class="h1">{{.PageTitle}}</h1>
+    </div>
+    <div>
+        {{ if .Sagre }}
+            {{ range .Sagre }}
+                <div class="article-card articles__card-article">
+                    <a class="link-no" href="/sagra/{{ .Url }}">
+                        <div class="article-card__wrapper">
+                            <div class="article-card__container-image">
+                                <img loading="lazy" class="article-card__image" src="/public/images/{{ .ImageUrl }}" alt="{{ .ImageAlt }}">
+                            </div>
+                            <div class="article-card__container-content">
+                                <h2 class="article-card__title h3">{{ .Title }}</h2>
+                                <p class="h4">{{ .Description }}</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {{ end }}
+        {{ else }}
+            <div class="articles__container-result-info">
+                <h3 class="h3">Nessuna sagra disponibile al momento per il mese di febbraio</h3>
+            </div>
+        {{ end }}
+    </div>
+</div>
+{{end}}
