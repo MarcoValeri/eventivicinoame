@@ -168,7 +168,7 @@ func SagreFebruary() {
 	tmpl := template.Must(template.ParseFiles("./views/templates/base.html", "./views/sagre/sagre-febbraio.html"))
 	http.HandleFunc("/sagre/sagre-febbraio", func(w http.ResponseWriter, r *http.Request) {
 		// Get Sagre that are planned in February
-		setMonth := 1 // MM February
+		setMonth := 2 // MM February
 		getFebruarySagre, err := models.SagreGetThemByPeriodOfTimeWithoutYear(setMonth, 50)
 		if err != nil {
 			fmt.Println("Error getting January's sagre:", err)
