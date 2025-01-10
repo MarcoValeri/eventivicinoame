@@ -21,7 +21,7 @@ func SitemapAllURL() ([]SitemapURL, error) {
 	url_4 := SitemapURL{"https://www.eventivicinoame.com/page/cookie-policy", "2024-09-20"}
 	url_5 := SitemapURL{"https://www.eventivicinoame.com/page/privacy-policy", "2024-09-20"}
 	url_6 := SitemapURL{"https://www.eventivicinoame.com/sagre/sagre-gennaio", "2024-12-15"}
-	url_7 := SitemapURL{"https://www.eventivicinoame.com/sagre/sagre-febbraio", "2025-01-06"}
+	url_7 := SitemapURL{"https://www.eventivicinoame.com/sagre/sagre-febbraio", "2025-01-10"}
 	url_8 := SitemapURL{"https://www.eventivicinoame.com/sagre/sagre-ottobre", "2024-12-15"}
 	url_9 := SitemapURL{"https://www.eventivicinoame.com/sagre/sagre-novembre", "2024-12-15"}
 	url_10 := SitemapURL{"https://www.eventivicinoame.com/sagre/sagre-dicembre", "2025-01-06"}
