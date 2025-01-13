@@ -2,69 +2,81 @@ package main
 
 import (
 	"eventivicinoame/controllers"
-	"eventivicinoame/database"
+	admincontrollers "eventivicinoame/controllers/adminControllers"
 	"net/http"
-
-	psh "github.com/platformsh/gohelper"
+	// psh "github.com/platformsh/gohelper"
 )
 
 func main() {
 	// PlatformSH
-	platformSH, err := psh.NewPlatformInfo()
-	if err != nil {
-		panic("Not in a Platform.sh environment")
-	}
+	// platformSH, err := psh.NewPlatformInfo()
+	// if err != nil {
+	// 	panic("Not in a Platform.sh environment")
+	// }
 
 	// Static files
-	fs := http.FileServer(http.Dir("./public"))
-	http.Handle("/public/", http.StripPrefix("/public/", fs))
+	fileServer := http.FileServer(http.Dir("./public"))
 
-	// Controllers
-	controllers.Home()
-	controllers.AboutUs()
-	controllers.Contact()
-	controllers.CookiePolicy()
-	controllers.PrivacyPolicy()
+	mux := http.NewServeMux()
 
-	controllers.SagreSearchController()
-	controllers.SagraController()
-	controllers.SagreJanuary()
-	controllers.SagreFebruary()
-	controllers.SagreOctober()
-	controllers.SagreNovember()
-	controllers.SagreDecember()
-	controllers.SagreAutumn()
+	// Handle static files
+	mux.Handle("/public/", http.StripPrefix("/public", fileServer))
 
-	controllers.EventsSearchController()
-	controllers.EventController()
-	controllers.EventsJanuary()
-	controllers.EventsFebruary()
-	controllers.EventsNovember()
-	controllers.EventsDecember()
-	controllers.EventsMercatiniDiNatale()
+	mux.Handle("/admin/", controllers.AuthMiddlewareController(http.HandlerFunc(controllers.AdminController)))
 
-	controllers.NewsSearchController()
-	controllers.NewsController()
+	mux.HandleFunc("/admin/login", admincontrollers.AdminLogin)
 
-	controllers.AuthorController()
-	controllers.AdminController()
+	// OLD
+	// Static files
+	// fs := http.FileServer(http.Dir("./public"))
+	// http.Handle("/public/", http.StripPrefix("/public/", fs))
 
-	controllers.SitemapController()
-	controllers.RobotController()
-	controllers.AdsenseController()
+	// // Controllers
+	// controllers.Home()
+	// controllers.AboutUs()
+	// controllers.Contact()
+	// controllers.CookiePolicy()
+	// controllers.PrivacyPolicy()
 
-	controllers.Error404()
+	// controllers.SagreSearchController()
+	// controllers.SagraController()
+	// controllers.SagreJanuary()
+	// controllers.SagreFebruary()
+	// controllers.SagreOctober()
+	// controllers.SagreNovember()
+	// controllers.SagreDecember()
+	// controllers.SagreAutumn()
 
-	/**
-	* DB connection
-	* parameter "platform" connect to Platform.sh
-	* parameter "local" connect to local db
-	 */
-	database.DatabaseConnection()
+	// controllers.EventsSearchController()
+	// controllers.EventController()
+	// controllers.EventsJanuary()
+	// controllers.EventsFebruary()
+	// controllers.EventsNovember()
+	// controllers.EventsDecember()
+	// controllers.EventsMercatiniDiNatale()
 
-	// Local env
+	// controllers.NewsSearchController()
+	// controllers.NewsController()
+
+	// controllers.AuthorController()
+	// controllers.AdminController()
+
+	// controllers.SitemapController()
+	// controllers.RobotController()
+	// controllers.AdsenseController()
+
+	// controllers.Error404()
+
+	// /**
+	// * DB connection
+	// * parameter "platform" connect to Platform.sh
+	// * parameter "local" connect to local db
+	//  */
+	// database.DatabaseConnection()
+
+	// // Local env
 	// http.ListenAndServe(":80", nil)
 
 	// Platform SH env
-	http.ListenAndServe(":"+platformSH.Port, nil)
+	// http.ListenAndServe(":"+platformSH.Port, nil)
 }

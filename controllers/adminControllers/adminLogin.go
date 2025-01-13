@@ -2,15 +2,13 @@ package admincontrollers
 
 import (
 	"eventivicinoame/models"
+	"eventivicinoame/session"
 	"eventivicinoame/util"
 	"fmt"
 	"html/template"
 	"net"
 	"net/http"
 	"strings"
-
-	"github.com/gorilla/securecookie"
-	"github.com/gorilla/sessions"
 )
 
 type LoginValidation struct {
@@ -18,9 +16,6 @@ type LoginValidation struct {
 	EmailValidation    string
 	PasswordValidation string
 }
-
-// Initialize the session
-var store = sessions.NewCookieStore(securecookie.GenerateRandomKey(32), securecookie.GenerateRandomKey(32))
 
 func getUserIpAddress(req *http.Request) string {
 	userIps := req.Header.Get("X-Forwarded-For")
@@ -49,25 +44,25 @@ func getUserIpAddress(req *http.Request) string {
 	return "" // No valid IP found
 }
 
-func AdminLogin() {
+func AdminLogin(w http.ResponseWriter, r *http.Request) {
 	tmpl := template.Must(template.ParseFiles("./views/admin/admin-login.html"))
-	http.HandleFunc("/admin/login", func(w http.ResponseWriter, r *http.Request) {
 
-		data := LoginValidation{
-			PageTitle:          "Admin Login",
-			EmailValidation:    "",
-			PasswordValidation: "",
-		}
+	data := LoginValidation{
+		PageTitle:          "Admin Login",
+		EmailValidation:    "",
+		PasswordValidation: "",
+	}
 
-		// Redirect IPs banned
-		userIP := getUserIpAddress(r)
-		isThisIpBanned, _ := models.UserAdminBannedByIp(userIP)
-		if isThisIpBanned {
-			http.Redirect(w, r, "/", http.StatusSeeOther)
-		}
+	// Redirect IPs banned
+	userIP := getUserIpAddress(r)
+	isThisIpBanned, _ := models.UserAdminBannedByIp(userIP)
+	if isThisIpBanned {
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+	}
 
+	if r.Method == http.MethodPost {
 		// Session authentication
-		session, errSession := store.Get(r, "session-user-admin-authentication")
+		session, errSession := session.Store.Get(r, "session-user-admin-authentication")
 		if errSession != nil {
 			fmt.Println("Error on session-authentication", errSession)
 		}
@@ -113,7 +108,7 @@ func AdminLogin() {
 				session.Save(r, w)
 			}
 		}
+	}
 
-		tmpl.Execute(w, data)
-	})
+	tmpl.Execute(w, data)
 }
