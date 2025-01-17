@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"html/template"
+	"log"
 	"net/http"
 	"path"
 	"time"
@@ -14,9 +15,41 @@ type PageData struct {
 	CurrentUrl      string
 }
 
-func AboutUs() {
-	tmpl := template.Must(template.ParseFiles("./views/templates/base.html", "./views/pages/about-us.html"))
-	http.HandleFunc("/page/chi-siamo", func(w http.ResponseWriter, r *http.Request) {
+var aboutUsTemplate *template.Template
+var contactTemplate *template.Template
+var cookiePolicyTemplate *template.Template
+var privacyPolicyTemplate *template.Template
+
+func init() {
+	var errAboutUs error
+	aboutUsTemplate, errAboutUs = template.ParseFiles("./views/templates/base.html", "./views/pages/about-us.html")
+	if errAboutUs != nil {
+		log.Fatal("Error parsing template:", errAboutUs)
+	}
+
+	var errContact error
+	contactTemplate, errContact = template.ParseFiles("./views/templates/base.html", "./views/pages/cookie-policy.html")
+	if errContact != nil {
+		log.Fatal("Error parsing template:", errContact)
+	}
+
+	var errCookiePolicyTemplate error
+	cookiePolicyTemplate, errCookiePolicyTemplate = template.ParseFiles("./views/templates/base.html", "./views/pages/cookie-policy.html")
+	if errCookiePolicyTemplate != nil {
+		log.Fatal("Error parsing template:", errCookiePolicyTemplate)
+	}
+
+	var errPrivacyPolicyTemplate error
+	privacyPolicyTemplate, errPrivacyPolicyTemplate = template.ParseFiles("./views/templates/base.html", "./views/pages/privacy-policy.html")
+	if errPrivacyPolicyTemplate != nil {
+		log.Fatal("Error parsing template:", errPrivacyPolicyTemplate)
+	}
+}
+
+func AboutUs(w http.ResponseWriter, r *http.Request) {
+
+	if r.Method == http.MethodGet {
+		tmpl := aboutUsTemplate
 
 		// Get current path
 		currentUrlPath := path.Clean(r.URL.Path)
@@ -28,12 +61,17 @@ func AboutUs() {
 			CurrentUrl:      currentUrlPath,
 		}
 		tmpl.Execute(w, data)
-	})
+	} else {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
 }
 
-func Contact() {
-	tmpl := template.Must(template.ParseFiles("./views/templates/base.html", "./views/pages/contact.html"))
-	http.HandleFunc("/page/contatti", func(w http.ResponseWriter, r *http.Request) {
+func Contact(w http.ResponseWriter, r *http.Request) {
+
+	if r.Method == http.MethodGet {
+		tmpl := contactTemplate
 
 		// Get current path
 		currentUrlPath := path.Clean(r.URL.Path)
@@ -45,12 +83,17 @@ func Contact() {
 			CurrentUrl:      currentUrlPath,
 		}
 		tmpl.Execute(w, data)
-	})
+	} else {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
 }
 
-func CookiePolicy() {
-	tmpl := template.Must(template.ParseFiles("./views/templates/base.html", "./views/pages/cookie-policy.html"))
-	http.HandleFunc("/page/cookie-policy", func(w http.ResponseWriter, r *http.Request) {
+func CookiePolicy(w http.ResponseWriter, r *http.Request) {
+
+	if r.Method == http.MethodGet {
+		tmpl := cookiePolicyTemplate
 
 		// Get current path
 		currentUrlPath := path.Clean(r.URL.Path)
@@ -62,12 +105,17 @@ func CookiePolicy() {
 			CurrentUrl:      currentUrlPath,
 		}
 		tmpl.Execute(w, data)
-	})
+	} else {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
 }
 
-func PrivacyPolicy() {
-	tmpl := template.Must(template.ParseFiles("./views/templates/base.html", "./views/pages/privacy-policy.html"))
-	http.HandleFunc("/page/privacy-policy", func(w http.ResponseWriter, r *http.Request) {
+func PrivacyPolicy(w http.ResponseWriter, r *http.Request) {
+
+	if r.Method == http.MethodGet {
+		tmpl := privacyPolicyTemplate
 
 		// Get current path
 		currentUrlPath := path.Clean(r.URL.Path)
@@ -79,5 +127,9 @@ func PrivacyPolicy() {
 			CurrentUrl:      currentUrlPath,
 		}
 		tmpl.Execute(w, data)
-	})
+	} else {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
 }

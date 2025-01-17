@@ -28,7 +28,21 @@ func main() {
 
 	mux.HandleFunc("/", controllers.Home)
 
-	// if r.MethodGet == http.MethodGet {
+	mux.HandleFunc("/page/chi-siamoi", controllers.AboutUs)
+	mux.HandleFunc("/page/contatti", controllers.Contact)
+	mux.HandleFunc("/page/cookie-policy", controllers.CookiePolicy)
+	mux.HandleFunc("/page/privacy-policy", controllers.PrivacyPolicy)
+
+	mux.HandleFunc("/sagre-cerca/", controllers.SagreSearchController)
+	mux.HandleFunc("/sagra/", controllers.SagraController)
+	mux.HandleFunc("/sagre/sagre-gennaio", controllers.SagreJanuary)
+	mux.HandleFunc("/sagre/sagre-febbraio", controllers.SagreFebruary)
+	mux.HandleFunc("/sagre/sagre-ottobre", controllers.SagreOctober)
+	mux.HandleFunc("/sagre/sagre-novembre", controllers.SagreNovember)
+	mux.HandleFunc("/sagre/sagre-dicembre", controllers.SagreDecember)
+	mux.HandleFunc("/sagre/sagre-autunno", controllers.SagreAutumn)
+
+	// if r.Method == http.MethodGet {
 
 	// } else {
 	// 	http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)

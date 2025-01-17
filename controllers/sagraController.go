@@ -5,6 +5,7 @@ import (
 	"eventivicinoame/util"
 	"fmt"
 	"html/template"
+	"log"
 	"net/http"
 	"path"
 	"strings"
@@ -23,22 +24,84 @@ type SagraData struct {
 	CurrentYear         int
 }
 
-func SagreSearchController() {
-	tmpl := template.Must(template.ParseFiles("./views/templates/base.html", "./views/sagre/sagre-cerca.html"))
-	http.HandleFunc("/sagre-cerca/", func(w http.ResponseWriter, r *http.Request) {
+// Cache the templates
+var sagreSearchTemplate *template.Template
+var sagraTemplate *template.Template
+var sagreJanueryTemplate *template.Template
+var sagreFebruaryTemplate *template.Template
+var sagreOctoberTemplate *template.Template
+var sagreNovemberTemplate *template.Template
+var sagreDecemberTemplate *template.Template
+var sagreAutumnTemplate *template.Template
 
+func init() {
+	var errSagreSearchTemplate error
+	sagreSearchTemplate, errSagreSearchTemplate = template.ParseFiles("./views/templates/base.html", "./views/sagre/sagre-cerca.html")
+	if errSagreSearchTemplate != nil {
+		log.Fatal("Error parsing template:", errSagreSearchTemplate)
+	}
+
+	var errSagraTemplate error
+	sagraTemplate, errSagraTemplate = template.ParseFiles("./views/templates/base.html", "./views/sagre/sagra.html")
+	if errSagraTemplate != nil {
+		log.Fatal("Error parsing template:", errSagraTemplate)
+	}
+
+	var errSagreJanueryTemplate error
+	sagreJanueryTemplate, errSagreJanueryTemplate = template.ParseFiles("./views/templates/base.html", "./views/sagre/sagre-gennaio.html")
+	if errSagreJanueryTemplate != nil {
+		log.Fatal("Error parsing template:", errSagreJanueryTemplate)
+	}
+
+	var errSagreFebruaryTemplate error
+	sagreFebruaryTemplate, errSagreFebruaryTemplate = template.ParseFiles("./views/templates/base.html", "./views/sagre/sagre-febbraio.html")
+	if errSagreFebruaryTemplate != nil {
+		log.Fatal("Error parsing template:", errSagreFebruaryTemplate)
+	}
+
+	var errSagreOctoberTemplate error
+	sagreOctoberTemplate, errSagreOctoberTemplate = template.ParseFiles("./views/templates/base.html", "./views/sagre/sagre-ottobre.html")
+	if errSagreOctoberTemplate != nil {
+		log.Fatal("Error parsing template:", errSagreOctoberTemplate)
+	}
+
+	var errNovemberTemplate error
+	sagreNovemberTemplate, errNovemberTemplate = template.ParseFiles("./views/templates/base.html", "./views/sagre/sagre-novembre.html")
+	if errNovemberTemplate != nil {
+		log.Fatal("Error parsing template:", errNovemberTemplate)
+	}
+
+	var errDecemberTemplate error
+	sagreDecemberTemplate, errDecemberTemplate = template.ParseFiles("./views/templates/base.html", "./views/sagre/sagre-dicembre.html")
+	if errDecemberTemplate != nil {
+		log.Fatal("Error parsing template:", errDecemberTemplate)
+	}
+
+	var errorAutumnTemplate error
+	sagreAutumnTemplate, errorAutumnTemplate = template.ParseFiles("./views/templates/base.html", "./views/sagre/sagre-autunno.html")
+	if errorAutumnTemplate != nil {
+		log.Fatal("Error parsing template:", errorAutumnTemplate)
+	}
+}
+
+func SagreSearchController(w http.ResponseWriter, r *http.Request) {
+
+	data := SagraData{
+		PageTitle:       "Sagre oggi vicino a me, cerca l'evento nella tua zona",
+		PageDescription: "Sagre oggi vicino a me, cerca l'evento nella tua zona per tipologia, nome, città, comune, paese e frazione, disponibili le sagre, le fiere e le feste",
+		CurrentYear:     time.Now().Year(),
+	}
+
+	if r.Method == http.MethodGet {
+		tmpl := sagreSearchTemplate
+		tmpl.Execute(w, data)
+	} else if r.Method == http.MethodPost {
 		urlPath := strings.TrimPrefix(r.URL.Path, "/sagre-cerca/")
 		urlPath = util.FormSanitizeStringInput(urlPath)
 
 		// Get current path
 		currentUrlPath := path.Clean(r.URL.Path)
-
-		data := SagraData{
-			PageTitle:       "Sagre oggi vicino a me, cerca l'evento nella tua zona",
-			PageDescription: "Sagre oggi vicino a me, cerca l'evento nella tua zona per tipologia, nome, città, comune, paese e frazione, disponibili le sagre, le fiere e le feste",
-			CurrentYear:     time.Now().Year(),
-			CurrentUrl:      currentUrlPath,
-		}
+		data.CurrentUrl = currentUrlPath
 
 		/**
 		* Check if the form for searching has been submitted
@@ -90,15 +153,19 @@ func SagreSearchController() {
 			data.ParameterTitle = urlPath
 			data.Sagre = getSagre
 
-			tmpl.Execute(w, data)
 		}
+	} else {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
 
-	})
 }
 
-func SagraController() {
-	tmpl := template.Must(template.ParseFiles("./views/templates/base.html", "./views/sagre/sagra.html"))
-	http.HandleFunc("/sagra/", func(w http.ResponseWriter, r *http.Request) {
+func SagraController(w http.ResponseWriter, r *http.Request) {
+
+	if r.Method == http.MethodGet {
+
+		tmpl := sagraTemplate
 
 		urlPath := strings.TrimPrefix(r.URL.Path, "/sagra/")
 		urlPath = util.FormSanitizeStringInput(urlPath)
@@ -137,13 +204,18 @@ func SagraController() {
 		}
 
 		tmpl.Execute(w, data)
+	} else {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
 
-	})
 }
 
-func SagreJanuary() {
-	tmpl := template.Must(template.ParseFiles("./views/templates/base.html", "./views/sagre/sagre-gennaio.html"))
-	http.HandleFunc("/sagre/sagre-gennaio", func(w http.ResponseWriter, r *http.Request) {
+func SagreJanuary(w http.ResponseWriter, r *http.Request) {
+
+	if r.Method == http.MethodGet {
+		tmpl := sagreJanueryTemplate
+
 		// Get Sagre that are planned in January
 		setMonth := 1 // MM January
 		getJanuarySagre, err := models.SagreGetThemByPeriodOfTimeWithoutYear(setMonth, 50)
@@ -160,13 +232,18 @@ func SagreJanuary() {
 		}
 
 		tmpl.Execute(w, data)
+	} else {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
 
-	})
 }
 
-func SagreFebruary() {
-	tmpl := template.Must(template.ParseFiles("./views/templates/base.html", "./views/sagre/sagre-febbraio.html"))
-	http.HandleFunc("/sagre/sagre-febbraio", func(w http.ResponseWriter, r *http.Request) {
+func SagreFebruary(w http.ResponseWriter, r *http.Request) {
+
+	if r.Method == http.MethodGet {
+		tmpl := sagreFebruaryTemplate
+
 		// Get Sagre that are planned in February
 		setMonth := 2 // MM February
 		getFebruarySagre, err := models.SagreGetThemByPeriodOfTimeWithoutYear(setMonth, 50)
@@ -183,13 +260,18 @@ func SagreFebruary() {
 		}
 
 		tmpl.Execute(w, data)
+	} else {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
 
-	})
 }
 
-func SagreOctober() {
-	tmpl := template.Must(template.ParseFiles("./views/templates/base.html", "./views/sagre/sagre-ottobre.html"))
-	http.HandleFunc("/sagre/sagre-ottobre", func(w http.ResponseWriter, r *http.Request) {
+func SagreOctober(w http.ResponseWriter, r *http.Request) {
+
+	if r.Method == http.MethodGet {
+		tmpl := sagreOctoberTemplate
+
 		// Get Sagre that are planned in October
 		setMonth := 10 // MM October
 		getOctoberSagre, err := models.SagreGetThemByPeriodOfTimeWithoutYear(setMonth, 50)
@@ -207,12 +289,18 @@ func SagreOctober() {
 
 		tmpl.Execute(w, data)
 
-	})
+	} else {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
 }
 
-func SagreNovember() {
-	tmpl := template.Must(template.ParseFiles("./views/templates/base.html", "./views/sagre/sagre-novembre.html"))
-	http.HandleFunc("/sagre/sagre-novembre", func(w http.ResponseWriter, r *http.Request) {
+func SagreNovember(w http.ResponseWriter, r *http.Request) {
+
+	if r.Method == http.MethodGet {
+		tmpl := sagreNovemberTemplate
+
 		// Get Sagre that are planned in November
 		setMonth := 11 // MM November
 		getNovemberSagre, err := models.SagreGetThemByPeriodOfTimeWithoutYear(setMonth, 50)
@@ -229,12 +317,18 @@ func SagreNovember() {
 		}
 
 		tmpl.Execute(w, data)
-	})
+	} else {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
 }
 
-func SagreDecember() {
-	tmpl := template.Must(template.ParseFiles("./views/templates/base.html", "./views/sagre/sagre-dicembre.html"))
-	http.HandleFunc("/sagre/sagre-dicembre", func(w http.ResponseWriter, r *http.Request) {
+func SagreDecember(w http.ResponseWriter, r *http.Request) {
+
+	if r.Method == http.MethodGet {
+		tmpl := sagreDecemberTemplate
+
 		// Get Sagre that are planned in December
 		setMonth := 12 // MM December
 		getDecemberSagre, err := models.SagreGetThemByPeriodOfTimeWithoutYear(setMonth, 50)
@@ -251,12 +345,17 @@ func SagreDecember() {
 		}
 
 		tmpl.Execute(w, data)
-	})
+	} else {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
 }
 
-func SagreAutumn() {
-	tmpl := template.Must(template.ParseFiles("./views/templates/base.html", "./views/sagre/sagre-autunno.html"))
-	http.HandleFunc("/sagre/sagre-autunno", func(w http.ResponseWriter, r *http.Request) {
+func SagreAutumn(w http.ResponseWriter, r *http.Request) {
+
+	if r.Method == http.MethodGet {
+		tmpl := sagreAutumnTemplate
+
 		// Get Sagre that are planned in Autumn
 		getAutumnSagre, err := models.SagreGetThemByPeriodOfTime("2024-09-22 00-00-00", "2024-12-21 23-59-59", 50)
 		if err != nil {
@@ -272,6 +371,8 @@ func SagreAutumn() {
 		}
 
 		tmpl.Execute(w, data)
-
-	})
+	} else {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
 }
