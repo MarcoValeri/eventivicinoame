@@ -26,6 +26,15 @@ func main() {
 
 	mux.HandleFunc("/admin/login", admincontrollers.AdminLogin)
 
+	mux.HandleFunc("/", controllers.Home)
+
+	// if r.MethodGet == http.MethodGet {
+
+	// } else {
+	// 	http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+	// 	return
+	// }
+
 	// OLD
 	// Static files
 	// fs := http.FileServer(http.Dir("./public"))
