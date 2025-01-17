@@ -42,6 +42,14 @@ func main() {
 	mux.HandleFunc("/sagre/sagre-dicembre", controllers.SagreDecember)
 	mux.HandleFunc("/sagre/sagre-autunno", controllers.SagreAutumn)
 
+	mux.HandleFunc("/eventi-cerca/", controllers.EventsSearchController)
+	mux.HandleFunc("/evento/", controllers.EventController)
+	mux.HandleFunc("/eventi/mercatini-di-natale", controllers.EventsMercatiniDiNatale)
+	mux.HandleFunc("/eventi/eventi-gennaio", controllers.EventsJanuary)
+	mux.HandleFunc("/eventi/eventi-febbraio", controllers.EventsFebruary)
+	mux.HandleFunc("/eventi/eventi-novembre", controllers.EventsNovember)
+	mux.HandleFunc("/eventi/eventi-dicembre", controllers.EventsDecember)
+
 	// if r.Method == http.MethodGet {
 
 	// } else {

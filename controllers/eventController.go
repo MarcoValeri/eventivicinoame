@@ -5,6 +5,7 @@ import (
 	"eventivicinoame/util"
 	"fmt"
 	"html/template"
+	"log"
 	"net/http"
 	"path"
 	"strings"
@@ -23,9 +24,62 @@ type EventData struct {
 	CurrentYear         int
 }
 
-func EventsSearchController() {
-	tmpl := template.Must(template.ParseFiles("./views/templates/base.html", "./views/events/events-search.html"))
-	http.HandleFunc("/eventi-cerca/", func(w http.ResponseWriter, r *http.Request) {
+var eventsSearchTemplate *template.Template
+var eventTemplate *template.Template
+var eventsMarcatiniDiNataleTemplate *template.Template
+var eventsJanuaryTemplate *template.Template
+var eventsFebruaryTemplate *template.Template
+var eventsNovemberTemplate *template.Template
+var eventsDecemberTemplate *template.Template
+
+func init() {
+	var errEventsSearchTemplate error
+	eventsSearchTemplate, errEventsSearchTemplate = template.ParseFiles("./views/templates/base.html", "./views/events/events-search.html")
+	if errEventsSearchTemplate != nil {
+		log.Fatal("Error parsing template:", errEventsSearchTemplate)
+	}
+
+	var errEventTemplate error
+	eventTemplate, errEventTemplate = template.ParseFiles("./views/templates/base.html", "./views/events/event.html")
+	if errEventTemplate != nil {
+		log.Fatal("Error parsing template:", errEventTemplate)
+	}
+
+	var errEventsMercatiniDiNataleTemplate error
+	eventsMarcatiniDiNataleTemplate, errEventsMercatiniDiNataleTemplate = template.ParseFiles("./views/templates/base.html", "./views/events/events-mercatini-di-natale.html")
+	if errEventsMercatiniDiNataleTemplate != nil {
+		log.Fatal("Error parsing template:", errEventsMercatiniDiNataleTemplate)
+	}
+
+	var errEvetsJanuaryTemplate error
+	eventsJanuaryTemplate, errEvetsJanuaryTemplate = template.ParseFiles("./views/templates/base.html", "./views/events/events-gennaio.html")
+	if errEvetsJanuaryTemplate != nil {
+		log.Fatal("Error parsing template:", errEvetsJanuaryTemplate)
+	}
+
+	var errEventsFebruaryTemplate error
+	eventsFebruaryTemplate, errEventsFebruaryTemplate = template.ParseFiles("./views/templates/base.html", "./views/events/events-febbraio.html")
+	if errEventsFebruaryTemplate != nil {
+		log.Fatal("Error parsing template:", errEventsFebruaryTemplate)
+	}
+
+	var errEventsNovemberTemplate error
+	eventsNovemberTemplate, errEventsNovemberTemplate = template.ParseFiles("./views/templates/base.html", "./views/events/events-novembre.html")
+	if errEventsNovemberTemplate != nil {
+		log.Fatal("Error parsing template:", errEventsNovemberTemplate)
+	}
+
+	var errEventsDecemberTemplate error
+	eventsDecemberTemplate, errEventsDecemberTemplate = template.ParseFiles("./views/templates/base.html", "./views/events/events-dicembre.html")
+	if errEventsDecemberTemplate != nil {
+		log.Fatal("Error parsing template:", errEventsDecemberTemplate)
+	}
+}
+
+func EventsSearchController(w http.ResponseWriter, r *http.Request) {
+
+	if r.Method == http.MethodGet {
+		tmpl := eventsSearchTemplate
 
 		urlPath := strings.TrimPrefix(r.URL.Path, "/eventi-cerca/")
 		urlPath = util.FormSanitizeStringInput(urlPath)
@@ -93,13 +147,17 @@ func EventsSearchController() {
 
 			tmpl.Execute(w, data)
 		}
+	} else {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
 
-	})
 }
 
-func EventController() {
-	tmpl := template.Must(template.ParseFiles("./views/templates/base.html", "./views/events/event.html"))
-	http.HandleFunc("/evento/", func(w http.ResponseWriter, r *http.Request) {
+func EventController(w http.ResponseWriter, r *http.Request) {
+
+	if r.Method == http.MethodGet {
+		tmpl := eventTemplate
 
 		urlPath := strings.TrimPrefix(r.URL.Path, "/evento/")
 		urlPath = util.FormSanitizeStringInput(urlPath)
@@ -138,12 +196,18 @@ func EventController() {
 		}
 
 		tmpl.Execute(w, data)
-	})
+	} else {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
 }
 
-func EventsMercatiniDiNatale() {
-	tmpl := template.Must(template.ParseFiles("./views/templates/base.html", "./views/events/events-mercatini-di-natale.html"))
-	http.HandleFunc("/eventi/mercatini-di-natale", func(w http.ResponseWriter, r *http.Request) {
+func EventsMercatiniDiNatale(w http.ResponseWriter, r *http.Request) {
+
+	if r.Method == http.MethodGet {
+		tmpl := eventsMarcatiniDiNataleTemplate
+
 		// Get all the events that hava event_type = mercatini di natale
 		getEventsTypeMercatiniDiNatale, err := models.EventsGetByEventType("mercatini di natale", 50)
 		if err != nil {
@@ -159,13 +223,18 @@ func EventsMercatiniDiNatale() {
 		}
 
 		tmpl.Execute(w, data)
-	})
+	} else {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
 
 }
 
-func EventsJanuary() {
-	tmpl := template.Must(template.ParseFiles("./views/templates/base.html", "./views/events/events-gennaio.html"))
-	http.HandleFunc("/eventi/eventi-gennaio", func(w http.ResponseWriter, r *http.Request) {
+func EventsJanuary(w http.ResponseWriter, r *http.Request) {
+
+	if r.Method == http.MethodGet {
+		tmpl := eventsJanuaryTemplate
+
 		// Get all the events in January
 		setMonth := 1 // MM January
 		getEventsJanuary, err := models.EventsGetThemByPeriodOfTimeWithoutYear(setMonth, 50)
@@ -183,12 +252,17 @@ func EventsJanuary() {
 		}
 
 		tmpl.Execute(w, data)
-	})
+	} else {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
 }
 
-func EventsFebruary() {
-	tmpl := template.Must(template.ParseFiles("./views/templates/base.html", "./views/events/events-febbraio.html"))
-	http.HandleFunc("/eventi/eventi-febbraio", func(w http.ResponseWriter, r *http.Request) {
+func EventsFebruary(w http.ResponseWriter, r *http.Request) {
+
+	if r.Method == http.MethodGet {
+		tmpl := eventsFebruaryTemplate
+
 		// Get all the events in February
 		setMonth := 2 // MM February
 		getEventsFebruary, err := models.EventsGetThemByPeriodOfTimeWithoutYear(setMonth, 50)
@@ -205,12 +279,18 @@ func EventsFebruary() {
 		}
 
 		tmpl.Execute(w, data)
-	})
+	} else {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
 }
 
-func EventsNovember() {
-	tmpl := template.Must(template.ParseFiles("./views/templates/base.html", "./views/events/events-novembre.html"))
-	http.HandleFunc("/eventi/eventi-novembre", func(w http.ResponseWriter, r *http.Request) {
+func EventsNovember(w http.ResponseWriter, r *http.Request) {
+
+	if r.Method == http.MethodGet {
+		tmpl := eventsNovemberTemplate
+
 		// Get all the events in November
 		setMonth := 11 // MM November
 		getEventsNovember, err := models.EventsGetThemByPeriodOfTimeWithoutYear(setMonth, 50)
@@ -228,16 +308,22 @@ func EventsNovember() {
 		}
 
 		tmpl.Execute(w, data)
-	})
+	} else {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
 }
 
-func EventsDecember() {
-	tmpl := template.Must(template.ParseFiles("./views/templates/base.html", "./views/events/events-dicembre.html"))
-	http.HandleFunc("/eventi/eventi-dicembre", func(w http.ResponseWriter, r *http.Request) {
+func EventsDecember(w http.ResponseWriter, r *http.Request) {
+
+	if r.Method == http.MethodGet {
+		tmpl := eventsDecemberTemplate
+
 		// Get all the events in December
 		setMonth := 12 // MM November
 		getEventsDecember, err := models.EventsGetThemByPeriodOfTimeWithoutYear(setMonth, 50)
-		// getEventsDecember, err := models.EventsGetThemByPeriodOfTime("2024-12-01 00:00:00", "2024-12-31 23:59:59", 50)
+
 		if err != nil {
 			fmt.Println("Error getting December's events:", err)
 		}
@@ -251,6 +337,9 @@ func EventsDecember() {
 		}
 
 		tmpl.Execute(w, data)
-	})
+	} else {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
 
 }
