@@ -5,6 +5,7 @@ import (
 	"eventivicinoame/util"
 	"fmt"
 	"html/template"
+	"log"
 	"net/http"
 	"path"
 	"strings"
@@ -23,21 +24,42 @@ type NewsData struct {
 	CurrentYear         int
 }
 
-func NewsSearchController() {
-	tmpl := template.Must(template.ParseFiles("./views/templates/base.html", "./views/news/news-search.html"))
-	http.HandleFunc("/news-cerca/", func(w http.ResponseWriter, r *http.Request) {
+var newsSearchTemplate *template.Template
+var newsTemplate *template.Template
+
+func init() {
+	var errNewsSearchTemplate error
+	newsSearchTemplate, errNewsSearchTemplate = template.ParseFiles("./views/templates/base.html", "./views/news/news-search.html")
+	if errNewsSearchTemplate != nil {
+		log.Fatal("Error parsing template:", errNewsSearchTemplate)
+	}
+
+	var errNewsTemplate error
+	newsTemplate, errNewsTemplate = template.ParseFiles("./views/templates/base.html", "./views/news/news.html")
+	if errNewsTemplate != nil {
+		log.Fatal("Error parsing template:", errNewsTemplate)
+	}
+}
+
+func NewsSearchController(w http.ResponseWriter, r *http.Request) {
+
+	data := NewsData{
+		PageTitle:       "Eventi Vicino a Me News: novità e notizie su cosa fare",
+		PageDescription: "Eventi Vicino a Me News: novità, notizie e aggiornamenti su cosa fare in Italia, in Europa e nel resto del mondo, tra eventi, feste e tempo libero",
+		CurrentYear:     time.Now().Year(),
+	}
+
+	if r.Method == http.MethodGet {
+		tmpl := newsSearchTemplate
+		tmpl.Execute(w, data)
+	} else if r.Method == http.MethodPost {
 		urlPath := strings.TrimPrefix(r.URL.Path, "/news-cerca/")
 		urlPath = util.FormSanitizeStringInput(urlPath)
 
 		// Get current path
 		currentUrlPath := path.Clean(r.URL.Path)
 
-		data := NewsData{
-			PageTitle:       "Eventi Vicino a Me News: novità e notizie su cosa fare",
-			PageDescription: "Eventi Vicino a Me News: novità, notizie e aggiornamenti su cosa fare in Italia, in Europa e nel resto del mondo, tra eventi, feste e tempo libero",
-			CurrentYear:     time.Now().Year(),
-			CurrentUrl:      currentUrlPath,
-		}
+		data.CurrentUrl = currentUrlPath
 
 		/**
 		* Check if the form for searching has been submitted
@@ -90,14 +112,19 @@ func NewsSearchController() {
 			data.ParameterTitle = urlPath
 			data.News = getNews
 
-			tmpl.Execute(w, data)
 		}
-	})
+	} else {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
 }
 
-func NewsController() {
-	tmpl := template.Must(template.ParseFiles("./views/templates/base.html", "./views/news/news.html"))
-	http.HandleFunc("/news/", func(w http.ResponseWriter, r *http.Request) {
+func NewsController(w http.ResponseWriter, r *http.Request) {
+
+	if r.Method == http.MethodGet {
+		tmpl := newsTemplate
+
 		urlPath := strings.TrimPrefix(r.URL.Path, "/news/")
 		urlPath = util.FormSanitizeStringInput(urlPath)
 
@@ -135,5 +162,9 @@ func NewsController() {
 		}
 
 		tmpl.Execute(w, data)
-	})
+	} else {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
 }

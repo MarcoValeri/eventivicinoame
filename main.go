@@ -3,6 +3,7 @@ package main
 import (
 	"eventivicinoame/controllers"
 	admincontrollers "eventivicinoame/controllers/adminControllers"
+	"eventivicinoame/database"
 	"net/http"
 	// psh "github.com/platformsh/gohelper"
 )
@@ -50,6 +51,30 @@ func main() {
 	mux.HandleFunc("/eventi/eventi-novembre", controllers.EventsNovember)
 	mux.HandleFunc("/eventi/eventi-dicembre", controllers.EventsDecember)
 
+	mux.HandleFunc("/news-cerca/", controllers.NewsSearchController)
+	mux.HandleFunc("/news/", controllers.NewsController)
+
+	mux.HandleFunc("/author/", controllers.AuthorController)
+
+	mux.HandleFunc("/sitemap.xml", controllers.SitemapController)
+	mux.HandleFunc("/robots.txt", controllers.RobotController)
+
+	mux.HandleFunc("/error/error-404", controllers.Error404)
+
+	/**
+	* DB connection
+	* parameter "platform" connect to Platform.sh
+	* parameter "local" connect to local db
+	 */
+	database.DatabaseConnection()
+
+	// Local env
+	http.ListenAndServe(":80", mux)
+
+	// Platform SH env
+	// http.ListenAndServe(":"+platformSH.Port, mux)
+
+	// OLD - OLD
 	// if r.Method == http.MethodGet {
 
 	// } else {

@@ -3,57 +3,58 @@ package controllers
 import (
 	admincontrollers "eventivicinoame/controllers/adminControllers"
 	"net/http"
+	"strings"
 )
 
 func AdminController(w http.ResponseWriter, r *http.Request) {
-	switch r.URL.Path {
-	case "/admin/dashboard":
+	switch {
+	case r.URL.Path == "/admin/dashboard":
 		admincontrollers.AdminDashboard(w, r)
-	case "/admin/admin-users":
+	case r.URL.Path == "/admin/admin-users":
 		admincontrollers.AdminUsers(w, r)
-	case "/admin/admin-user-add":
+	case r.URL.Path == "/admin/admin-user-add":
 		admincontrollers.AdminUserAdd(w, r)
-	case "/admin/admin-sagre/":
+	case strings.HasPrefix(r.URL.Path, "/admin/admin-sagre/"):
 		admincontrollers.AdminSagre(w, r)
-	case "/admin/admin-sagra-add":
+	case r.URL.Path == "/admin/admin-sagra-add":
 		admincontrollers.AdminSagraAdd(w, r)
-	case "/admin/admin-sagra-edit/":
+	case r.URL.Path == "/admin/admin-sagra-edit/":
 		admincontrollers.AdminSagraEdit(w, r)
-	case "/admin/admin-sagra-delete/":
+	case r.URL.Path == "/admin/admin-sagra-delete/":
 		admincontrollers.AdminSagraDelete(w, r)
-	case "/admin/admin-sagre-checker/":
+	case r.URL.Path == "/admin/admin-sagre-checker/":
 		admincontrollers.AdminSagreChecker(w, r)
-	case "/admin/admin-sagre-search/":
+	case r.URL.Path == "/admin/admin-sagre-search/":
 		admincontrollers.AdminSagreSearch(w, r)
-	case "/admin/admin-events/":
+	case r.URL.Path == "/admin/admin-events/":
 		admincontrollers.AdminEvents(w, r)
-	case "/admin/admin-event-add":
+	case r.URL.Path == "/admin/admin-event-add":
 		admincontrollers.AdminEventAdd(w, r)
-	case "/admin/admin-event-edit/":
+	case r.URL.Path == "/admin/admin-event-edit/":
 		admincontrollers.AdminEventEdit(w, r)
-	case "/admin/admin-event-delete/":
+	case r.URL.Path == "/admin/admin-event-delete/":
 		admincontrollers.AdminEventDelete(w, r)
-	case "/admin/admin-events-checker/":
+	case r.URL.Path == "/admin/admin-events-checker/":
 		admincontrollers.AdminEventsChecker(w, r)
-	case "/admin/admin-events-search/":
+	case r.URL.Path == "/admin/admin-events-search/":
 		admincontrollers.AdminEventsSearch(w, r)
-	case "/admin/admin-news/":
+	case r.URL.Path == "/admin/admin-news/":
 		admincontrollers.AdminNews(w, r)
-	case "/admin/admin-news-add":
+	case r.URL.Path == "/admin/admin-news-add":
 		admincontrollers.AdminNewsAdd(w, r)
-	case "/admin/admin-news-edit/":
+	case r.URL.Path == "/admin/admin-news-edit/":
 		admincontrollers.AdminNewsEdit(w, r)
-	case "/admin/admin-news-delete/":
+	case r.URL.Path == "/admin/admin-news-delete/":
 		admincontrollers.AdminNewsDelete(w, r)
-	case "/admin/admin-images/":
+	case r.URL.Path == "/admin/admin-images/":
 		admincontrollers.AdminImages(w, r)
-	case "/admin/admin-image-add":
+	case r.URL.Path == "/admin/admin-image-add":
 		admincontrollers.AdminImageAdd(w, r)
-	case "/admin/admin-image-edit/":
+	case r.URL.Path == "/admin/admin-image-edit/":
 		admincontrollers.AdminImageEdit(w, r)
-	case "/admin/admin-image-delete/":
+	case r.URL.Path == "/admin/admin-image-delete/":
 		admincontrollers.AdminImageDelete(w, r)
-	case "/admin/admin-image-add-only-file":
+	case r.URL.Path == "/admin/admin-image-add-only-file":
 		admincontrollers.AdminImageAddOnlyFile(w, r)
 	default:
 		http.NotFound(w, r)

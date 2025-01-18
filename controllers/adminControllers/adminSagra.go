@@ -49,8 +49,7 @@ func AdminSagre(w http.ResponseWriter, r *http.Request) {
 
 	if r.Method == http.MethodGet {
 		tmpl := template.Must(template.ParseFiles("./views/admin/templates/baseAdmin.html", "./views/admin/admin-sagre.html"))
-		tmpl.Execute(w, data)
-	} else if r.Method == http.MethodPost {
+
 		urlPath := strings.TrimPrefix(r.URL.Path, "/admin/admin-sagre/")
 		urlPath = util.FormSanitizeStringInput(urlPath)
 
@@ -98,6 +97,8 @@ func AdminSagre(w http.ResponseWriter, r *http.Request) {
 		data.PreviousPage = setPreviousPageStr
 		data.NextPage = setNextPageStr
 		data.SagreWithRelatedFields = sagreDate
+
+		tmpl.Execute(w, data)
 	} else {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return

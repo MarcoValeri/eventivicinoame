@@ -5,6 +5,7 @@ import (
 	"eventivicinoame/util"
 	"fmt"
 	"html/template"
+	"log"
 	"net/http"
 	"path"
 	"strings"
@@ -22,9 +23,20 @@ type AuthorData struct {
 	CurrentYear          int
 }
 
-func AuthorController() {
-	tmpl := template.Must(template.ParseFiles("./views/templates/base.html", "./views/authors/author.html"))
-	http.HandleFunc("/author/", func(w http.ResponseWriter, r *http.Request) {
+var authorTemplate *template.Template
+
+func init() {
+	var errAuthorTemplate error
+	authorTemplate, errAuthorTemplate = template.ParseFiles("./views/templates/base.html", "./views/news/news-search.html")
+	if errAuthorTemplate != nil {
+		log.Fatal("Error parsing template:", errAuthorTemplate)
+	}
+}
+
+func AuthorController(w http.ResponseWriter, r *http.Request) {
+
+	if r.Method == http.MethodGet {
+		tmpl := authorTemplate
 
 		urlPath := strings.TrimPrefix(r.URL.Path, "/author/")
 		urlPath = util.FormSanitizeStringInput(urlPath)
@@ -63,5 +75,6 @@ func AuthorController() {
 		}
 
 		tmpl.Execute(w, data)
-	})
+	}
+
 }

@@ -13,8 +13,9 @@ type Sitemap struct {
 	URLs    []models.SitemapURL `xml:"url"`
 }
 
-func SitemapController() {
-	http.HandleFunc("/sitemap.xml", func(w http.ResponseWriter, r *http.Request) {
+func SitemapController(w http.ResponseWriter, r *http.Request) {
+
+	if r.Method == http.MethodGet {
 		w.Header().Set("Content-Type", "application/xml")
 
 		urls, err := models.SitemapAllURL()
@@ -34,5 +35,33 @@ func SitemapController() {
 		}
 
 		fmt.Fprint(w, xml.Header+string(output))
-	})
+	} else {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
 }
+
+// func SitemapController() {
+// 	http.HandleFunc("/sitemap.xml", func(w http.ResponseWriter, r *http.Request) {
+// 		w.Header().Set("Content-Type", "application/xml")
+
+// 		urls, err := models.SitemapAllURL()
+// 		if err != nil {
+// 			fmt.Println("Error:", err)
+// 		}
+
+// 		sitemap := Sitemap{
+// 			Xmlns: "http://www.sitemaps.org/schemas/sitemap/0.9",
+// 			URLs:  urls,
+// 		}
+
+// 		output, err := xml.MarshalIndent(sitemap, "", " ")
+// 		if err != nil {
+// 			http.Error(w, err.Error(), http.StatusInternalServerError)
+// 			return
+// 		}
+
+// 		fmt.Fprint(w, xml.Header+string(output))
+// 	})
+// }
