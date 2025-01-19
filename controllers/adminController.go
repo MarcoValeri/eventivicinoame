@@ -26,17 +26,17 @@ func AdminController(w http.ResponseWriter, r *http.Request) {
 		admincontrollers.AdminSagreChecker(w, r)
 	case strings.HasPrefix(r.URL.Path, "/admin/admin-sagre-search/"):
 		admincontrollers.AdminSagreSearch(w, r)
-	case r.URL.Path == "/admin/admin-events/":
+	case strings.HasPrefix(r.URL.Path, "/admin/admin-events/"):
 		admincontrollers.AdminEvents(w, r)
 	case r.URL.Path == "/admin/admin-event-add":
 		admincontrollers.AdminEventAdd(w, r)
-	case r.URL.Path == "/admin/admin-event-edit/":
+	case strings.HasPrefix(r.URL.Path, "/admin/admin-event-edit/"):
 		admincontrollers.AdminEventEdit(w, r)
-	case r.URL.Path == "/admin/admin-event-delete/":
+	case strings.HasPrefix(r.URL.Path, "/admin/admin-event-delete/"):
 		admincontrollers.AdminEventDelete(w, r)
-	case r.URL.Path == "/admin/admin-events-checker/":
+	case strings.HasPrefix(r.URL.Path, "/admin/admin-events-checker/"):
 		admincontrollers.AdminEventsChecker(w, r)
-	case r.URL.Path == "/admin/admin-events-search/":
+	case strings.HasPrefix(r.URL.Path, "/admin/admin-events-search/"):
 		admincontrollers.AdminEventsSearch(w, r)
 	case r.URL.Path == "/admin/admin-news/":
 		admincontrollers.AdminNews(w, r)

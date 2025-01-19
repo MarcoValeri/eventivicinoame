@@ -43,14 +43,9 @@ type eventData struct {
 
 func AdminEvents(w http.ResponseWriter, r *http.Request) {
 
-	data := eventData{
-		PageTitle: "Events Admin",
-	}
-
 	if r.Method == http.MethodGet {
 		tmpl := template.Must(template.ParseFiles("./views/admin/templates/baseAdmin.html", "./views/admin/admin-events.html"))
-		tmpl.Execute(w, data)
-	} else if r.Method == http.MethodPost {
+
 		urlPath := strings.TrimPrefix(r.URL.Path, "/admin/admin-events/")
 		urlPath = util.FormSanitizeStringInput(urlPath)
 
@@ -93,12 +88,16 @@ func AdminEvents(w http.ResponseWriter, r *http.Request) {
 			setNextPageStr = strconv.Itoa(setNextPage)
 		}
 
-		data.PreviusButton = setPreviousButton
-		data.NextButton = setNextButton
-		data.PreviousPage = setPreviousPageStr
-		data.NextPage = setNextPageStr
-		data.EventsWithRelatedFields = eventsDate
+		data := eventData{
+			PageTitle:               "Events Admin",
+			PreviusButton:           setPreviousButton,
+			NextButton:              setNextButton,
+			PreviousPage:            setPreviousPageStr,
+			NextPage:                setNextPageStr,
+			EventsWithRelatedFields: eventsDate,
+		}
 
+		tmpl.Execute(w, data)
 	} else {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
@@ -113,8 +112,7 @@ func AdminEventAdd(w http.ResponseWriter, r *http.Request) {
 
 	if r.Method == http.MethodGet {
 		tmpl := template.Must(template.ParseFiles("./views/admin/templates/baseAdmin.html", "./views/admin/admin-event-add.html"))
-		tmpl.Execute(w, data)
-	} else if r.Method == http.MethodPost {
+
 		imagesData, errImagesData := models.ImageShowImagesByUpdated()
 		if errImagesData != nil {
 			fmt.Println("Error getting imagesData:", errImagesData)
@@ -127,6 +125,9 @@ func AdminEventAdd(w http.ResponseWriter, r *http.Request) {
 
 		data.Images = imagesData
 		data.Authors = authorsData
+
+		tmpl.Execute(w, data)
+	} else if r.Method == http.MethodPost {
 
 		// Flag validation
 		var areAdminEventInputsValid [16]bool
@@ -370,18 +371,17 @@ func AdminEventEdit(w http.ResponseWriter, r *http.Request) {
 		PageTitle: "Admin Event Edit",
 	}
 
+	idPath := strings.TrimPrefix(r.URL.Path, "/admin/admin-event-edit/")
+	idPath = util.FormSanitizeStringInput(idPath)
+
+	eventId, err := strconv.Atoi(idPath)
+	if err != nil {
+		fmt.Println("Error converting string to integer:", err)
+		return
+	}
+
 	if r.Method == http.MethodGet {
 		tmpl := template.Must(template.ParseFiles("./views/admin/templates/baseAdmin.html", "./views/admin/admin-event-edit.html"))
-		tmpl.Execute(w, data)
-	} else if r.Method == http.MethodPost {
-		idPath := strings.TrimPrefix(r.URL.Path, "/admin/admin-event-edit/")
-		idPath = util.FormSanitizeStringInput(idPath)
-
-		eventId, err := strconv.Atoi(idPath)
-		if err != nil {
-			fmt.Println("Error converting string to integer:", err)
-			return
-		}
 
 		getEventEdit, err := models.EventWithRelatedFieldsFindById(eventId)
 		if err != nil {
@@ -402,6 +402,9 @@ func AdminEventEdit(w http.ResponseWriter, r *http.Request) {
 		data.EventWithRelatedFields = getEventEdit
 		data.Images = imagesData
 		data.Authors = authorsData
+
+		tmpl.Execute(w, data)
+	} else if r.Method == http.MethodPost {
 
 		/**
 		* Check if the form for editing the event has been submitted
@@ -658,18 +661,17 @@ func AdminEventDelete(w http.ResponseWriter, r *http.Request) {
 		PageTitle: "Admin Delete Event",
 	}
 
+	idPath := strings.TrimPrefix(r.URL.Path, "/admin/admin-event-delete/")
+	idPath = util.FormSanitizeStringInput(idPath)
+
+	eventId, err := strconv.Atoi(idPath)
+	if err != nil {
+		fmt.Println("Error converting string to integer:", err)
+		return
+	}
+
 	if r.Method == http.MethodGet {
 		tmpl := template.Must(template.ParseFiles("./views/admin/templates/baseAdmin.html", "./views/admin/admin-event-delete.html"))
-		tmpl.Execute(w, data)
-	} else if r.Method == http.MethodPost {
-		idPath := strings.TrimPrefix(r.URL.Path, "/admin/admin-event-delete/")
-		idPath = util.FormSanitizeStringInput(idPath)
-
-		eventId, err := strconv.Atoi(idPath)
-		if err != nil {
-			fmt.Println("Error converting string to integer:", err)
-			return
-		}
 
 		getEventDelete, err := models.EventWithRelatedFieldsFindById(eventId)
 		if err != nil {
@@ -678,6 +680,9 @@ func AdminEventDelete(w http.ResponseWriter, r *http.Request) {
 
 		data.PageTitle = "Admin Delete Event"
 		data.EventWithRelatedFields = getEventDelete
+
+		tmpl.Execute(w, data)
+	} else if r.Method == http.MethodPost {
 
 		/**
 		* Check if the form for deleting event
@@ -712,14 +717,9 @@ func AdminEventDelete(w http.ResponseWriter, r *http.Request) {
 
 func AdminEventsChecker(w http.ResponseWriter, r *http.Request) {
 
-	data := eventData{
-		PageTitle: "Events Admin",
-	}
-
 	if r.Method == http.MethodGet {
 		tmpl := template.Must(template.ParseFiles("./views/admin/templates/baseAdmin.html", "./views/admin/admin-events-checker.html"))
-		tmpl.Execute(w, data)
-	} else if r.Method == http.MethodPost {
+
 		urlPath := strings.TrimPrefix(r.URL.Path, "/admin/admin-events-checker/")
 		urlPath = util.FormSanitizeStringInput(urlPath)
 
@@ -766,11 +766,17 @@ func AdminEventsChecker(w http.ResponseWriter, r *http.Request) {
 			setNextPageStr = strconv.Itoa(setNextPage)
 		}
 
-		data.PreviusButton = setPreviousButton
-		data.NextButton = setNextButton
-		data.PreviousPage = setPreviousPageStr
-		data.NextPage = setNextPageStr
-		data.EventsWithRelatedFields = eventsPassed
+		data := eventData{
+			PageTitle:               "Events Admin",
+			PreviusButton:           setPreviousButton,
+			NextButton:              setNextButton,
+			PreviousPage:            setPreviousPageStr,
+			NextPage:                setNextPageStr,
+			EventsWithRelatedFields: eventsPassed,
+		}
+
+		tmpl.Execute(w, data)
+	} else if r.Method == http.MethodPost {
 
 	} else {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
@@ -785,12 +791,23 @@ func AdminEventsSearch(w http.ResponseWriter, r *http.Request) {
 		PageTitle: "Admin Events Search",
 	}
 
+	urlPath := strings.TrimPrefix(r.URL.Path, "/admin/admin-events-search/")
+	urlPath = util.FormSanitizeStringInput(urlPath)
+
 	if r.Method == http.MethodGet {
 		tmpl := template.Must(template.ParseFiles("./views/admin/templates/baseAdmin.html", "./views/admin/admin-events-search.html"))
+
+		getEvents, err := models.EventsFindByParameterAlsoNotPublished(urlPath)
+		if err != nil {
+			fmt.Println("Error getting the events by search input:", err)
+		}
+
+		// Add data for the page
+		data.EventsSearchInput = urlPath
+		data.EventsWithRelatedFields = getEvents
+
 		tmpl.Execute(w, data)
 	} else if r.Method == http.MethodPost {
-		urlPath := strings.TrimPrefix(r.URL.Path, "/admin/admin-events-search/")
-		urlPath = util.FormSanitizeStringInput(urlPath)
 
 		/**
 		* Check if the form for searching has been submitted
@@ -832,16 +849,6 @@ func AdminEventsSearch(w http.ResponseWriter, r *http.Request) {
 				redirectURL := "/admin/admin-events-search/" + getAdminEventsSearchInput
 				http.Redirect(w, r, redirectURL, http.StatusSeeOther)
 			}
-		} else {
-			getEvents, err := models.EventsFindByParameterAlsoNotPublished(urlPath)
-			if err != nil {
-				fmt.Println("Error getting the events by search input:", err)
-			}
-
-			// Add data for the page
-			data.EventsSearchInput = urlPath
-			data.EventsWithRelatedFields = getEvents
-
 		}
 	} else {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
