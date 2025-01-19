@@ -32,14 +32,9 @@ type newsData struct {
 
 func AdminNews(w http.ResponseWriter, r *http.Request) {
 
-	data := newsData{
-		PageTitle: "News Admin",
-	}
-
-	if r.Method == http.MethodPost {
+	if r.Method == http.MethodGet {
 		tmpl := template.Must(template.ParseFiles("./views/admin/templates/baseAdmin.html", "./views/admin/admin-news.html"))
-		tmpl.Execute(w, data)
-	} else if r.Method == http.MethodPost {
+
 		urlPath := strings.TrimPrefix(r.URL.Path, "/admin/admin-news/")
 		urlPath = util.FormSanitizeStringInput(urlPath)
 
@@ -82,12 +77,16 @@ func AdminNews(w http.ResponseWriter, r *http.Request) {
 			setNextPageStr = strconv.Itoa(setNextPage)
 		}
 
-		data.PreviousButton = setPreviousButton
-		data.NextButton = setNextButton
-		data.PreviousPage = setPreviousPageStr
-		data.NextPage = setNextPageStr
-		data.GetNewsWithRelatedFields = newsDate
+		data := newsData{
+			PageTitle:                "News Admin",
+			PreviousButton:           setPreviousButton,
+			NextButton:               setNextButton,
+			PreviousPage:             setPreviousPageStr,
+			NextPage:                 setNextPageStr,
+			GetNewsWithRelatedFields: newsDate,
+		}
 
+		tmpl.Execute(w, data)
 	} else {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
@@ -101,9 +100,8 @@ func AdminNewsAdd(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if r.Method == http.MethodGet {
+
 		tmpl := template.Must(template.ParseFiles("./views/admin/templates/baseAdmin.html", "./views/admin/admin-news-add.html"))
-		tmpl.Execute(w, data)
-	} else if r.Method == http.MethodPost {
 		imagesData, errImagesData := models.ImageShowImagesByUpdated()
 		if errImagesData != nil {
 			fmt.Println("Error getting imagesData:", errImagesData)
@@ -116,6 +114,9 @@ func AdminNewsAdd(w http.ResponseWriter, r *http.Request) {
 
 		data.Images = imagesData
 		data.Authors = authorsData
+
+		tmpl.Execute(w, data)
+	} else if r.Method == http.MethodPost {
 
 		// Flag validation
 		var areAdminNewsAddInputsValid [8]bool
@@ -260,18 +261,17 @@ func AdminNewsEdit(w http.ResponseWriter, r *http.Request) {
 		PageTitle: "Admin News Edit",
 	}
 
+	idPath := strings.TrimPrefix(r.URL.Path, "/admin/admin-news-edit/")
+	idPath = util.FormSanitizeStringInput(idPath)
+
+	newsId, err := strconv.Atoi(idPath)
+	if err != nil {
+		fmt.Println("Error converting string to integer:", err)
+		return
+	}
+
 	if r.Method == http.MethodGet {
 		tmpl := template.Must(template.ParseFiles("./views/admin/templates/baseAdmin.html", "./views/admin/admin-news-edit.html"))
-		tmpl.Execute(w, data)
-	} else if r.Method == http.MethodPost {
-		idPath := strings.TrimPrefix(r.URL.Path, "/admin/admin-news-edit/")
-		idPath = util.FormSanitizeStringInput(idPath)
-
-		newsId, err := strconv.Atoi(idPath)
-		if err != nil {
-			fmt.Println("Error converting string to integer:", err)
-			return
-		}
 
 		getNewsEdit, err := models.NewsWithRelatedFieldsFindById(newsId)
 		if err != nil {
@@ -293,6 +293,8 @@ func AdminNewsEdit(w http.ResponseWriter, r *http.Request) {
 		data.Images = imagesData
 		data.Authors = authorsData
 
+		tmpl.Execute(w, data)
+	} else if r.Method == http.MethodPost {
 		/**
 		* Check if the form for editing the news has been submitted
 		* and
@@ -451,18 +453,17 @@ func AdminNewsDelete(w http.ResponseWriter, r *http.Request) {
 		PageTitle: "Admin Delete News",
 	}
 
+	idPath := strings.TrimPrefix(r.URL.Path, "/admin/admin-news-delete/")
+	idPath = util.FormSanitizeStringInput(idPath)
+
+	newsId, err := strconv.Atoi(idPath)
+	if err != nil {
+		fmt.Println("Error converting string to integer:", err)
+		return
+	}
+
 	if r.Method == http.MethodGet {
 		tmpl := template.Must(template.ParseFiles("./views/admin/templates/baseAdmin.html", "./views/admin/admin-news-delete.html"))
-		tmpl.Execute(w, data)
-	} else if r.Method == http.MethodPost {
-		idPath := strings.TrimPrefix(r.URL.Path, "/admin/admin-news-delete/")
-		idPath = util.FormSanitizeStringInput(idPath)
-
-		newsId, err := strconv.Atoi(idPath)
-		if err != nil {
-			fmt.Println("Error converting string to integer:", err)
-			return
-		}
 
 		getNewsDelete, err := models.NewsWithRelatedFieldsFindById(newsId)
 		if err != nil {
@@ -471,6 +472,8 @@ func AdminNewsDelete(w http.ResponseWriter, r *http.Request) {
 
 		data.GetSingleNewsWithRelatedFields = getNewsDelete
 
+		tmpl.Execute(w, data)
+	} else if r.Method == http.MethodPost {
 		/**
 		* Check if the form for deleting event
 		* has been submitted

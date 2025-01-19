@@ -32,14 +32,9 @@ type imageData struct {
 
 func AdminImages(w http.ResponseWriter, r *http.Request) {
 
-	data := imageData{
-		PageTitle: "Images Admin",
-	}
-
 	if r.Method == http.MethodGet {
 		tmpl := template.Must(template.ParseFiles("./views/admin/templates/baseAdmin.html", "./views/admin/admin-images.html"))
-		tmpl.Execute(w, data)
-	} else if r.Method == http.MethodPost {
+
 		urlPath := strings.TrimPrefix(r.URL.Path, "/admin/admin-images/")
 		urlPath = util.FormSanitizeStringInput(urlPath)
 
@@ -83,11 +78,16 @@ func AdminImages(w http.ResponseWriter, r *http.Request) {
 			setNextPageStr = strconv.Itoa(setNextPage)
 		}
 
-		data.PreviusButton = setPreviousButton
-		data.NextButton = setNextButton
-		data.PreviousPage = setPreviousPageStr
-		data.NextPage = setNextPageStr
-		data.Images = getAllImages
+		data := imageData{
+			PageTitle:     "Images Admin",
+			PreviusButton: setPreviousButton,
+			NextButton:    setNextButton,
+			PreviousPage:  setPreviousPageStr,
+			NextPage:      setNextPageStr,
+			Images:        getAllImages,
+		}
+
+		tmpl.Execute(w, data)
 	} else {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
@@ -277,18 +277,17 @@ func AdminImageEdit(w http.ResponseWriter, r *http.Request) {
 		PageTitle: "Admin Image Edit",
 	}
 
+	idPath := strings.TrimPrefix(r.URL.Path, "/admin/admin-image-edit/")
+	idPath = util.FormSanitizeStringInput(idPath)
+
+	imageId, err := strconv.Atoi(idPath)
+	if err != nil {
+		fmt.Println("Error converting strings to integer:", err)
+		return
+	}
+
 	if r.Method == http.MethodGet {
 		tmpl := template.Must(template.ParseFiles("./views/admin/templates/baseAdmin.html", "./views/admin/admin-image-edit.html"))
-		tmpl.Execute(w, data)
-	} else if r.Method == http.MethodPost {
-		idPath := strings.TrimPrefix(r.URL.Path, "/admin/admin-image-edit/")
-		idPath = util.FormSanitizeStringInput(idPath)
-
-		imageId, err := strconv.Atoi(idPath)
-		if err != nil {
-			fmt.Println("Error converting strings to integer:", err)
-			return
-		}
 
 		getImageEdit, err := models.ImageFindItById(imageId)
 		if err != nil {
@@ -297,6 +296,8 @@ func AdminImageEdit(w http.ResponseWriter, r *http.Request) {
 
 		data.Image = getImageEdit
 
+		tmpl.Execute(w, data)
+	} else if r.Method == http.MethodPost {
 		/**
 		* Check if the form for editing the image has been submitted
 		* and
@@ -416,18 +417,17 @@ func AdminImageDelete(w http.ResponseWriter, r *http.Request) {
 		PageTitle: "Admin Delete Image",
 	}
 
+	idPath := strings.TrimPrefix(r.URL.Path, "/admin/admin-image-delete/")
+	idPath = util.FormSanitizeStringInput(idPath)
+
+	imageId, err := strconv.Atoi(idPath)
+	if err != nil {
+		fmt.Println("Error converting string to integer:", err)
+		return
+	}
+
 	if r.Method == http.MethodGet {
 		tmpl := template.Must(template.ParseFiles("./views/admin/templates/baseAdmin.html", "./views/admin/admin-image-delete.html"))
-		tmpl.Execute(w, data)
-	} else if r.Method == http.MethodPost {
-		idPath := strings.TrimPrefix(r.URL.Path, "/admin/admin-image-delete/")
-		idPath = util.FormSanitizeStringInput(idPath)
-
-		imageId, err := strconv.Atoi(idPath)
-		if err != nil {
-			fmt.Println("Error converting string to integer:", err)
-			return
-		}
 
 		getImageDelete, err := models.ImageFindItById(imageId)
 		if err != nil {
@@ -435,6 +435,9 @@ func AdminImageDelete(w http.ResponseWriter, r *http.Request) {
 		}
 
 		data.Image = getImageDelete
+
+		tmpl.Execute(w, data)
+	} else if r.Method == http.MethodPost {
 
 		/**
 		* Check if the form for deleting image has

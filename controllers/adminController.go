@@ -38,21 +38,21 @@ func AdminController(w http.ResponseWriter, r *http.Request) {
 		admincontrollers.AdminEventsChecker(w, r)
 	case strings.HasPrefix(r.URL.Path, "/admin/admin-events-search/"):
 		admincontrollers.AdminEventsSearch(w, r)
-	case r.URL.Path == "/admin/admin-news/":
+	case strings.HasPrefix(r.URL.Path, "/admin/admin-news/"):
 		admincontrollers.AdminNews(w, r)
 	case r.URL.Path == "/admin/admin-news-add":
 		admincontrollers.AdminNewsAdd(w, r)
-	case r.URL.Path == "/admin/admin-news-edit/":
+	case strings.HasPrefix(r.URL.Path, "/admin/admin-news-edit/"):
 		admincontrollers.AdminNewsEdit(w, r)
-	case r.URL.Path == "/admin/admin-news-delete/":
+	case strings.HasPrefix(r.URL.Path, "/admin/admin-news-delete/"):
 		admincontrollers.AdminNewsDelete(w, r)
-	case r.URL.Path == "/admin/admin-images/":
+	case strings.HasPrefix(r.URL.Path, "/admin/admin-images/"):
 		admincontrollers.AdminImages(w, r)
 	case r.URL.Path == "/admin/admin-image-add":
 		admincontrollers.AdminImageAdd(w, r)
-	case r.URL.Path == "/admin/admin-image-edit/":
+	case strings.HasPrefix(r.URL.Path, "/admin/admin-image-edit/"):
 		admincontrollers.AdminImageEdit(w, r)
-	case r.URL.Path == "/admin/admin-image-delete/":
+	case strings.HasPrefix(r.URL.Path, "/admin/admin-image-delete/"):
 		admincontrollers.AdminImageDelete(w, r)
 	case r.URL.Path == "/admin/admin-image-add-only-file":
 		admincontrollers.AdminImageAddOnlyFile(w, r)
