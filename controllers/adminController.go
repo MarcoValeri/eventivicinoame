@@ -18,13 +18,13 @@ func AdminController(w http.ResponseWriter, r *http.Request) {
 		admincontrollers.AdminSagre(w, r)
 	case r.URL.Path == "/admin/admin-sagra-add":
 		admincontrollers.AdminSagraAdd(w, r)
-	case r.URL.Path == "/admin/admin-sagra-edit/":
+	case strings.HasPrefix(r.URL.Path, "/admin/admin-sagra-edit/"):
 		admincontrollers.AdminSagraEdit(w, r)
-	case r.URL.Path == "/admin/admin-sagra-delete/":
+	case strings.HasPrefix(r.URL.Path, "/admin/admin-sagra-delete/"):
 		admincontrollers.AdminSagraDelete(w, r)
-	case r.URL.Path == "/admin/admin-sagre-checker/":
+	case strings.HasPrefix(r.URL.Path, "/admin/admin-sagre-checker/"):
 		admincontrollers.AdminSagreChecker(w, r)
-	case r.URL.Path == "/admin/admin-sagre-search/":
+	case strings.HasPrefix(r.URL.Path, "/admin/admin-sagre-search/"):
 		admincontrollers.AdminSagreSearch(w, r)
 	case r.URL.Path == "/admin/admin-events/":
 		admincontrollers.AdminEvents(w, r)

@@ -356,18 +356,17 @@ func AdminSagraEdit(w http.ResponseWriter, r *http.Request) {
 		PageTitle: "Admin Sagra Edit",
 	}
 
+	idPath := strings.TrimPrefix(r.URL.Path, "/admin/admin-sagra-edit/")
+	idPath = util.FormSanitizeStringInput(idPath)
+
+	sagraId, err := strconv.Atoi(idPath)
+	if err != nil {
+		fmt.Println("Error converting string to integer:", err)
+		return
+	}
+
 	if r.Method == http.MethodGet {
 		tmpl := template.Must(template.ParseFiles("./views/admin/templates/baseAdmin.html", "./views/admin/admin-sagra-edit.html"))
-		tmpl.Execute(w, data)
-	} else if r.Method == http.MethodPost {
-		idPath := strings.TrimPrefix(r.URL.Path, "/admin/admin-sagra-edit/")
-		idPath = util.FormSanitizeStringInput(idPath)
-
-		sagraId, err := strconv.Atoi(idPath)
-		if err != nil {
-			fmt.Println("Error converting string to integer:", err)
-			return
-		}
 
 		getSagraEdit, err := models.SagraWithRelatedImageFindById(sagraId)
 		if err != nil {
@@ -389,6 +388,9 @@ func AdminSagraEdit(w http.ResponseWriter, r *http.Request) {
 		data.SagraWithRelatedFields = getSagraEdit
 		data.Images = imagesData
 		data.Authors = authorsData
+
+		tmpl.Execute(w, data)
+	} else if r.Method == http.MethodPost {
 
 		/**
 		* Check if the form for editing the sagra has been submitted
@@ -628,18 +630,17 @@ func AdminSagraDelete(w http.ResponseWriter, r *http.Request) {
 		PageTitle: "Admin Delete Sagra",
 	}
 
+	idPath := strings.TrimPrefix(r.URL.Path, "/admin/admin-sagra-delete/")
+	idPath = util.FormSanitizeStringInput(idPath)
+
+	sagraId, err := strconv.Atoi(idPath)
+	if err != nil {
+		fmt.Println("Error converting string to integer:", err)
+		return
+	}
+
 	if r.Method == http.MethodGet {
 		tmpl := template.Must(template.ParseFiles("./views/admin/templates/baseAdmin.html", "./views/admin/admin-sagra-delete.html"))
-		tmpl.Execute(w, data)
-	} else if r.Method == http.MethodPost {
-		idPath := strings.TrimPrefix(r.URL.Path, "/admin/admin-sagra-delete/")
-		idPath = util.FormSanitizeStringInput(idPath)
-
-		sagraId, err := strconv.Atoi(idPath)
-		if err != nil {
-			fmt.Println("Error converting string to integer:", err)
-			return
-		}
 
 		getSagraDelete, err := models.SagraWithRelatedImageFindById(sagraId)
 		if err != nil {
@@ -647,6 +648,8 @@ func AdminSagraDelete(w http.ResponseWriter, r *http.Request) {
 		}
 
 		data.SagraWithRelatedFields = getSagraDelete
+		tmpl.Execute(w, data)
+	} else if r.Method == http.MethodPost {
 
 		/**
 		* Check if the form for deleting sagra
@@ -680,14 +683,9 @@ func AdminSagraDelete(w http.ResponseWriter, r *http.Request) {
 
 func AdminSagreChecker(w http.ResponseWriter, r *http.Request) {
 
-	data := sagraData{
-		PageTitle: "Sagre Checker",
-	}
-
 	if r.Method == http.MethodGet {
 		tmpl := template.Must(template.ParseFiles("./views/admin/templates/baseAdmin.html", "./views/admin/admin-sagre-checker.html"))
-		tmpl.Execute(w, data)
-	} else if r.Method == http.MethodPost {
+
 		urlPath := strings.TrimPrefix(r.URL.Path, "/admin/admin-sagre-checker/")
 		urlPath = util.FormSanitizeStringInput(urlPath)
 
@@ -734,12 +732,16 @@ func AdminSagreChecker(w http.ResponseWriter, r *http.Request) {
 			setNextPageStr = strconv.Itoa(setNextPage)
 		}
 
-		data.PreviusButton = setPreviousButton
-		data.NextButton = setNextButton
-		data.PreviousPage = setPreviousPageStr
-		data.NextPage = setNextPageStr
-		data.SagreWithRelatedFields = sagrePassed
+		data := sagraData{
+			PageTitle:              "Sagre Checker",
+			PreviusButton:          setPreviousButton,
+			NextButton:             setNextButton,
+			PreviousPage:           setPreviousPageStr,
+			NextPage:               setNextPageStr,
+			SagreWithRelatedFields: sagrePassed,
+		}
 
+		tmpl.Execute(w, data)
 	} else {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
@@ -752,12 +754,23 @@ func AdminSagreSearch(w http.ResponseWriter, r *http.Request) {
 		PageTitle: "Admin Sagre Search",
 	}
 
+	urlPath := strings.TrimPrefix(r.URL.Path, "/admin/admin-sagre-search/")
+	urlPath = util.FormSanitizeStringInput(urlPath)
+
 	if r.Method == http.MethodGet {
 		tmpl := template.Must(template.ParseFiles("./views/admin/templates/baseAdmin.html", "./views/admin/admin-sagre-search.html"))
+
+		getSagre, err := models.SagraFindByParameterAlsoNotPublished(urlPath)
+		if err != nil {
+			fmt.Println("Error getting the sagre by search input:", err)
+		}
+
+		// Add data for the page
+		data.SagreSearchInput = urlPath
+		data.SagreWithRelatedFields = getSagre
+
 		tmpl.Execute(w, data)
 	} else if r.Method == http.MethodPost {
-		urlPath := strings.TrimPrefix(r.URL.Path, "/admin/admin-sagre-search/")
-		urlPath = util.FormSanitizeStringInput(urlPath)
 
 		/**
 		* Check if the form for searching has been submitted
@@ -799,16 +812,6 @@ func AdminSagreSearch(w http.ResponseWriter, r *http.Request) {
 				redirectURL := "/admin/admin-sagre-search/" + getAdminSagreSearchInput
 				http.Redirect(w, r, redirectURL, http.StatusSeeOther)
 			}
-		} else {
-			getSagre, err := models.SagraFindByParameterAlsoNotPublished(urlPath)
-			if err != nil {
-				fmt.Println("Error getting the sagre by search input:", err)
-			}
-
-			// Add data for the page
-			data.SagreSearchInput = urlPath
-			data.SagreWithRelatedFields = getSagre
-
 		}
 	} else {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
