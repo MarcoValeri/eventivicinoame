@@ -28,7 +28,7 @@ func init() {
 	}
 
 	var errContact error
-	contactTemplate, errContact = template.ParseFiles("./views/templates/base.html", "./views/pages/cookie-policy.html")
+	contactTemplate, errContact = template.ParseFiles("./views/templates/base.html", "./views/pages/contact.html")
 	if errContact != nil {
 		log.Fatal("Error parsing template:", errContact)
 	}

@@ -27,7 +27,7 @@ var authorTemplate *template.Template
 
 func init() {
 	var errAuthorTemplate error
-	authorTemplate, errAuthorTemplate = template.ParseFiles("./views/templates/base.html", "./views/news/news-search.html")
+	authorTemplate, errAuthorTemplate = template.ParseFiles("./views/templates/base.html", "./views/authors/author.html")
 	if errAuthorTemplate != nil {
 		log.Fatal("Error parsing template:", errAuthorTemplate)
 	}

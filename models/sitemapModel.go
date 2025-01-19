@@ -30,7 +30,7 @@ func SitemapAllURL() ([]SitemapURL, error) {
 	url_13 := SitemapURL{"https://www.eventivicinoame.com/eventi-cerca/", "2024-10-18"}
 	url_14 := SitemapURL{"https://www.eventivicinoame.com/eventi/eventi-gennaio", "2024-12-15"}
 	url_15 := SitemapURL{"https://www.eventivicinoame.com/eventi/eventi-febbraio", "2025-01-06"}
-	url_16 := SitemapURL{"https://www.eventivicinoame.com/eventi/eventi-novembre", "2024-12-15"}
+	url_16 := SitemapURL{"https://www.eventivicinoame.com/eventi/eventi-novembre", "2025-01-19"}
 	url_17 := SitemapURL{"https://www.eventivicinoame.com/eventi/eventi-dicembre", "2025-01-06"}
 	url_18 := SitemapURL{"https://www.eventivicinoame.com/eventi/mercatini-di-natale", "2025-01-06"}
 	url_19 := SitemapURL{"https://www.eventivicinoame.com/news-cerca/", "2024-11-25"}

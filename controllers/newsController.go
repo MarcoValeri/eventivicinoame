@@ -49,18 +49,27 @@ func NewsSearchController(w http.ResponseWriter, r *http.Request) {
 		CurrentYear:     time.Now().Year(),
 	}
 
+	urlPath := strings.TrimPrefix(r.URL.Path, "/news-cerca/")
+	urlPath = util.FormSanitizeStringInput(urlPath)
+
 	if r.Method == http.MethodGet {
 		tmpl := newsSearchTemplate
-		tmpl.Execute(w, data)
-	} else if r.Method == http.MethodPost {
-		urlPath := strings.TrimPrefix(r.URL.Path, "/news-cerca/")
-		urlPath = util.FormSanitizeStringInput(urlPath)
 
 		// Get current path
 		currentUrlPath := path.Clean(r.URL.Path)
-
 		data.CurrentUrl = currentUrlPath
 
+		getNews, err := models.NewsFindByParameter(urlPath)
+		if err != nil {
+			fmt.Println("Error getting the news by parameter:", err)
+		}
+
+		// Add data for the page
+		data.ParameterTitle = urlPath
+		data.News = getNews
+
+		tmpl.Execute(w, data)
+	} else if r.Method == http.MethodPost {
 		/**
 		* Check if the form for searching has been submitted
 		* and
@@ -102,16 +111,6 @@ func NewsSearchController(w http.ResponseWriter, r *http.Request) {
 				redirectURL := "/news-cerca/" + getNewsSearchParameterTitle
 				http.Redirect(w, r, redirectURL, http.StatusSeeOther)
 			}
-		} else {
-			getNews, err := models.NewsFindByParameter(urlPath)
-			if err != nil {
-				fmt.Println("Error getting the news by parameter:", err)
-			}
-
-			// Add data for the page
-			data.ParameterTitle = urlPath
-			data.News = getNews
-
 		}
 	} else {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)

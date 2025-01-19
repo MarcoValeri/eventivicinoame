@@ -29,7 +29,7 @@ func main() {
 
 	mux.HandleFunc("/", controllers.Home)
 
-	mux.HandleFunc("/page/chi-siamoi", controllers.AboutUs)
+	mux.HandleFunc("/page/chi-siamo", controllers.AboutUs)
 	mux.HandleFunc("/page/contatti", controllers.Contact)
 	mux.HandleFunc("/page/cookie-policy", controllers.CookiePolicy)
 	mux.HandleFunc("/page/privacy-policy", controllers.PrivacyPolicy)

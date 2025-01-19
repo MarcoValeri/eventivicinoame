@@ -78,22 +78,35 @@ func init() {
 
 func EventsSearchController(w http.ResponseWriter, r *http.Request) {
 
+	data := EventData{
+		PageTitle:       "Eventi oggi vicino a me, cerca l'evento nella tua zona",
+		PageDescription: "Eventi oggi vicino a me, cerca l'evento nella tua zona per tipologia, nome, città, comune, paese e frazione, disponibili mercatini, musei, mostre e altro",
+	}
+
+	urlPath := strings.TrimPrefix(r.URL.Path, "/eventi-cerca/")
+	urlPath = util.FormSanitizeStringInput(urlPath)
+
 	if r.Method == http.MethodGet {
 		tmpl := eventsSearchTemplate
-
-		urlPath := strings.TrimPrefix(r.URL.Path, "/eventi-cerca/")
-		urlPath = util.FormSanitizeStringInput(urlPath)
 
 		// Get current path
 		currentUrlPath := path.Clean(r.URL.Path)
 
-		data := EventData{
-			PageTitle:       "Eventi oggi vicino a me, cerca l'evento nella tua zona",
-			PageDescription: "Eventi oggi vicino a me, cerca l'evento nella tua zona per tipologia, nome, città, comune, paese e frazione, disponibili mercatini, musei, mostre e altro",
-			CurrentYear:     time.Now().Year(),
-			CurrentUrl:      currentUrlPath,
+		data.CurrentYear = time.Now().Year()
+		data.CurrentUrl = currentUrlPath
+
+		getEvents, err := models.EventsFindByParameter(urlPath)
+		if err != nil {
+			fmt.Println("Error getting the events by parameter:", err)
 		}
 
+		// Add data for the page
+		data.ParameterTitle = urlPath
+		data.Events = getEvents
+
+		tmpl.Execute(w, data)
+
+	} else if r.Method == http.MethodPost {
 		/**
 		* Check if the form for searching has been submitted
 		* and
@@ -135,17 +148,6 @@ func EventsSearchController(w http.ResponseWriter, r *http.Request) {
 				redirectURL := "/eventi-cerca/" + getEventsSearchParameterTitle
 				http.Redirect(w, r, redirectURL, http.StatusSeeOther)
 			}
-		} else {
-			getEvents, err := models.EventsFindByParameter(urlPath)
-			if err != nil {
-				fmt.Println("Error getting the events by parameter:", err)
-			}
-
-			// Add data for the page
-			data.ParameterTitle = urlPath
-			data.Events = getEvents
-
-			tmpl.Execute(w, data)
 		}
 	} else {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
@@ -300,8 +302,8 @@ func EventsNovember(w http.ResponseWriter, r *http.Request) {
 		}
 
 		data := EventData{
-			PageTitle:       template.HTML("Eventi novembre 2024: le cose più belle da fare a novembre"),
-			PageDescription: template.HTML("Eventi novembre 2024: le cose più belle da fare in questo periodo dell'anno in Italia, Europa e resto del mondo, pianifica il tuo evento in autunno"),
+			PageTitle:       template.HTML("Eventi novembre 2025: le cose più belle da fare a novembre"),
+			PageDescription: template.HTML("Eventi novembre 2025: le cose più belle da fare in questo periodo dell'anno in Italia, Europa e resto del mondo, pianifica il tuo evento in autunno"),
 			CurrentYear:     time.Now().Year(),
 			CurrentUrl:      "/eventi-cerca",
 			Events:          getEventsNovember,

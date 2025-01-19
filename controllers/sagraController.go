@@ -92,17 +92,27 @@ func SagreSearchController(w http.ResponseWriter, r *http.Request) {
 		CurrentYear:     time.Now().Year(),
 	}
 
+	urlPath := strings.TrimPrefix(r.URL.Path, "/sagre-cerca/")
+	urlPath = util.FormSanitizeStringInput(urlPath)
+
 	if r.Method == http.MethodGet {
 		tmpl := sagreSearchTemplate
-		tmpl.Execute(w, data)
-	} else if r.Method == http.MethodPost {
-		urlPath := strings.TrimPrefix(r.URL.Path, "/sagre-cerca/")
-		urlPath = util.FormSanitizeStringInput(urlPath)
 
 		// Get current path
 		currentUrlPath := path.Clean(r.URL.Path)
 		data.CurrentUrl = currentUrlPath
 
+		getSagre, err := models.SagraFindByParameter(urlPath)
+		if err != nil {
+			fmt.Println("Error getting the sagre by parameter:", err)
+		}
+
+		// Add data for the page
+		data.ParameterTitle = urlPath
+		data.Sagre = getSagre
+
+		tmpl.Execute(w, data)
+	} else if r.Method == http.MethodPost {
 		/**
 		* Check if the form for searching has been submitted
 		* and
@@ -143,16 +153,6 @@ func SagreSearchController(w http.ResponseWriter, r *http.Request) {
 				redirectURL := "/sagre-cerca/" + getSagraSearchParameterTitle
 				http.Redirect(w, r, redirectURL, http.StatusSeeOther)
 			}
-		} else {
-			getSagre, err := models.SagraFindByParameter(urlPath)
-			if err != nil {
-				fmt.Println("Error getting the sagre by parameter:", err)
-			}
-
-			// Add data for the page
-			data.ParameterTitle = urlPath
-			data.Sagre = getSagre
-
 		}
 	} else {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
